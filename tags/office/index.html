@@ -206,6 +206,8 @@
 
 			<ul class='switcher nav-list-h m-phone'>
 				
+					<li><a class="s-search fas fa-search fa-fw" target="_self" href='javascript:void(0)'></a></li>
+				
 				<li>
           <a class="s-menu fas fa-bars fa-fw" target="_self" href='javascript:void(0)'></a>
           <ul class="menu-phone list-v navigation white-box">
@@ -341,6 +343,13 @@
     
   </div>
   <div class='bottom'>
+    
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <input type="text" class="input u-search-input" placeholder="Search..." />
+          <i class="icon fas fa-search fa-fw"></i>
+        </form>
+      </div>
     
     <div class='menu navigation'>
       <div class='list-h'>
@@ -1033,6 +1042,32 @@ var loadCSS = function( href, before, media, attributes ){
 
 
 <!-- optional -->
+
+  <script>
+const SearchServiceimagePath="https://cdn.jsdelivr.net/gh/volantis-x/cdn-volantis@master/img/";
+const ROOT =  ("/" || "/").endsWith('/') ? ("/" || "/") : ("//" || "/" );
+
+$('.input.u-search-input').one('focus',function(){
+	
+		loadScript('/js/search/hexo.js',setSearchService);
+	
+})
+
+function listenSearch(){
+  
+    customSearch = new HexoSearch({
+      imagePath: SearchServiceimagePath
+    });
+  
+}
+function setSearchService() {
+	listenSearch();
+	
+		document.addEventListener("pjax:success", listenSearch);
+	
+}
+</script>
+
 
 
 
