@@ -314,7 +314,7 @@
     
       <div class="m_search">
         <form name="searchform" class="form u-search-form">
-          <input type="text" class="input u-search-input" placeholder="Search..." />
+          <input type="text" class="input u-search-input" placeholder="搜点什么..." />
           <i class="icon fas fa-search fa-fw"></i>
         </form>
       </div>
@@ -402,6 +402,19 @@
         
           
             
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>字数：1.3k字</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>时长：7分钟</p>
+    </a>
+  </div>
+
 
           
         
@@ -548,7 +561,13 @@
       
     
       
-    
+        
+        <div class='hoverbox'>
+          <a class='share'><img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org@1.1.3/logo/128/qrcode.png" class="lazyload" data-srcset="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org@1.1.3/logo/128/qrcode.png" srcset="data:image/png;base64,666"></a>
+          <div class='target'>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAE4CAAAAADqFLC2AAADn0lEQVR42u3aQW7DMAwEwPz/0+29QGGRS9dMOroFsC1x1MOC7OvLaq0XAnDgwIGzwIFbAvdqrp/vH2/8y/vVfavfHasXHDhw4MCBAwduGVxa+OmBu9+rvld97rhecODAgQMHDhy4pXDdwFv9Thfu6jtpUL7cHxw4cODAgQMH7kPgTp9PG5N3XxQ4cODAgQMHDtx/g+sOmtMB9WkDcuriwYEDBw4cOHDgtsNVB7RpwWljMm1kPjbJBwcOHDhw4MCBG4KrrqmB8lO/2/WCAwcOHDhw4MAtgUtXN8CmDdL0fO16wYEDBw4cOHDglsBdBcTTwW23AVn9fnpx3YE6OHDgwIEDBw7cVrhuA7M6CO4OjlPIsWAPDhw4cODAgQO3FK4aLFPgbqB+7B8YwYEDBw4cOHDglsBNN/7SoDkFkF4kOHDgwIEDBw7cdrj04GngTYNxGrTLgR4cOHDgwIEDB24J3GlAvSuopoPx6gA8bYCCAwcOHDhw4MBtg6sG27RRWS04fX6qIQsOHDhw4MCBA7cFLh7QhgG52nC8K2Af/yGAAwcOHDhw4MAtg5tqBHYLrgbVbmDuDrTBgQMHDhw4cOC2wVWD7Z8HzmZAnoIrT/LBgQMHDhw4cOAegusOgNPB8PQFTgVxcODAgQMHDhy4rXDVQu5qPKYB9jTgVgfm5Q4wOHDgwIEDBw7cH8FVA2R3oJzu1w3Y1e9ffg8cOHDgwIEDB24JXLfh14VOG6HVwXT3Hw3BgQMHDhw4cOC2w00PoruN0NMgOtX4bJ8XHDhw4MCBAwduCVz1wGmQTQfJ3YucGpCDAwcOHDhw4MBtgTuFumtwnRbaDfDtc4EDBw4cOHDgwC2DOw241feqFzLeeBwamIMDBw4cOHDgwL0bXNrwTANotxE5vT84cODAgQMHDtw2uKmG5XQBVZjqgLl6MeDAgQMHDhw4cNvgqhtXC7k6SNqI7DYm2xcPDhw4cODAgQO3FO6pge/U4Lt6UdVgDA4cOHDgwIEDtwUuDYbVhmQahLsXO/YbHDhw4MCBAwduGVx6kG5h5YFwGGir+4IDBw4cOHDgwL0LXBp4pw4+HYCngj04cODAgQMHDtynwFUPsuW5y6B7dwAGBw4cOHDgwIFbAnfaCJwKvt3BctqIBQcOHDhw4MCB2wqXFlKFTQfgp4VXIcGBAwcOHDhw4N4Fbnpw2w2mXZDqe939wYEDBw4cOHDgtsBZtQUOHDhw4Cxw4B5e3yzvfNPB8Ah0AAAAAElFTkSuQmCC">
+          </div>
+        </div>
       
     
   </div>
@@ -1011,6 +1030,23 @@ var loadCSS = function( href, before, media, attributes ){
     });
 </script>
 
+
+
+   <script src="https://cdn.jsdelivr.net/npm/scrollreveal@4.0.6/dist/scrollreveal.min.js"></script>
+<script type="text/javascript">
+  function pjax_scrollrebeal() {
+    ScrollReveal().reveal('.l_main .reveal', {
+      distance: '32px',
+      duration: '800',
+      interval: '20',
+      scale: '1',
+      easing: 'ease-out'
+    });
+  }
+  $(function () {
+    pjax_scrollrebeal();
+  });
+</script>
 
 
 
@@ -1758,6 +1794,8 @@ document.addEventListener("pjax:success", listennSidebarTOC);
 		  Pjax_backstretch()
         
         
+        
+          pjax_scrollrebeal();
         
         if (typeof IssuesAPI == "undefined") {
           loadIssuesJS();

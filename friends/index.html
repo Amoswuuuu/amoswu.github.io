@@ -312,7 +312,7 @@
     
       <div class="m_search">
         <form name="searchform" class="form u-search-form">
-          <input type="text" class="input u-search-input" placeholder="Search..." />
+          <input type="text" class="input u-search-input" placeholder="搜点什么..." />
           <i class="icon fas fa-search fa-fw"></i>
         </form>
       </div>
@@ -394,6 +394,19 @@
         
           
             
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>字数：0字</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>时长：1分钟</p>
+    </a>
+  </div>
+
 
           
         
@@ -470,7 +483,13 @@
       
     
       
-    
+        
+        <div class='hoverbox'>
+          <a class='share'><img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org@1.1.3/logo/128/qrcode.png" class="lazyload" data-srcset="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org@1.1.3/logo/128/qrcode.png" srcset="data:image/png;base64,666"></a>
+          <div class='target'>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPgAAAD4CAAAAADkunTXAAACR0lEQVR42u3aS1LDQAwFQN//0nAAihr9HLDc3oXYsXrYvJJ0fb30usDBwcHBwRfBr+L14wcPf//t+1Md0fui9YKDg4ODg2+EhwNAEhCFRevo1gsODg4ODr4Zni2wCukeYLlecHBwcHBw8PDnbLCJ/g44ODg4ODj4fICJwj79fnBwcHBw8DfA0w364OC/uwjw7yYp4ODg4ODg/wheXpj7o89jC37g4ODg4OAPhnev6Au7A4axesHBwcHBwRfBqwGhOhjILgJkD/p44ODg4ODg4C+CZws5QbL3dQ+svBEBDg4ODg7+IHj0BdUAM9WA6DYqwMHBwcHBN8HvHix0BwpTCwvg4ODg4OCb4dONhygo26DoBhtwcHBwcPBN8GyDoRtsuoODalACBwcHBwffCI8Wnm0UdA+iGpjSyQ0cHBwcHPzB8GzD4K7nogfffg4cHBwcHHwxfKrQbMDpNkLaAQYcHBwcHPzB8OyiXDe4dBsd5QUFcHBwcHDwhfDsQUwNFLoBKv2PAgcHBwcHXwzvNgi6gaa6QHD7QAEcHBwcHPxB8GojIDsImKojHMDAwcHBwcEXwbtXdlAwtUhQPhhwcHBwcPBF8O4gPjsIqAaR6gDk2IgABwcHBwdfAK8GlmrBY5Bs/eDg4ODg4Ivh0WBRHeBPLRqMT1LAwcHBwcHBy0HkrufAwcHBwcHBr4/d310AOAYqcHBwcHDwxfDqQl+30V89yHTDAxwcHBwcfCG8GgyqAeUu4HGRABwcHBwcfBH8bRc4ODg4OPiC6xtcn4Ou3R6+wwAAAABJRU5ErkJggg==">
+          </div>
+        </div>
       
     
   </div>
@@ -917,6 +936,23 @@ var loadCSS = function( href, before, media, attributes ){
     });
 </script>
 
+
+
+   <script src="https://cdn.jsdelivr.net/npm/scrollreveal@4.0.6/dist/scrollreveal.min.js"></script>
+<script type="text/javascript">
+  function pjax_scrollrebeal() {
+    ScrollReveal().reveal('.l_main .reveal', {
+      distance: '32px',
+      duration: '800',
+      interval: '20',
+      scale: '1',
+      easing: 'ease-out'
+    });
+  }
+  $(function () {
+    pjax_scrollrebeal();
+  });
+</script>
 
 
 
@@ -1664,6 +1700,8 @@ document.addEventListener("pjax:success", listennSidebarTOC);
 		  Pjax_backstretch()
         
         
+        
+          pjax_scrollrebeal();
         
         if (typeof IssuesAPI == "undefined") {
           loadIssuesJS();

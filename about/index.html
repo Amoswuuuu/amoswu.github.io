@@ -312,7 +312,7 @@
     
       <div class="m_search">
         <form name="searchform" class="form u-search-form">
-          <input type="text" class="input u-search-input" placeholder="Search..." />
+          <input type="text" class="input u-search-input" placeholder="搜点什么..." />
           <i class="icon fas fa-search fa-fw"></i>
         </form>
       </div>
@@ -394,6 +394,19 @@
         
           
             
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>字数：100字</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>时长：1分钟</p>
+    </a>
+  </div>
+
 
           
         
@@ -403,7 +416,11 @@
 
 
   
-  <blockquote>
+  <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=520 height=86 src="//music.163.com/outchain/player?type=2&id=93661&auto=1&height=66"></iframe>
+
+
+
+<blockquote>
 <p>没有什么永垂不朽</p>
 <p>唯有责任不可辜负</p>
 </blockquote>
@@ -425,10 +442,10 @@
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-01-02T23:29:35+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-01-03T00:06:20+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：2021年1月2日</p>
+    <p>更新于：2021年1月3日</p>
   </a>
 </div>
 
@@ -481,7 +498,13 @@
       
     
       
-    
+        
+        <div class='hoverbox'>
+          <a class='share'><img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org@1.1.3/logo/128/qrcode.png" class="lazyload" data-srcset="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org@1.1.3/logo/128/qrcode.png" srcset="data:image/png;base64,666"></a>
+          <div class='target'>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPgAAAD4CAAAAADkunTXAAACSUlEQVR42u3aQW7DMAwEQP//0+0DisDalYI09OhmxJU16mVB8vp56LrAwcHBwcEHwa9y/dnwxe+rz+130vOCg4ODg4NPhC8HgPBA7QWl3199HxwcHBwcfDL8NgCEgaQFpN9ffh8cHBwcHBz8Wj1gGmxWgxI4ODg4ODj4++Fvh4CDg4ODg4P3BfpDF5UWOj7eSQEHBwcHB/9H8Hpg7kPP9XnBwcHBwcEHwXdXOgDQFiiOnRccHBwcHHwQvA0IpwoVKXT7fODg4ODg4IPg6cZ376e/78LifwQ4ODg4OPhA+OoGu437u33av68rMODg4ODg4F8MbwsDpwf50gDTBhtwcHBwcPBJ8LbwvxtE0mDU7gMODg4ODj4Z3hYY0gGANrC0jY7bhgI4ODg4OPhAePvB9mLawYK6IQEODg4ODj4YvhoE2mDy7u/GnRRwcHBwcPAvhqcb7RYI2kLF2zsp4ODg4ODgXwg/3ZBvBwPSfeuCCDg4ODg4+GD4qcCyGmTSi0mflwMMODg4ODj4AHhb+N8NPGlh4VgnBRwcHBwcfDA8LtiXjYLdgsTqxYKDg4ODg0+Cnw4kaWA5ddHLFwMODg4ODj4IfpXrVKM/vdA0sNwWIsDBwcHBwQfA08DSHjDdr73ol/uDg4ODg4MPhqeFg3Rw4PRA4fEBP3BwcHBw8AfC0+DSwtp9wMHBwcHBwXvoqYLDbuMDHBwcHBx8Mvx0IeFUsGkvFhwcHBwc/AnwNhikoHTgIH0vbiiAg4ODg4N/MfxpCxwcHBwcfMD6BWDIgr3iHWnJAAAAAElFTkSuQmCC">
+          </div>
+        </div>
       
     
   </div>
@@ -942,6 +965,23 @@ var loadCSS = function( href, before, media, attributes ){
     });
 </script>
 
+
+
+   <script src="https://cdn.jsdelivr.net/npm/scrollreveal@4.0.6/dist/scrollreveal.min.js"></script>
+<script type="text/javascript">
+  function pjax_scrollrebeal() {
+    ScrollReveal().reveal('.l_main .reveal', {
+      distance: '32px',
+      duration: '800',
+      interval: '20',
+      scale: '1',
+      easing: 'ease-out'
+    });
+  }
+  $(function () {
+    pjax_scrollrebeal();
+  });
+</script>
 
 
 
@@ -1689,6 +1729,8 @@ document.addEventListener("pjax:success", listennSidebarTOC);
 		  Pjax_backstretch()
         
         
+        
+          pjax_scrollrebeal();
         
         if (typeof IssuesAPI == "undefined") {
           loadIssuesJS();
