@@ -425,6 +425,95 @@
       </tags>
   </entry>
   <entry>
+    <title>Ubuntu Linux 学习笔记01</title>
+    <url>/2019/03/01/Ubuntu%20Linux%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001/</url>
+    <content><![CDATA[<blockquote>
+<p>Open source is not free.</p>
+</blockquote>
+<h2 id="Chapter-1-3：虚拟机、Ubuntu-Linux-系统介绍、Ubuntu-Linux-14-04图形界面"><a href="#Chapter-1-3：虚拟机、Ubuntu-Linux-系统介绍、Ubuntu-Linux-14-04图形界面" class="headerlink" title="Chapter 1 - 3：虚拟机、Ubuntu Linux 系统介绍、Ubuntu Linux 14.04图形界面"></a>Chapter 1 - 3：虚拟机、Ubuntu Linux 系统介绍、Ubuntu Linux 14.04图形界面</h2><table>
+<thead>
+<tr>
+<th><strong>Debugging environment：</strong></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>VMware Version：</td>
+<td>WorkStation14 Pro</td>
+</tr>
+<tr>
+<td>Windows Version：</td>
+<td>10 Home and Basic 64bit</td>
+</tr>
+<tr>
+<td>Linux Version：</td>
+<td>Ubuntu 16.04LTS amd64</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th><strong>Textbook version：</strong></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Title：</td>
+<td>Ubuntu Linux 操作系统与实验教程</td>
+</tr>
+<tr>
+<td>Author：</td>
+<td>马丽梅  郭晴  张林伟  边玲  张红新  王天马  李红</td>
+</tr>
+</tbody></table>
+<ul>
+<li><strong>由于物理机显卡为NVIDIA，存在驱动类bug，故没有安装课本配套的Ubuntu Kylin。</strong></li>
+<li><strong>Ubuntu官方版安装过程与课本几乎一致，安装完成进行汉化即可。下面附上汉化教程：</strong><ul>
+<li>在物理机成功连接外网的情况下，将虚拟机联网方式设置为“桥接模式”</li>
+<li>将更新源设置成国内任意一个源</li>
+<li>依次点击Ubuntu 右上角的开关图标 -&gt; System Setting -&gt; Language Support -&gt; Install -&gt; 输入当前登录用户的密码 -&gt; Install / Remove Language  -&gt; 勾选 Chinese(simplified) -&gt;  Apply</li>
+<li>在 Language Support  - Language 选项卡内，将 汉语(中国) 拖拽到最顶部，再点击  Apply System-Wide</li>
+<li>在Language Support - Regional Formats 选项卡内，在下拉框内选择 汉语(中国) ，再点击  Apply System-Wide，最后点击Close</li>
+<li>关机重启</li>
+<li>重新进入系统后会提示 “将标准文件夹更新到当前语言吗？”，点击“更新名称”，汉化完成。</li>
+</ul>
+</li>
+<li><strong>理解 .vmdk 文件和 .vmx 文件的不同：</strong><ul>
+<li>vmdk 文件为虚拟磁盘文件（相当于电脑硬盘）会存放当前虚拟机中的所有文件</li>
+<li>.vmx 文件为虚拟机配置文件（即虚拟机的系统文件</li>
+<li>二者的明显差异是，占用的存储空间大小不同；深层次的差异是，二者的功能不同。</li>
+</ul>
+</li>
+<li><strong>Linux 系统一般有4个主要部分：</strong><ul>
+<li>内核(Linux Kernel)：由C语言和汇编语言编写而成，第一个版本发行于1991年，是Linux系统的核心，最新版本4.20.13(2019.2.27)</li>
+<li>shell：一种壳层与命令行界面，是UNIX操作系统下传统的用户和计算机的交互界面</li>
+<li>文件系统：是文件存放在磁盘等存储设备上的组织方法，Linux支持的文件系统有ext2、ext3、ext4、FAT、FAT32、VFAT、ISO 9660</li>
+<li>应用程序：标准的Linux系统一般都有一套成为应用程序的程序集，它包括文本编辑器、编程语言、X Window、办公套件、Internet工具和数据库等</li>
+</ul>
+</li>
+<li><strong>Linux发行版本</strong><ul>
+<li>Linux发行版本大概有300个，目前最普遍被使用的有大约12个，较为知名的有<ul>
+<li>Debian[9.8 (Stretch)，开发代号来自于电影《玩具总动员》]</li>
+<li>Ubuntu[18.10，基于Debian开发]</li>
+<li>Fedora[29]</li>
+<li>openSUSE[Leap 15]</li>
+<li>Red Hat[9 alias Shrike]</li>
+<li>Mandriva、红旗[9.0]</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+]]></content>
+      <tags>
+        <tag>2019</tag>
+        <tag>原创</tag>
+        <tag>Linux</tag>
+        <tag>Study</tag>
+        <tag>HBTU</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Ubuntu Linux 学习笔记02</title>
     <url>/2019/03/02/Ubuntu%20Linux%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002/</url>
     <content><![CDATA[<blockquote>
@@ -631,95 +720,6 @@
 </li>
 <li>在指定时间执行的 crontab 命令<ul>
 <li>格式  <code>crontab  [选项] [用户名]</code></li>
-</ul>
-</li>
-</ul>
-]]></content>
-      <tags>
-        <tag>2019</tag>
-        <tag>原创</tag>
-        <tag>Linux</tag>
-        <tag>Study</tag>
-        <tag>HBTU</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Ubuntu Linux 学习笔记01</title>
-    <url>/2019/03/01/Ubuntu%20Linux%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001/</url>
-    <content><![CDATA[<blockquote>
-<p>Open source is not free.</p>
-</blockquote>
-<h2 id="Chapter-1-3：虚拟机、Ubuntu-Linux-系统介绍、Ubuntu-Linux-14-04图形界面"><a href="#Chapter-1-3：虚拟机、Ubuntu-Linux-系统介绍、Ubuntu-Linux-14-04图形界面" class="headerlink" title="Chapter 1 - 3：虚拟机、Ubuntu Linux 系统介绍、Ubuntu Linux 14.04图形界面"></a>Chapter 1 - 3：虚拟机、Ubuntu Linux 系统介绍、Ubuntu Linux 14.04图形界面</h2><table>
-<thead>
-<tr>
-<th><strong>Debugging environment：</strong></th>
-<th></th>
-</tr>
-</thead>
-<tbody><tr>
-<td>VMware Version：</td>
-<td>WorkStation14 Pro</td>
-</tr>
-<tr>
-<td>Windows Version：</td>
-<td>10 Home and Basic 64bit</td>
-</tr>
-<tr>
-<td>Linux Version：</td>
-<td>Ubuntu 16.04LTS amd64</td>
-</tr>
-</tbody></table>
-<table>
-<thead>
-<tr>
-<th><strong>Textbook version：</strong></th>
-<th></th>
-</tr>
-</thead>
-<tbody><tr>
-<td>Title：</td>
-<td>Ubuntu Linux 操作系统与实验教程</td>
-</tr>
-<tr>
-<td>Author：</td>
-<td>马丽梅  郭晴  张林伟  边玲  张红新  王天马  李红</td>
-</tr>
-</tbody></table>
-<ul>
-<li><strong>由于物理机显卡为NVIDIA，存在驱动类bug，故没有安装课本配套的Ubuntu Kylin。</strong></li>
-<li><strong>Ubuntu官方版安装过程与课本几乎一致，安装完成进行汉化即可。下面附上汉化教程：</strong><ul>
-<li>在物理机成功连接外网的情况下，将虚拟机联网方式设置为“桥接模式”</li>
-<li>将更新源设置成国内任意一个源</li>
-<li>依次点击Ubuntu 右上角的开关图标 -&gt; System Setting -&gt; Language Support -&gt; Install -&gt; 输入当前登录用户的密码 -&gt; Install / Remove Language  -&gt; 勾选 Chinese(simplified) -&gt;  Apply</li>
-<li>在 Language Support  - Language 选项卡内，将 汉语(中国) 拖拽到最顶部，再点击  Apply System-Wide</li>
-<li>在Language Support - Regional Formats 选项卡内，在下拉框内选择 汉语(中国) ，再点击  Apply System-Wide，最后点击Close</li>
-<li>关机重启</li>
-<li>重新进入系统后会提示 “将标准文件夹更新到当前语言吗？”，点击“更新名称”，汉化完成。</li>
-</ul>
-</li>
-<li><strong>理解 .vmdk 文件和 .vmx 文件的不同：</strong><ul>
-<li>vmdk 文件为虚拟磁盘文件（相当于电脑硬盘）会存放当前虚拟机中的所有文件</li>
-<li>.vmx 文件为虚拟机配置文件（即虚拟机的系统文件</li>
-<li>二者的明显差异是，占用的存储空间大小不同；深层次的差异是，二者的功能不同。</li>
-</ul>
-</li>
-<li><strong>Linux 系统一般有4个主要部分：</strong><ul>
-<li>内核(Linux Kernel)：由C语言和汇编语言编写而成，第一个版本发行于1991年，是Linux系统的核心，最新版本4.20.13(2019.2.27)</li>
-<li>shell：一种壳层与命令行界面，是UNIX操作系统下传统的用户和计算机的交互界面</li>
-<li>文件系统：是文件存放在磁盘等存储设备上的组织方法，Linux支持的文件系统有ext2、ext3、ext4、FAT、FAT32、VFAT、ISO 9660</li>
-<li>应用程序：标准的Linux系统一般都有一套成为应用程序的程序集，它包括文本编辑器、编程语言、X Window、办公套件、Internet工具和数据库等</li>
-</ul>
-</li>
-<li><strong>Linux发行版本</strong><ul>
-<li>Linux发行版本大概有300个，目前最普遍被使用的有大约12个，较为知名的有<ul>
-<li>Debian[9.8 (Stretch)，开发代号来自于电影《玩具总动员》]</li>
-<li>Ubuntu[18.10，基于Debian开发]</li>
-<li>Fedora[29]</li>
-<li>openSUSE[Leap 15]</li>
-<li>Red Hat[9 alias Shrike]</li>
-<li>Mandriva、红旗[9.0]</li>
-</ul>
-</li>
 </ul>
 </li>
 </ul>
