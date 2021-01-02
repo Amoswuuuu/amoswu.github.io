@@ -2,7 +2,7 @@
 var Debounce = (fn, t) => {
   const delay = t || 25;
   let timer;
-  return function() {
+  return function () {
     const args = arguments;
     if (timer) {
       clearTimeout(timer);
@@ -11,11 +11,11 @@ var Debounce = (fn, t) => {
       timer = null;
       fn.apply(this, args);
     },
-    delay);
+      delay);
   };
 };
 
-(function($) {
+(function ($) {
   // 将jQuery对象缓存起来 永远不要让相同的选择器在你的代码里出现多次
   // 在jQuery中最快的选择器是ID选择器,尽量使用ID代替Class 时间上大约相差100倍
   // 在class前使用tag(标签名)
@@ -52,7 +52,7 @@ var Debounce = (fn, t) => {
   function scrolltoElement(elem, correction = scrollCorrection) {
     const $elem = elem.href ? $(decodeURI(elem.getAttribute('href'))) : $(elem);
     window.scrollTo({
-      top     : $elem.offset().top - correction,
+      top: $elem.offset().top - correction,
       behavior: 'smooth'
     });
   }
@@ -156,7 +156,7 @@ var Debounce = (fn, t) => {
         volantis.$tocTarget.toggleClass('active');
         volantis.$toc.toggleClass('active');
       });
-      $(document).click(function(e) {
+      $(document).click(function (e) {
         e.stopPropagation();
         volantis.$tocTarget.removeClass('active');
         volantis.$toc.removeClass('active');
@@ -165,7 +165,7 @@ var Debounce = (fn, t) => {
         volantis.$tocTarget.removeClass('active');
         volantis.$toc.removeClass('active');
       },
-      100));
+        100));
     } else volantis.$toc.remove();
   }
 
@@ -208,13 +208,13 @@ var Debounce = (fn, t) => {
   function setGlobalHeaderMenuEvent() {
     if (isMobile) {
       // 手机端 点击展开子菜单
-      $('#l_header .m-phone li').click(function(e) {
+      $('#l_header .m-phone li').click(function (e) {
         e.stopPropagation();
         $($(e.currentTarget).children('ul')).show();
       });
     } else {
       // PC端 hover时展开子菜单，点击时隐藏子菜单
-      $('#wrapper .m-pc li > a[href]').parent().click(function(e) {
+      $('#wrapper .m-pc li > a[href]').parent().click(function (e) {
         e.stopPropagation();
         if (e.target.origin == e.target.baseURI) {
           $('#wrapper .m-pc .list-v').hide();
@@ -227,7 +227,7 @@ var Debounce = (fn, t) => {
   function setPageHeaderMenuEvent() {
     if (!isMobile) return;
     // 手机端 点击空白处隐藏子菜单
-    $(document).click(function(e) {
+    $(document).click(function (e) {
       volantis.$mPhoneList.hide();
     });
     // 手机端 滚动时隐藏子菜单
@@ -238,28 +238,28 @@ var Debounce = (fn, t) => {
   // 设置导航栏搜索框   fix √
   function setHeaderSearch() {
     if (volantis.$switcher.length === 0) return;
-    volantis.$switcher.click(function(e) {
+    volantis.$switcher.click(function (e) {
       e.stopPropagation();
       volantis.$header.toggleClass('z_search-open'); // 激活移动端搜索框
       volantis.$switcher.toggleClass('active'); // 搜索按钮
       volantis.$search.find('input').focus();
     });
-    $(document).click(function(e) {
+    $(document).click(function (e) {
       volantis.$header.removeClass('z_search-open');
       volantis.$switcher.removeClass('active');
     });
 
-    volantis.$search.click(function(e) {
+    volantis.$search.click(function (e) {
       e.stopPropagation();
     });
-    volantis.$header.ready(function() {
+    volantis.$header.ready(function () {
       volantis.$header.bind('keydown',
-        function(event) {
+        function (event) {
           if (event.keyCode == 9) {
             return false;
           }
           var isie = !!document.all;
-          var key,ev;
+          var key, ev;
           if (isie) { //IE浏览器
             key = window.event.keyCode;
             ev = window.event;
@@ -295,7 +295,7 @@ var Debounce = (fn, t) => {
     });
   }
 
-  $(function() {
+  $(function () {
     setHeader();
     setHeaderMenuSelection();
     setGlobalHeaderMenuEvent();
@@ -304,15 +304,15 @@ var Debounce = (fn, t) => {
     setTabs();
 
     // 全屏封面底部箭头
-    $('#scroll-down').on('click', function() {
+    $('#scroll-down').on('click', function () {
       scrolltoElement(volantis.$bodyAnchor);
     });
 
     try {
       // addEventListener是先绑定先执行，此处的绑定后执行
       document.addEventListener('pjax:complete',
-        function() {
-          $(function() {
+        function () {
+          $(function () {
             restData();
             setHeader();
             setHeaderMenuSelection();
@@ -320,19 +320,19 @@ var Debounce = (fn, t) => {
             setScrollAnchor();
             setTabs();
             // 全屏封面底部箭头
-            $('#scroll-down').on('click', function() {
+            $('#scroll-down').on('click', function () {
               scrolltoElement(volantis.$bodyAnchor);
             });
             // 处理点击事件 setHeaderSearch 没有重载，需要重新绑定单个事件
             if (volantis.$switcher.length !== 0) {
-              $(document).click(function(e) {
+              $(document).click(function (e) {
                 volantis.$header.removeClass('z_search-open');
                 volantis.$switcher.removeClass('active');
               });
             }
           });
 
-        }, {passive: true});
+        }, { passive: true });
     } catch (error) {
       // console.log(error);
     }
@@ -341,15 +341,18 @@ var Debounce = (fn, t) => {
 
   /*锚点定位*/
   if (window.location.hash) {
-    var checkExist = setInterval(function() {
+    var checkExist = setInterval(function () {
       if ($('#' + decodeURI(window.location.hash.split('#')[1]).replace(/\ /g, '-')).length) {
         $('html, body').animate({
           scrollTop: $('#' + decodeURI(window.location.hash.split('#')[1]).replace(/\ /g, '-')).offset().top - 40
         },
-        500);
+          500);
         clearInterval(checkExist);
       }
     },
-    100);
+      100);
   }
 })(jQuery);
+
+// Message.js
+$.extend({ message: function (e) { var n = { title: "", message: " 操作成功", time: "3000", type: "success", showClose: !0, autoClose: !0, onClose: function () { } }; "string" == typeof e && (n.message = e), "object" == typeof e && (n = $.extend({}, n, e)); var i, o, s, t = n.showClose ? '<div class="c-message--close">×</div>' : "", a = "" !== n.title ? '<h2 class="c-message__title">' + n.title + "</h2>" : "", c = '<div class="c-message animated animated-lento slideInRight"><i class=" c-message--icon c-message--' + n.type + '"></i><div class="el-notification__group">' + a + '<div class="el-notification__content">' + n.message + "</div>" + t + "</div></div>", m = $("body"), d = $(c); o = function () { d.addClass("slideOutRight"), d.one("webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend", function () { s() }) }, s = function () { d.remove(), n.onClose(n), clearTimeout(i) }, $(".c-message").remove(), m.append(d), d.one("webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend", function () { d.removeClass("messageFadeInDown") }), m.one("click", ".c-message--close", function (e) { o() }), n.autoClose && (i = setTimeout(function () { o() }, n.time)) } });
