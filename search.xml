@@ -396,6 +396,66 @@
       </tags>
   </entry>
   <entry>
+    <title>Qt 流读写XML</title>
+    <url>/2020/08/31/Qt%20%E6%B5%81%E8%AF%BB%E5%86%99XML/</url>
+    <content><![CDATA[<p>最近在学习 Qt 读写XML文件时，思考了一个问题，除了DOM和SAX外，还有没有更快捷的读写XML的方法？经过一番面向搜索引擎编程，我还真发现了一种方法——流读写XML(Write and read by stream)。今天就借此文向大家分享一下这种方法。</p>
+<p><strong>三种读写XML方式的对比</strong></p>
+<table>
+<thead>
+<tr>
+<th>DOM方式</th>
+<th>SAX方式</th>
+<th>流读写方式</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>XML被存入内存</td>
+<td>速度快，逐行扫描</td>
+<td>速度快，一次性传入</td>
+</tr>
+<tr>
+<td>消耗内存较多</td>
+<td>操作复杂，很难修改</td>
+<td>不支持修改和删除</td>
+</tr>
+<tr>
+<td>频繁操作较为方便</td>
+<td>可以随时停止解析，对大型文档友好</td>
+<td>读写API分离</td>
+</tr>
+</tbody></table>
+<p>看完对比，你是不是跃跃欲试了？下面我贴上我的练习代码，给你作为参考。</p>
+<p><code>*.pro</code></p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">QT       += core gui xml</span><br><span class="line"></span><br><span class="line">greaterThan(QT_MAJOR_VERSION, <span class="number">4</span>): QT += widgets</span><br><span class="line"></span><br><span class="line">CONFIG += c++<span class="number">11</span></span><br><span class="line"></span><br><span class="line">DEFINES += QT_DEPRECATED_WARNINGS</span><br><span class="line"></span><br><span class="line">SOURCES += \</span><br><span class="line">    main.cpp \</span><br><span class="line">    widget.cpp</span><br><span class="line"></span><br><span class="line">HEADERS += \</span><br><span class="line">    widget.h</span><br><span class="line"></span><br><span class="line">FORMS += \</span><br><span class="line">    widget.ui</span><br><span class="line"></span><br><span class="line">qnx: target.path = /tmp/$$&#123;TARGET&#125;/bin</span><br><span class="line"><span class="keyword">else</span>: unix:!android: target.path = /opt/$$&#123;TARGET&#125;/bin</span><br><span class="line">!isEmpty(target.path): INSTALLS += target</span><br></pre></td></tr></table></figure>
+<p><code>widget.h</code></p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> WIDGET_H</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> WIDGET_H</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QWidget&gt;</span></span></span><br><span class="line"></span><br><span class="line">QT_BEGIN_NAMESPACE</span><br><span class="line"><span class="keyword">namespace</span> Ui</span><br><span class="line">&#123;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Widget</span>;</span></span><br><span class="line">&#125;</span><br><span class="line">QT_END_NAMESPACE</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Widget</span> :</span> <span class="keyword">public</span> QWidget</span><br><span class="line">&#123;</span><br><span class="line">    Q_OBJECT</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    Widget(QWidget *parent = <span class="literal">nullptr</span>);</span><br><span class="line">    ~Widget();</span><br><span class="line">    <span class="comment">/* Func : write_xml()</span></span><br><span class="line"><span class="comment">     * Feat : 将数据写入XML文件并将写入结果在控制台打印</span></span><br><span class="line"><span class="comment">     * Auth : AmosWu</span></span><br><span class="line"><span class="comment">     * Date : 2020/08/30</span></span><br><span class="line"><span class="comment">     * vers : 1.0</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">write_xml</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* Func : read_xml()</span></span><br><span class="line"><span class="comment">     * Feat : 将数据从XML文件读取出来并在控制台打印</span></span><br><span class="line"><span class="comment">     * Auth : AmosWu</span></span><br><span class="line"><span class="comment">     * Date : 2020/08/30</span></span><br><span class="line"><span class="comment">     * vers : 1.0</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">read_xml</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    Ui::Widget *ui;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span> <span class="comment">// WIDGET_H</span></span></span><br></pre></td></tr></table></figure>
+<p><code>main.cpp</code></p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;widget.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QApplication&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QFile&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QXmlStreamWriter&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QXmlReader&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QtDebug&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QStringList&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="function">QApplication <span class="title">a</span><span class="params">(argc, argv)</span></span>;</span><br><span class="line">    Widget();</span><br><span class="line">    <span class="keyword">return</span> a.exec();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>widget.cpp</code></p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">/* Name : widget.cpp</span></span><br><span class="line"><span class="comment"> * Date : 2020/08/30</span></span><br><span class="line"><span class="comment"> * Auth : Amos</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;widget.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;ui_widget.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QFile&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QXmlStreamWriter&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QtDebug&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QStringList&gt;</span></span></span><br><span class="line"></span><br><span class="line">Widget::Widget(QWidget *parent)</span><br><span class="line">    : QWidget(parent)</span><br><span class="line">    , ui(<span class="keyword">new</span> Ui::Widget)</span><br><span class="line">&#123;</span><br><span class="line">    ui-&gt;setupUi(<span class="keyword">this</span>);</span><br><span class="line">    <span class="keyword">int</span> resWrite = write_xml();</span><br><span class="line">    <span class="keyword">if</span> (resWrite &lt; <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            qDebug() &lt;&lt; <span class="string">&quot;ERRO : Write failed!&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            qDebug() &lt;&lt; <span class="string">&quot;INFO : Write succeed!&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> resRead = read_xml();</span><br><span class="line">    <span class="keyword">if</span>(resRead &lt; <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            qDebug() &lt;&lt; <span class="string">&quot;ERRO : Read failed!&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            qDebug() &lt;&lt; <span class="string">&quot;INFO : Read succeed!&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Widget::~Widget()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">delete</span> ui;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">Widget::write_xml</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    QStringList urls_list;</span><br><span class="line">    QStringList name_list;</span><br><span class="line">    QStringList stockList;</span><br><span class="line">    urls_list &lt;&lt; <span class="string">&quot;https://cn.bing.com&quot;</span> </span><br><span class="line">              &lt;&lt; <span class="string">&quot;https://google.com&quot;</span> </span><br><span class="line">              &lt;&lt; <span class="string">&quot;https://baidu.com&quot;</span> </span><br><span class="line">              &lt;&lt; <span class="string">&quot;https://sougou.com&quot;</span> </span><br><span class="line">              &lt;&lt; <span class="string">&quot;https://mi.com&quot;</span>;</span><br><span class="line">    name_list &lt;&lt; <span class="string">&quot;Bing&quot;</span> </span><br><span class="line">              &lt;&lt; <span class="string">&quot;Google&quot;</span> </span><br><span class="line">              &lt;&lt; <span class="string">&quot;Baidu&quot;</span> </span><br><span class="line">              &lt;&lt; <span class="string">&quot;Sougou&quot;</span> </span><br><span class="line">              &lt;&lt; <span class="string">&quot;Xiaomi&quot;</span>;</span><br><span class="line">    stockList &lt;&lt; <span class="string">&quot;MSFT.US&quot;</span> </span><br><span class="line">              &lt;&lt; <span class="string">&quot;GOOG.US&quot;</span> </span><br><span class="line">              &lt;&lt; <span class="string">&quot;BIDU.US&quot;</span> </span><br><span class="line">              &lt;&lt; <span class="string">&quot;SOGO.US&quot;</span> </span><br><span class="line">              &lt;&lt; <span class="string">&quot;01810.HK&quot;</span>;</span><br><span class="line">    <span class="comment">// url_list.append(&quot;https://cn.bing.com&quot;);</span></span><br><span class="line"></span><br><span class="line">    <span class="function">QFile <span class="title">file</span><span class="params">(<span class="string">&quot;test.xml&quot;</span>)</span></span>;</span><br><span class="line">    <span class="keyword">if</span> (!file.open(QFile::WriteOnly | QFile::Text))</span><br><span class="line">        &#123;</span><br><span class="line">            qDebug() &lt;&lt; QString(<span class="string">&quot;ERRO : Connot open file test.xml(%2)&quot;</span>)</span><br><span class="line">                        .arg(file.errorString());</span><br><span class="line">            <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    <span class="function">QXmlStreamWriter <span class="title">stream</span><span class="params">(&amp;file)</span></span>;</span><br><span class="line">    stream.setCodec(<span class="string">&quot;UTF-8&quot;</span>);               <span class="comment">// XML编码</span></span><br><span class="line">    stream.setAutoFormatting(<span class="literal">true</span>);         <span class="comment">// 自动格式化</span></span><br><span class="line">    stream.writeStartDocument(<span class="string">&quot;1.0&quot;</span>, <span class="literal">true</span>); <span class="comment">// 开始文档（XML声明）</span></span><br><span class="line">    stream.writeStartElement(<span class="string">&quot;compangy&quot;</span>);   <span class="comment">// 创建根节点</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; urls_list.size(); i++)</span><br><span class="line">        &#123;</span><br><span class="line">            stream.writeStartElement(<span class="string">&quot;tech&quot;</span>);</span><br><span class="line">            stream.writeAttribute(<span class="string">&quot;name&quot;</span>, name_list.at(i));</span><br><span class="line">            stream.writeAttribute(<span class="string">&quot;url&quot;</span>, urls_list.at(i));</span><br><span class="line">            stream.writeTextElement(<span class="string">&quot;stock_code&quot;</span>, stockList.at(i));</span><br><span class="line">            stream.writeEndElement();</span><br><span class="line">            qDebug() &lt;&lt; QString(<span class="string">&quot;[ %1-%2 ] write succeed!&quot;</span>)</span><br><span class="line">                        .arg(name_list.at(i))</span><br><span class="line">                        .arg(urls_list.at(i));</span><br><span class="line">        &#125;</span><br><span class="line">    stream.writeEndElement();</span><br><span class="line">    stream.writeEndDocument();</span><br><span class="line">    file.close();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">Widget::read_xml</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="function">QString <span class="title">strFile</span><span class="params">(<span class="string">&quot;test.xml&quot;</span>)</span></span>;</span><br><span class="line">    <span class="function">QFile <span class="title">file</span><span class="params">(strFile)</span></span>;</span><br><span class="line">    <span class="keyword">if</span>(!file.open(QFile::ReadOnly | QFile::Text))</span><br><span class="line">        &#123;</span><br><span class="line">            qDebug() &lt;&lt; QString(<span class="string">&quot;ERRO : Connot open file %1(%2)&quot;</span>)</span><br><span class="line">                        .arg(strFile)</span><br><span class="line">                        .arg(file.errorString());</span><br><span class="line">            <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 如果读取到文档结尾，并且没有出现错误</span></span><br><span class="line">    <span class="function">QXmlStreamReader <span class="title">reader</span><span class="params">(&amp;file)</span></span>;</span><br><span class="line"></span><br><span class="line">    reader.readNext(); <span class="comment">// 跳过根节点</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span>(!reader.atEnd())</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">// 读取下一个记号，它返回记号的类型</span></span><br><span class="line">            QXmlStreamReader::TokenType nType = reader.readNext();</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 下面根据记号的类型来进行不同的输出</span></span><br><span class="line">            <span class="comment">// 读取文档的编码方式和版本号</span></span><br><span class="line">            <span class="keyword">if</span>(nType == QXmlStreamReader::StartDocument)</span><br><span class="line">                &#123;</span><br><span class="line">                    qDebug() &lt;&lt; <span class="string">&quot;DocEncoding = &quot;</span> </span><br><span class="line">                             &lt;&lt; reader.documentEncoding() </span><br><span class="line">                             &lt;&lt; <span class="string">&quot;DocVersion = &quot;</span> </span><br><span class="line">                             &lt;&lt; reader.documentVersion();</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span>(reader.isStartElement())</span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="keyword">if</span>(reader.name() == <span class="string">&quot;tech&quot;</span>)</span><br><span class="line">                        &#123;</span><br><span class="line">                            qDebug() &lt;&lt; <span class="string">&quot;&lt;&quot;</span> &lt;&lt; reader.name() &lt;&lt; <span class="string">&quot;&gt;&quot;</span>;</span><br><span class="line">                            </span><br><span class="line">                            <span class="keyword">if</span> (reader.attributes().hasAttribute(<span class="string">&quot;name&quot;</span>))</span><br><span class="line">                                </span><br><span class="line">                                qDebug() &lt;&lt; reader.attributes()</span><br><span class="line">                                            .value(<span class="string">&quot;name&quot;</span>);</span><br><span class="line">                            </span><br><span class="line">                            <span class="keyword">if</span> (reader.attributes().hasAttribute(<span class="string">&quot;url&quot;</span>))</span><br><span class="line">                                </span><br><span class="line">                                qDebug() &lt;&lt; reader.attributes()</span><br><span class="line">                                            .value(<span class="string">&quot;url&quot;</span>);</span><br><span class="line">                            </span><br><span class="line">                            reader.readNext();</span><br><span class="line">                        &#125;</span><br><span class="line">                    <span class="keyword">else</span> <span class="keyword">if</span>(reader.name() == <span class="string">&quot;stock_code&quot;</span>)</span><br><span class="line">                        &#123;</span><br><span class="line">                            qDebug() &lt;&lt; <span class="string">&quot;&lt;&quot;</span> &lt;&lt; reader.name() &lt;&lt; <span class="string">&quot;&gt;&quot;</span>;</span><br><span class="line">                            qDebug() &lt;&lt; reader.readElementText();</span><br><span class="line">                            reader.readNext();</span><br><span class="line">                        &#125;</span><br><span class="line">                    <span class="keyword">else</span></span><br><span class="line">                        &#123;</span><br><span class="line">                            reader.readNext();</span><br><span class="line">                        &#125;</span><br><span class="line"></span><br><span class="line">                    <span class="keyword">if</span> (nType == QXmlStreamReader::EndElement)</span><br><span class="line">                        qDebug() &lt;&lt; <span class="string">&quot;&lt;/&quot;</span> &lt;&lt; reader.name() &lt;&lt; <span class="string">&quot;&gt;&quot;</span>;</span><br><span class="line"></span><br><span class="line">                    <span class="comment">// 打印字符</span></span><br><span class="line">                    <span class="keyword">if</span>(nType == QXmlStreamReader::Characters &amp;&amp; !reader.isWhitespace())</span><br><span class="line">                        qDebug() &lt;&lt; reader.text();</span><br><span class="line">                &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    <span class="comment">// 如果读取过程中出现错误，那么输出错误信息</span></span><br><span class="line">    <span class="keyword">if</span>(reader.hasError())</span><br><span class="line">        &#123;</span><br><span class="line">            qDebug() &lt;&lt; <span class="string">&quot;ERRO : &quot;</span> &lt;&lt; reader.errorString();</span><br><span class="line">            <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    file.close();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>test.xml</code></p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;yes&quot;?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">compangy</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">tech</span> <span class="attr">name</span>=<span class="string">&quot;Bing&quot;</span> <span class="attr">url</span>=<span class="string">&quot;https://cn.bing.com&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">stock_code</span>&gt;</span>MSFT.US<span class="tag">&lt;/<span class="name">stock_code</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">tech</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">tech</span> <span class="attr">name</span>=<span class="string">&quot;Google&quot;</span> <span class="attr">url</span>=<span class="string">&quot;https://google.com&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">stock_code</span>&gt;</span>GOOG.US<span class="tag">&lt;/<span class="name">stock_code</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">tech</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">tech</span> <span class="attr">name</span>=<span class="string">&quot;Baidu&quot;</span> <span class="attr">url</span>=<span class="string">&quot;https://baidu.com&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">stock_code</span>&gt;</span>BIDU.US<span class="tag">&lt;/<span class="name">stock_code</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">tech</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">tech</span> <span class="attr">name</span>=<span class="string">&quot;Sougou&quot;</span> <span class="attr">url</span>=<span class="string">&quot;https://sougou.com&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">stock_code</span>&gt;</span>SOGO.US<span class="tag">&lt;/<span class="name">stock_code</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">tech</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">tech</span> <span class="attr">name</span>=<span class="string">&quot;Xiaomi&quot;</span> <span class="attr">url</span>=<span class="string">&quot;https://mi.com&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">stock_code</span>&gt;</span>01810.HK<span class="tag">&lt;/<span class="name">stock_code</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">tech</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">compangy</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>在学习这种读写方式时，我也踩了一些坑。</p>
+<ol>
+<li>XML有且只有一个根节点。</li>
+<li>良好的方法封装有利于降低代码（模块）间的耦合；</li>
+<li>错误信息输出、注释在新学习时必不可少；</li>
+</ol>
+<p>好了，本期的分享就到此为止了。如果对你有启发，欢迎转载~</p>
+]]></content>
+      <categories>
+        <category>新知</category>
+        <category>笔记</category>
+      </categories>
+      <tags>
+        <tag>原创</tag>
+        <tag>2020</tag>
+        <tag>Qt</tag>
+        <tag>C++</tag>
+        <tag>笔记</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Ubuntu Linux 学习笔记01</title>
     <url>/2019/03/01/Ubuntu%20Linux%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001/</url>
     <content><![CDATA[<blockquote>
@@ -589,6 +649,58 @@
       </tags>
   </entry>
   <entry>
+    <title>Ubuntu Linux 学习笔记05</title>
+    <url>/2019/03/05/Ubuntu%20Linux%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B005/</url>
+    <content><![CDATA[<blockquote>
+<p>Open source is not free.</p>
+</blockquote>
+<h2 id="Chapter7-硬盘和内存"><a href="#Chapter7-硬盘和内存" class="headerlink" title="Chapter7.硬盘和内存"></a>Chapter7.硬盘和内存</h2><h3 id="硬盘的命名方式"><a href="#硬盘的命名方式" class="headerlink" title="硬盘的命名方式"></a>硬盘的命名方式</h3><ol>
+<li>一般主板上有两个IDE接口，一共可以安装四个IDE设备。Linux下对IDE设备的命名是以 <strong>hd</strong>开头，分别是hda、hdb、hdc、hdd。</li>
+<li> SCSI接口设备是用 <strong>sd</strong>命名，第一个是sda，第二个是sdb，以此类推。</li>
+</ol>
+<h3 id="硬盘的分区"><a href="#硬盘的分区" class="headerlink" title="硬盘的分区"></a>硬盘的分区</h3><ol>
+<li>查看分区表  <code>sudo fdisk -l </code></li>
+<li>创建分区   <code>sudo fdisk /dev/sdb</code> ,根据提示操作</li>
+<li>格式化     <code>sudo mkfs -t  [文件系统格式]  设备名</code></li>
+<li>卸载     <code>sudo umount 设备名或挂载点</code></li>
+</ol>
+<h3 id="硬盘配额"><a href="#硬盘配额" class="headerlink" title="硬盘配额"></a>硬盘配额</h3><blockquote>
+<p>硬盘配额就是管理员可以为用户所能使用的磁盘空间进行配额限制，每一用户只能使用最大配额范围内的磁盘空间，在Linux系统发行版本中使用quota来对用户进行磁盘配额管理，避免了某些用户因为存储垃圾文件浪费磁盘空间导致其他用户无法正常工作。</p>
+<p><strong>软限制</strong>：在不超出硬限制的情况下，用户在规定时间内释放空间可继续使用。<br><strong>硬限制</strong>：一个用户可拥有的磁盘空间或文件的绝对数量，绝不允许超过这个限制。</p>
+</blockquote>
+<ol>
+<li>查看内核是否支持配额  <code># grep CONFIG_QUOTA /boot/config-[版本号]</code></li>
+<li>安装磁盘配额工具     <code>sudo apt-get install quota quotatool</code></li>
+<li>激活分区的配额功能<br> 1).  建立目录 <code># mkdir  /myquota</code><br> 2).   修改属性 <code># chown username: username /myquota</code><br> 3).  修改/etc/fstab 文件</li>
+</ol>
+<h3 id="任务计划"><a href="#任务计划" class="headerlink" title="任务计划"></a>任务计划</h3><ul>
+<li>执行一次的 at 命令<ul>
+<li>格式 <code>at [选项] [时间日期] </code></li>
+</ul>
+</li>
+<li>任意时间执行的 batch 命令<ul>
+<li>格式  输入batch命令后，机器显示 at&gt; ，输入机器执行的内容，在系统不忙时会自动执行。</li>
+</ul>
+</li>
+<li>在指定时间执行的 crontab 命令<ul>
+<li>格式  <code>crontab  [选项] [用户名]</code></li>
+</ul>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>新知</category>
+        <category>笔记</category>
+      </categories>
+      <tags>
+        <tag>2019</tag>
+        <tag>原创</tag>
+        <tag>Linux</tag>
+        <tag>Study</tag>
+        <tag>HBTU</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Ubuntu Linux 学习笔记04</title>
     <url>/2019/03/04/Ubuntu%20Linux%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004/</url>
     <content><![CDATA[<blockquote>
@@ -669,118 +781,6 @@
         <tag>Linux</tag>
         <tag>Study</tag>
         <tag>HBTU</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Ubuntu Linux 学习笔记05</title>
-    <url>/2019/03/05/Ubuntu%20Linux%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B005/</url>
-    <content><![CDATA[<blockquote>
-<p>Open source is not free.</p>
-</blockquote>
-<h2 id="Chapter7-硬盘和内存"><a href="#Chapter7-硬盘和内存" class="headerlink" title="Chapter7.硬盘和内存"></a>Chapter7.硬盘和内存</h2><h3 id="硬盘的命名方式"><a href="#硬盘的命名方式" class="headerlink" title="硬盘的命名方式"></a>硬盘的命名方式</h3><ol>
-<li>一般主板上有两个IDE接口，一共可以安装四个IDE设备。Linux下对IDE设备的命名是以 <strong>hd</strong>开头，分别是hda、hdb、hdc、hdd。</li>
-<li> SCSI接口设备是用 <strong>sd</strong>命名，第一个是sda，第二个是sdb，以此类推。</li>
-</ol>
-<h3 id="硬盘的分区"><a href="#硬盘的分区" class="headerlink" title="硬盘的分区"></a>硬盘的分区</h3><ol>
-<li>查看分区表  <code>sudo fdisk -l </code></li>
-<li>创建分区   <code>sudo fdisk /dev/sdb</code> ,根据提示操作</li>
-<li>格式化     <code>sudo mkfs -t  [文件系统格式]  设备名</code></li>
-<li>卸载     <code>sudo umount 设备名或挂载点</code></li>
-</ol>
-<h3 id="硬盘配额"><a href="#硬盘配额" class="headerlink" title="硬盘配额"></a>硬盘配额</h3><blockquote>
-<p>硬盘配额就是管理员可以为用户所能使用的磁盘空间进行配额限制，每一用户只能使用最大配额范围内的磁盘空间，在Linux系统发行版本中使用quota来对用户进行磁盘配额管理，避免了某些用户因为存储垃圾文件浪费磁盘空间导致其他用户无法正常工作。</p>
-<p><strong>软限制</strong>：在不超出硬限制的情况下，用户在规定时间内释放空间可继续使用。<br><strong>硬限制</strong>：一个用户可拥有的磁盘空间或文件的绝对数量，绝不允许超过这个限制。</p>
-</blockquote>
-<ol>
-<li>查看内核是否支持配额  <code># grep CONFIG_QUOTA /boot/config-[版本号]</code></li>
-<li>安装磁盘配额工具     <code>sudo apt-get install quota quotatool</code></li>
-<li>激活分区的配额功能<br> 1).  建立目录 <code># mkdir  /myquota</code><br> 2).   修改属性 <code># chown username: username /myquota</code><br> 3).  修改/etc/fstab 文件</li>
-</ol>
-<h3 id="任务计划"><a href="#任务计划" class="headerlink" title="任务计划"></a>任务计划</h3><ul>
-<li>执行一次的 at 命令<ul>
-<li>格式 <code>at [选项] [时间日期] </code></li>
-</ul>
-</li>
-<li>任意时间执行的 batch 命令<ul>
-<li>格式  输入batch命令后，机器显示 at&gt; ，输入机器执行的内容，在系统不忙时会自动执行。</li>
-</ul>
-</li>
-<li>在指定时间执行的 crontab 命令<ul>
-<li>格式  <code>crontab  [选项] [用户名]</code></li>
-</ul>
-</li>
-</ul>
-]]></content>
-      <categories>
-        <category>新知</category>
-        <category>笔记</category>
-      </categories>
-      <tags>
-        <tag>2019</tag>
-        <tag>原创</tag>
-        <tag>Linux</tag>
-        <tag>Study</tag>
-        <tag>HBTU</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Qt 流读写XML</title>
-    <url>/2020/08/31/Qt%20%E6%B5%81%E8%AF%BB%E5%86%99XML/</url>
-    <content><![CDATA[<p>最近在学习 Qt 读写XML文件时，思考了一个问题，除了DOM和SAX外，还有没有更快捷的读写XML的方法？经过一番面向搜索引擎编程，我还真发现了一种方法——流读写XML(Write and read by stream)。今天就借此文向大家分享一下这种方法。</p>
-<p><strong>三种读写XML方式的对比</strong></p>
-<table>
-<thead>
-<tr>
-<th>DOM方式</th>
-<th>SAX方式</th>
-<th>流读写方式</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>XML被存入内存</td>
-<td>速度快，逐行扫描</td>
-<td>速度快，一次性传入</td>
-</tr>
-<tr>
-<td>消耗内存较多</td>
-<td>操作复杂，很难修改</td>
-<td>不支持修改和删除</td>
-</tr>
-<tr>
-<td>频繁操作较为方便</td>
-<td>可以随时停止解析，对大型文档友好</td>
-<td>读写API分离</td>
-</tr>
-</tbody></table>
-<p>看完对比，你是不是跃跃欲试了？下面我贴上我的练习代码，给你作为参考。</p>
-<p><code>*.pro</code></p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">QT       += core gui xml</span><br><span class="line"></span><br><span class="line">greaterThan(QT_MAJOR_VERSION, <span class="number">4</span>): QT += widgets</span><br><span class="line"></span><br><span class="line">CONFIG += c++<span class="number">11</span></span><br><span class="line"></span><br><span class="line">DEFINES += QT_DEPRECATED_WARNINGS</span><br><span class="line"></span><br><span class="line">SOURCES += \</span><br><span class="line">    main.cpp \</span><br><span class="line">    widget.cpp</span><br><span class="line"></span><br><span class="line">HEADERS += \</span><br><span class="line">    widget.h</span><br><span class="line"></span><br><span class="line">FORMS += \</span><br><span class="line">    widget.ui</span><br><span class="line"></span><br><span class="line">qnx: target.path = /tmp/$$&#123;TARGET&#125;/bin</span><br><span class="line"><span class="keyword">else</span>: unix:!android: target.path = /opt/$$&#123;TARGET&#125;/bin</span><br><span class="line">!isEmpty(target.path): INSTALLS += target</span><br></pre></td></tr></table></figure>
-<p><code>widget.h</code></p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> WIDGET_H</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> WIDGET_H</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QWidget&gt;</span></span></span><br><span class="line"></span><br><span class="line">QT_BEGIN_NAMESPACE</span><br><span class="line"><span class="keyword">namespace</span> Ui</span><br><span class="line">&#123;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Widget</span>;</span></span><br><span class="line">&#125;</span><br><span class="line">QT_END_NAMESPACE</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Widget</span> :</span> <span class="keyword">public</span> QWidget</span><br><span class="line">&#123;</span><br><span class="line">    Q_OBJECT</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    Widget(QWidget *parent = <span class="literal">nullptr</span>);</span><br><span class="line">    ~Widget();</span><br><span class="line">    <span class="comment">/* Func : write_xml()</span></span><br><span class="line"><span class="comment">     * Feat : 将数据写入XML文件并将写入结果在控制台打印</span></span><br><span class="line"><span class="comment">     * Auth : AmosWu</span></span><br><span class="line"><span class="comment">     * Date : 2020/08/30</span></span><br><span class="line"><span class="comment">     * vers : 1.0</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">write_xml</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* Func : read_xml()</span></span><br><span class="line"><span class="comment">     * Feat : 将数据从XML文件读取出来并在控制台打印</span></span><br><span class="line"><span class="comment">     * Auth : AmosWu</span></span><br><span class="line"><span class="comment">     * Date : 2020/08/30</span></span><br><span class="line"><span class="comment">     * vers : 1.0</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">read_xml</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    Ui::Widget *ui;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span> <span class="comment">// WIDGET_H</span></span></span><br></pre></td></tr></table></figure>
-<p><code>main.cpp</code></p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;widget.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QApplication&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QFile&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QXmlStreamWriter&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QXmlReader&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QtDebug&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QStringList&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="function">QApplication <span class="title">a</span><span class="params">(argc, argv)</span></span>;</span><br><span class="line">    Widget();</span><br><span class="line">    <span class="keyword">return</span> a.exec();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><code>widget.cpp</code></p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">/* Name : widget.cpp</span></span><br><span class="line"><span class="comment"> * Date : 2020/08/30</span></span><br><span class="line"><span class="comment"> * Auth : Amos</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;widget.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;ui_widget.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QFile&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QXmlStreamWriter&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QtDebug&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QStringList&gt;</span></span></span><br><span class="line"></span><br><span class="line">Widget::Widget(QWidget *parent)</span><br><span class="line">    : QWidget(parent)</span><br><span class="line">    , ui(<span class="keyword">new</span> Ui::Widget)</span><br><span class="line">&#123;</span><br><span class="line">    ui-&gt;setupUi(<span class="keyword">this</span>);</span><br><span class="line">    <span class="keyword">int</span> resWrite = write_xml();</span><br><span class="line">    <span class="keyword">if</span> (resWrite &lt; <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            qDebug() &lt;&lt; <span class="string">&quot;ERRO : Write failed!&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            qDebug() &lt;&lt; <span class="string">&quot;INFO : Write succeed!&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> resRead = read_xml();</span><br><span class="line">    <span class="keyword">if</span>(resRead &lt; <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            qDebug() &lt;&lt; <span class="string">&quot;ERRO : Read failed!&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            qDebug() &lt;&lt; <span class="string">&quot;INFO : Read succeed!&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Widget::~Widget()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">delete</span> ui;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">Widget::write_xml</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    QStringList urls_list;</span><br><span class="line">    QStringList name_list;</span><br><span class="line">    QStringList stockList;</span><br><span class="line">    urls_list &lt;&lt; <span class="string">&quot;https://cn.bing.com&quot;</span> </span><br><span class="line">              &lt;&lt; <span class="string">&quot;https://google.com&quot;</span> </span><br><span class="line">              &lt;&lt; <span class="string">&quot;https://baidu.com&quot;</span> </span><br><span class="line">              &lt;&lt; <span class="string">&quot;https://sougou.com&quot;</span> </span><br><span class="line">              &lt;&lt; <span class="string">&quot;https://mi.com&quot;</span>;</span><br><span class="line">    name_list &lt;&lt; <span class="string">&quot;Bing&quot;</span> </span><br><span class="line">              &lt;&lt; <span class="string">&quot;Google&quot;</span> </span><br><span class="line">              &lt;&lt; <span class="string">&quot;Baidu&quot;</span> </span><br><span class="line">              &lt;&lt; <span class="string">&quot;Sougou&quot;</span> </span><br><span class="line">              &lt;&lt; <span class="string">&quot;Xiaomi&quot;</span>;</span><br><span class="line">    stockList &lt;&lt; <span class="string">&quot;MSFT.US&quot;</span> </span><br><span class="line">              &lt;&lt; <span class="string">&quot;GOOG.US&quot;</span> </span><br><span class="line">              &lt;&lt; <span class="string">&quot;BIDU.US&quot;</span> </span><br><span class="line">              &lt;&lt; <span class="string">&quot;SOGO.US&quot;</span> </span><br><span class="line">              &lt;&lt; <span class="string">&quot;01810.HK&quot;</span>;</span><br><span class="line">    <span class="comment">// url_list.append(&quot;https://cn.bing.com&quot;);</span></span><br><span class="line"></span><br><span class="line">    <span class="function">QFile <span class="title">file</span><span class="params">(<span class="string">&quot;test.xml&quot;</span>)</span></span>;</span><br><span class="line">    <span class="keyword">if</span> (!file.open(QFile::WriteOnly | QFile::Text))</span><br><span class="line">        &#123;</span><br><span class="line">            qDebug() &lt;&lt; QString(<span class="string">&quot;ERRO : Connot open file test.xml(%2)&quot;</span>)</span><br><span class="line">                        .arg(file.errorString());</span><br><span class="line">            <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    <span class="function">QXmlStreamWriter <span class="title">stream</span><span class="params">(&amp;file)</span></span>;</span><br><span class="line">    stream.setCodec(<span class="string">&quot;UTF-8&quot;</span>);               <span class="comment">// XML编码</span></span><br><span class="line">    stream.setAutoFormatting(<span class="literal">true</span>);         <span class="comment">// 自动格式化</span></span><br><span class="line">    stream.writeStartDocument(<span class="string">&quot;1.0&quot;</span>, <span class="literal">true</span>); <span class="comment">// 开始文档（XML声明）</span></span><br><span class="line">    stream.writeStartElement(<span class="string">&quot;compangy&quot;</span>);   <span class="comment">// 创建根节点</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; urls_list.size(); i++)</span><br><span class="line">        &#123;</span><br><span class="line">            stream.writeStartElement(<span class="string">&quot;tech&quot;</span>);</span><br><span class="line">            stream.writeAttribute(<span class="string">&quot;name&quot;</span>, name_list.at(i));</span><br><span class="line">            stream.writeAttribute(<span class="string">&quot;url&quot;</span>, urls_list.at(i));</span><br><span class="line">            stream.writeTextElement(<span class="string">&quot;stock_code&quot;</span>, stockList.at(i));</span><br><span class="line">            stream.writeEndElement();</span><br><span class="line">            qDebug() &lt;&lt; QString(<span class="string">&quot;[ %1-%2 ] write succeed!&quot;</span>)</span><br><span class="line">                        .arg(name_list.at(i))</span><br><span class="line">                        .arg(urls_list.at(i));</span><br><span class="line">        &#125;</span><br><span class="line">    stream.writeEndElement();</span><br><span class="line">    stream.writeEndDocument();</span><br><span class="line">    file.close();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">Widget::read_xml</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="function">QString <span class="title">strFile</span><span class="params">(<span class="string">&quot;test.xml&quot;</span>)</span></span>;</span><br><span class="line">    <span class="function">QFile <span class="title">file</span><span class="params">(strFile)</span></span>;</span><br><span class="line">    <span class="keyword">if</span>(!file.open(QFile::ReadOnly | QFile::Text))</span><br><span class="line">        &#123;</span><br><span class="line">            qDebug() &lt;&lt; QString(<span class="string">&quot;ERRO : Connot open file %1(%2)&quot;</span>)</span><br><span class="line">                        .arg(strFile)</span><br><span class="line">                        .arg(file.errorString());</span><br><span class="line">            <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 如果读取到文档结尾，并且没有出现错误</span></span><br><span class="line">    <span class="function">QXmlStreamReader <span class="title">reader</span><span class="params">(&amp;file)</span></span>;</span><br><span class="line"></span><br><span class="line">    reader.readNext(); <span class="comment">// 跳过根节点</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span>(!reader.atEnd())</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">// 读取下一个记号，它返回记号的类型</span></span><br><span class="line">            QXmlStreamReader::TokenType nType = reader.readNext();</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 下面根据记号的类型来进行不同的输出</span></span><br><span class="line">            <span class="comment">// 读取文档的编码方式和版本号</span></span><br><span class="line">            <span class="keyword">if</span>(nType == QXmlStreamReader::StartDocument)</span><br><span class="line">                &#123;</span><br><span class="line">                    qDebug() &lt;&lt; <span class="string">&quot;DocEncoding = &quot;</span> </span><br><span class="line">                             &lt;&lt; reader.documentEncoding() </span><br><span class="line">                             &lt;&lt; <span class="string">&quot;DocVersion = &quot;</span> </span><br><span class="line">                             &lt;&lt; reader.documentVersion();</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span>(reader.isStartElement())</span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="keyword">if</span>(reader.name() == <span class="string">&quot;tech&quot;</span>)</span><br><span class="line">                        &#123;</span><br><span class="line">                            qDebug() &lt;&lt; <span class="string">&quot;&lt;&quot;</span> &lt;&lt; reader.name() &lt;&lt; <span class="string">&quot;&gt;&quot;</span>;</span><br><span class="line">                            </span><br><span class="line">                            <span class="keyword">if</span> (reader.attributes().hasAttribute(<span class="string">&quot;name&quot;</span>))</span><br><span class="line">                                </span><br><span class="line">                                qDebug() &lt;&lt; reader.attributes()</span><br><span class="line">                                            .value(<span class="string">&quot;name&quot;</span>);</span><br><span class="line">                            </span><br><span class="line">                            <span class="keyword">if</span> (reader.attributes().hasAttribute(<span class="string">&quot;url&quot;</span>))</span><br><span class="line">                                </span><br><span class="line">                                qDebug() &lt;&lt; reader.attributes()</span><br><span class="line">                                            .value(<span class="string">&quot;url&quot;</span>);</span><br><span class="line">                            </span><br><span class="line">                            reader.readNext();</span><br><span class="line">                        &#125;</span><br><span class="line">                    <span class="keyword">else</span> <span class="keyword">if</span>(reader.name() == <span class="string">&quot;stock_code&quot;</span>)</span><br><span class="line">                        &#123;</span><br><span class="line">                            qDebug() &lt;&lt; <span class="string">&quot;&lt;&quot;</span> &lt;&lt; reader.name() &lt;&lt; <span class="string">&quot;&gt;&quot;</span>;</span><br><span class="line">                            qDebug() &lt;&lt; reader.readElementText();</span><br><span class="line">                            reader.readNext();</span><br><span class="line">                        &#125;</span><br><span class="line">                    <span class="keyword">else</span></span><br><span class="line">                        &#123;</span><br><span class="line">                            reader.readNext();</span><br><span class="line">                        &#125;</span><br><span class="line"></span><br><span class="line">                    <span class="keyword">if</span> (nType == QXmlStreamReader::EndElement)</span><br><span class="line">                        qDebug() &lt;&lt; <span class="string">&quot;&lt;/&quot;</span> &lt;&lt; reader.name() &lt;&lt; <span class="string">&quot;&gt;&quot;</span>;</span><br><span class="line"></span><br><span class="line">                    <span class="comment">// 打印字符</span></span><br><span class="line">                    <span class="keyword">if</span>(nType == QXmlStreamReader::Characters &amp;&amp; !reader.isWhitespace())</span><br><span class="line">                        qDebug() &lt;&lt; reader.text();</span><br><span class="line">                &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    <span class="comment">// 如果读取过程中出现错误，那么输出错误信息</span></span><br><span class="line">    <span class="keyword">if</span>(reader.hasError())</span><br><span class="line">        &#123;</span><br><span class="line">            qDebug() &lt;&lt; <span class="string">&quot;ERRO : &quot;</span> &lt;&lt; reader.errorString();</span><br><span class="line">            <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    file.close();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><code>test.xml</code></p>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;yes&quot;?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">compangy</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">tech</span> <span class="attr">name</span>=<span class="string">&quot;Bing&quot;</span> <span class="attr">url</span>=<span class="string">&quot;https://cn.bing.com&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">stock_code</span>&gt;</span>MSFT.US<span class="tag">&lt;/<span class="name">stock_code</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">tech</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">tech</span> <span class="attr">name</span>=<span class="string">&quot;Google&quot;</span> <span class="attr">url</span>=<span class="string">&quot;https://google.com&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">stock_code</span>&gt;</span>GOOG.US<span class="tag">&lt;/<span class="name">stock_code</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">tech</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">tech</span> <span class="attr">name</span>=<span class="string">&quot;Baidu&quot;</span> <span class="attr">url</span>=<span class="string">&quot;https://baidu.com&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">stock_code</span>&gt;</span>BIDU.US<span class="tag">&lt;/<span class="name">stock_code</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">tech</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">tech</span> <span class="attr">name</span>=<span class="string">&quot;Sougou&quot;</span> <span class="attr">url</span>=<span class="string">&quot;https://sougou.com&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">stock_code</span>&gt;</span>SOGO.US<span class="tag">&lt;/<span class="name">stock_code</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">tech</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">tech</span> <span class="attr">name</span>=<span class="string">&quot;Xiaomi&quot;</span> <span class="attr">url</span>=<span class="string">&quot;https://mi.com&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">stock_code</span>&gt;</span>01810.HK<span class="tag">&lt;/<span class="name">stock_code</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">tech</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">compangy</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>在学习这种读写方式时，我也踩了一些坑。</p>
-<ol>
-<li>XML有且只有一个根节点。</li>
-<li>良好的方法封装有利于降低代码（模块）间的耦合；</li>
-<li>错误信息输出、注释在新学习时必不可少；</li>
-</ol>
-<p>好了，本期的分享就到此为止了。如果对你有启发，欢迎转载~</p>
-]]></content>
-      <categories>
-        <category>新知</category>
-        <category>笔记</category>
-      </categories>
-      <tags>
-        <tag>原创</tag>
-        <tag>2020</tag>
-        <tag>Qt</tag>
-        <tag>C++</tag>
-        <tag>笔记</tag>
       </tags>
   </entry>
   <entry>
@@ -1652,6 +1652,52 @@
       </tags>
   </entry>
   <entry>
+    <title>辉煌70载，与您同在</title>
+    <url>/2019/10/01/%E8%BE%89%E7%85%8C70%E8%BD%BD%EF%BC%8C%E4%B8%8E%E6%82%A8%E5%90%8C%E5%9C%A8/</url>
+    <content><![CDATA[<blockquote>
+<p>爱祖国，首先要了解祖国；不了解，就说不上爱。</p>
+<p>——任继愈（前国家图书馆馆长）</p>
+</blockquote>
+<p><img src="http://img.wehuihua.cn/blog/hl000.jpg" class="lazyload" data-srcset="http://img.wehuihua.cn/blog/hl000.jpg" srcset="data:image/png;base64,666"></p>
+<p>70年，弹指一挥间。新中国在一代又一代的奋斗者接续奋斗下不断成长。我有幸成为奋斗者中的一员，在祖国母亲70华诞到来之际，我想借此文献上对祖国母亲的祝福！</p>
+<p>如同上面这句名言所说，爱祖国就应该先了解祖国。我搜集了新中国成立70周年以来的一些老照片，特意把它们制作成图片，与你一起共同回顾伟大祖国的成长历程。</p>
+<div>
+<img alt="" src="http://img.wehuihua.cn/blog/hl001.jpg" class="lazyload" data-srcset="http://img.wehuihua.cn/blog/hl001.jpg" srcset="data:image/png;base64,666" style="margin: 0 auto;" />
+<img alt="" src="http://img.wehuihua.cn/blog/hl002.jpg" class="lazyload" data-srcset="http://img.wehuihua.cn/blog/hl002.jpg" srcset="data:image/png;base64,666" style="margin: 0 auto;" />
+<img alt="" src="http://img.wehuihua.cn/blog/hl003.jpg" class="lazyload" data-srcset="http://img.wehuihua.cn/blog/hl003.jpg" srcset="data:image/png;base64,666" style="margin: 0 auto;" />
+<img alt="" src="http://img.wehuihua.cn/blog/hl004.jpg" class="lazyload" data-srcset="http://img.wehuihua.cn/blog/hl004.jpg" srcset="data:image/png;base64,666" style="margin: 0 auto;" />
+<img alt="" src="http://img.wehuihua.cn/blog/hl005.jpg" class="lazyload" data-srcset="http://img.wehuihua.cn/blog/hl005.jpg" srcset="data:image/png;base64,666" style="margin: 0 auto;" />
+<img alt="" src="http://img.wehuihua.cn/blog/hl006.jpg" class="lazyload" data-srcset="http://img.wehuihua.cn/blog/hl006.jpg" srcset="data:image/png;base64,666" style="margin: 0 auto;" />
+</div>
+
+
+<p>网络上一直流行着一句话，“此生无悔入华夏，来生愿在种花家”。这也是新时代我们青年对伟大祖国表达的最深切的爱意。最近由陈凯歌等七位导演联合执导的电影《我和我的祖国》还没上映预售就突破了2亿元。“以小人物见证大时代，献礼新中国成立70周年”是这部影片的目标。电影上映前期，适逢电影主题曲《我和我的祖国》发行，还是那熟悉的旋律，还是那熟悉的歌词，不同的是歌曲背后的新故事。此歌曲的演唱者是华语乐坛著名的女歌手——<strong>王菲</strong>。王菲对歌曲的诠释也让这首经典旋律呈现出一种别样的自在、温暖、辽阔，营造出一种祥和的包容感。</p>
+<p>歌曲25日在网易云音乐首发，短短五天的时间里，歌曲评论已超过<strong>8万条</strong>。我特意利用自己学到知识，抓取了这首歌9月25日-9月29日期间的<strong>3万多条</strong>热评数据，进行了整理分析，最终生成了如下的一张“<strong>词云热图</strong>”。</p>
+<p><img src="http://img.wehuihua.cn/blog/2019093043.png" class="lazyload" data-srcset="http://img.wehuihua.cn/blog/2019093043.png" srcset="data:image/png;base64,666"></p>
+<p><img src="http://img.wehuihua.cn/blog/gqcy01.png" class="lazyload" data-srcset="http://img.wehuihua.cn/blog/gqcy01.png" srcset="data:image/png;base64,666"></p>
+<p>从图中热词的数目和字号大小，不难分辨，多数听过这首歌的网友都深深爱着祖国的这片热土，他们的声音也代表了今日中国14亿人民的心声。借此图，我也想深深的送上一句，“<strong>我的祖国，生日快乐！</strong>”</p>
+<p>这盛世，如您所愿。我们生活的时代，是最好的时代，也是先烈们梦想中的时代。我相信，站在这通向伟大复兴的起点上，伟大祖国一定会越来越好！再一次，深深地<strong>祝福伟大祖国，繁荣富强！</strong></p>
+<p>无论何时何地，我们都与祖国肩并肩。辉煌70载，与您同在！</p>
+<blockquote>
+<p>参考内容：</p>
+<p>[1] 微信公众号“拾遗” - <a href="https://mp.weixin.qq.com/s/DenBVqF7xrpF1wLzSjk1Ig">70张老照片告诉你，什么是新中国</a></p>
+<p>[2] 百度百科 - 成渝铁路、武汉长江大桥等词条</p>
+<p>[3] 百度百科 - 我和我的祖国（2019年陈凯歌等执导电影）词条</p>
+<p>[4]网站 - 网易、阿里巴巴、腾讯等各大企业官网</p>
+<p>[5]网易云音乐 - 《王菲-我和我的祖国》</p>
+</blockquote>
+<p><em>部分图片来源于网络，侵权请联系删除</em></p>
+]]></content>
+      <categories>
+        <category>特别博文</category>
+      </categories>
+      <tags>
+        <tag>2019</tag>
+        <tag>原创</tag>
+        <tag>特别博文</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>聚焦，再出发</title>
     <url>/2019/12/31/%E8%81%9A%E7%84%A6%EF%BC%8C%E5%86%8D%E5%87%BA%E5%8F%91/</url>
     <content><![CDATA[<blockquote>
@@ -1816,52 +1862,6 @@
         <tag>原创</tag>
         <tag>2020</tag>
         <tag>年度总结</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>辉煌70载，与您同在</title>
-    <url>/2019/10/01/%E8%BE%89%E7%85%8C70%E8%BD%BD%EF%BC%8C%E4%B8%8E%E6%82%A8%E5%90%8C%E5%9C%A8/</url>
-    <content><![CDATA[<blockquote>
-<p>爱祖国，首先要了解祖国；不了解，就说不上爱。</p>
-<p>——任继愈（前国家图书馆馆长）</p>
-</blockquote>
-<p><img src="http://img.wehuihua.cn/blog/hl000.jpg" class="lazyload" data-srcset="http://img.wehuihua.cn/blog/hl000.jpg" srcset="data:image/png;base64,666"></p>
-<p>70年，弹指一挥间。新中国在一代又一代的奋斗者接续奋斗下不断成长。我有幸成为奋斗者中的一员，在祖国母亲70华诞到来之际，我想借此文献上对祖国母亲的祝福！</p>
-<p>如同上面这句名言所说，爱祖国就应该先了解祖国。我搜集了新中国成立70周年以来的一些老照片，特意把它们制作成图片，与你一起共同回顾伟大祖国的成长历程。</p>
-<div>
-<img alt="" src="http://img.wehuihua.cn/blog/hl001.jpg" class="lazyload" data-srcset="http://img.wehuihua.cn/blog/hl001.jpg" srcset="data:image/png;base64,666" style="margin: 0 auto;" />
-<img alt="" src="http://img.wehuihua.cn/blog/hl002.jpg" class="lazyload" data-srcset="http://img.wehuihua.cn/blog/hl002.jpg" srcset="data:image/png;base64,666" style="margin: 0 auto;" />
-<img alt="" src="http://img.wehuihua.cn/blog/hl003.jpg" class="lazyload" data-srcset="http://img.wehuihua.cn/blog/hl003.jpg" srcset="data:image/png;base64,666" style="margin: 0 auto;" />
-<img alt="" src="http://img.wehuihua.cn/blog/hl004.jpg" class="lazyload" data-srcset="http://img.wehuihua.cn/blog/hl004.jpg" srcset="data:image/png;base64,666" style="margin: 0 auto;" />
-<img alt="" src="http://img.wehuihua.cn/blog/hl005.jpg" class="lazyload" data-srcset="http://img.wehuihua.cn/blog/hl005.jpg" srcset="data:image/png;base64,666" style="margin: 0 auto;" />
-<img alt="" src="http://img.wehuihua.cn/blog/hl006.jpg" class="lazyload" data-srcset="http://img.wehuihua.cn/blog/hl006.jpg" srcset="data:image/png;base64,666" style="margin: 0 auto;" />
-</div>
-
-
-<p>网络上一直流行着一句话，“此生无悔入华夏，来生愿在种花家”。这也是新时代我们青年对伟大祖国表达的最深切的爱意。最近由陈凯歌等七位导演联合执导的电影《我和我的祖国》还没上映预售就突破了2亿元。“以小人物见证大时代，献礼新中国成立70周年”是这部影片的目标。电影上映前期，适逢电影主题曲《我和我的祖国》发行，还是那熟悉的旋律，还是那熟悉的歌词，不同的是歌曲背后的新故事。此歌曲的演唱者是华语乐坛著名的女歌手——<strong>王菲</strong>。王菲对歌曲的诠释也让这首经典旋律呈现出一种别样的自在、温暖、辽阔，营造出一种祥和的包容感。</p>
-<p>歌曲25日在网易云音乐首发，短短五天的时间里，歌曲评论已超过<strong>8万条</strong>。我特意利用自己学到知识，抓取了这首歌9月25日-9月29日期间的<strong>3万多条</strong>热评数据，进行了整理分析，最终生成了如下的一张“<strong>词云热图</strong>”。</p>
-<p><img src="http://img.wehuihua.cn/blog/2019093043.png" class="lazyload" data-srcset="http://img.wehuihua.cn/blog/2019093043.png" srcset="data:image/png;base64,666"></p>
-<p><img src="http://img.wehuihua.cn/blog/gqcy01.png" class="lazyload" data-srcset="http://img.wehuihua.cn/blog/gqcy01.png" srcset="data:image/png;base64,666"></p>
-<p>从图中热词的数目和字号大小，不难分辨，多数听过这首歌的网友都深深爱着祖国的这片热土，他们的声音也代表了今日中国14亿人民的心声。借此图，我也想深深的送上一句，“<strong>我的祖国，生日快乐！</strong>”</p>
-<p>这盛世，如您所愿。我们生活的时代，是最好的时代，也是先烈们梦想中的时代。我相信，站在这通向伟大复兴的起点上，伟大祖国一定会越来越好！再一次，深深地<strong>祝福伟大祖国，繁荣富强！</strong></p>
-<p>无论何时何地，我们都与祖国肩并肩。辉煌70载，与您同在！</p>
-<blockquote>
-<p>参考内容：</p>
-<p>[1] 微信公众号“拾遗” - <a href="https://mp.weixin.qq.com/s/DenBVqF7xrpF1wLzSjk1Ig">70张老照片告诉你，什么是新中国</a></p>
-<p>[2] 百度百科 - 成渝铁路、武汉长江大桥等词条</p>
-<p>[3] 百度百科 - 我和我的祖国（2019年陈凯歌等执导电影）词条</p>
-<p>[4]网站 - 网易、阿里巴巴、腾讯等各大企业官网</p>
-<p>[5]网易云音乐 - 《王菲-我和我的祖国》</p>
-</blockquote>
-<p><em>部分图片来源于网络，侵权请联系删除</em></p>
-]]></content>
-      <categories>
-        <category>特别博文</category>
-      </categories>
-      <tags>
-        <tag>2019</tag>
-        <tag>原创</tag>
-        <tag>特别博文</tag>
       </tags>
   </entry>
   <entry>
