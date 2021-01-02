@@ -685,6 +685,54 @@
       </tags>
   </entry>
   <entry>
+    <title>Ubuntu Linux 学习笔记05</title>
+    <url>/2019/03/05/Ubuntu%20Linux%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B005/</url>
+    <content><![CDATA[<blockquote>
+<p>Open source is not free.</p>
+</blockquote>
+<h2 id="Chapter7-硬盘和内存"><a href="#Chapter7-硬盘和内存" class="headerlink" title="Chapter7.硬盘和内存"></a>Chapter7.硬盘和内存</h2><h3 id="硬盘的命名方式"><a href="#硬盘的命名方式" class="headerlink" title="硬盘的命名方式"></a>硬盘的命名方式</h3><ol>
+<li>一般主板上有两个IDE接口，一共可以安装四个IDE设备。Linux下对IDE设备的命名是以 <strong>hd</strong>开头，分别是hda、hdb、hdc、hdd。</li>
+<li> SCSI接口设备是用 <strong>sd</strong>命名，第一个是sda，第二个是sdb，以此类推。</li>
+</ol>
+<h3 id="硬盘的分区"><a href="#硬盘的分区" class="headerlink" title="硬盘的分区"></a>硬盘的分区</h3><ol>
+<li>查看分区表  <code>sudo fdisk -l </code></li>
+<li>创建分区   <code>sudo fdisk /dev/sdb</code> ,根据提示操作</li>
+<li>格式化     <code>sudo mkfs -t  [文件系统格式]  设备名</code></li>
+<li>卸载     <code>sudo umount 设备名或挂载点</code></li>
+</ol>
+<h3 id="硬盘配额"><a href="#硬盘配额" class="headerlink" title="硬盘配额"></a>硬盘配额</h3><blockquote>
+<p>硬盘配额就是管理员可以为用户所能使用的磁盘空间进行配额限制，每一用户只能使用最大配额范围内的磁盘空间，在Linux系统发行版本中使用quota来对用户进行磁盘配额管理，避免了某些用户因为存储垃圾文件浪费磁盘空间导致其他用户无法正常工作。</p>
+<p><strong>软限制</strong>：在不超出硬限制的情况下，用户在规定时间内释放空间可继续使用。<br><strong>硬限制</strong>：一个用户可拥有的磁盘空间或文件的绝对数量，绝不允许超过这个限制。</p>
+</blockquote>
+<ol>
+<li>查看内核是否支持配额  <code># grep CONFIG_QUOTA /boot/config-[版本号]</code></li>
+<li>安装磁盘配额工具     <code>sudo apt-get install quota quotatool</code></li>
+<li>激活分区的配额功能<br> 1).  建立目录 <code># mkdir  /myquota</code><br> 2).   修改属性 <code># chown username: username /myquota</code><br> 3).  修改/etc/fstab 文件</li>
+</ol>
+<h3 id="任务计划"><a href="#任务计划" class="headerlink" title="任务计划"></a>任务计划</h3><ul>
+<li>执行一次的 at 命令<ul>
+<li>格式 <code>at [选项] [时间日期] </code></li>
+</ul>
+</li>
+<li>任意时间执行的 batch 命令<ul>
+<li>格式  输入batch命令后，机器显示 at&gt; ，输入机器执行的内容，在系统不忙时会自动执行。</li>
+</ul>
+</li>
+<li>在指定时间执行的 crontab 命令<ul>
+<li>格式  <code>crontab  [选项] [用户名]</code></li>
+</ul>
+</li>
+</ul>
+]]></content>
+      <tags>
+        <tag>2019</tag>
+        <tag>原创</tag>
+        <tag>Linux</tag>
+        <tag>Study</tag>
+        <tag>HBTU</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Windows10，拯救你的桌面</title>
     <url>/2018/11/06/Windows10%EF%BC%8C%E6%8B%AF%E6%95%91%E4%BD%A0%E7%9A%84%E6%A1%8C%E9%9D%A2/</url>
     <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>如今，越来越多的Win10用户厌倦了传统的桌面模式。打开桌面如同掉进了垃圾堆，桌面好多“杂物”如灾难一般存在，那么，Windows桌面优化就显得十分迫切而又重要。今天小编将分四个部分给大家简单地介绍一种拯救你的桌面的方法。</p>
@@ -755,54 +803,6 @@
         <tag>Windows10</tag>
         <tag>桌面美化</tag>
         <tag>电脑优化</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Ubuntu Linux 学习笔记05</title>
-    <url>/2019/03/05/Ubuntu%20Linux%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B005/</url>
-    <content><![CDATA[<blockquote>
-<p>Open source is not free.</p>
-</blockquote>
-<h2 id="Chapter7-硬盘和内存"><a href="#Chapter7-硬盘和内存" class="headerlink" title="Chapter7.硬盘和内存"></a>Chapter7.硬盘和内存</h2><h3 id="硬盘的命名方式"><a href="#硬盘的命名方式" class="headerlink" title="硬盘的命名方式"></a>硬盘的命名方式</h3><ol>
-<li>一般主板上有两个IDE接口，一共可以安装四个IDE设备。Linux下对IDE设备的命名是以 <strong>hd</strong>开头，分别是hda、hdb、hdc、hdd。</li>
-<li> SCSI接口设备是用 <strong>sd</strong>命名，第一个是sda，第二个是sdb，以此类推。</li>
-</ol>
-<h3 id="硬盘的分区"><a href="#硬盘的分区" class="headerlink" title="硬盘的分区"></a>硬盘的分区</h3><ol>
-<li>查看分区表  <code>sudo fdisk -l </code></li>
-<li>创建分区   <code>sudo fdisk /dev/sdb</code> ,根据提示操作</li>
-<li>格式化     <code>sudo mkfs -t  [文件系统格式]  设备名</code></li>
-<li>卸载     <code>sudo umount 设备名或挂载点</code></li>
-</ol>
-<h3 id="硬盘配额"><a href="#硬盘配额" class="headerlink" title="硬盘配额"></a>硬盘配额</h3><blockquote>
-<p>硬盘配额就是管理员可以为用户所能使用的磁盘空间进行配额限制，每一用户只能使用最大配额范围内的磁盘空间，在Linux系统发行版本中使用quota来对用户进行磁盘配额管理，避免了某些用户因为存储垃圾文件浪费磁盘空间导致其他用户无法正常工作。</p>
-<p><strong>软限制</strong>：在不超出硬限制的情况下，用户在规定时间内释放空间可继续使用。<br><strong>硬限制</strong>：一个用户可拥有的磁盘空间或文件的绝对数量，绝不允许超过这个限制。</p>
-</blockquote>
-<ol>
-<li>查看内核是否支持配额  <code># grep CONFIG_QUOTA /boot/config-[版本号]</code></li>
-<li>安装磁盘配额工具     <code>sudo apt-get install quota quotatool</code></li>
-<li>激活分区的配额功能<br> 1).  建立目录 <code># mkdir  /myquota</code><br> 2).   修改属性 <code># chown username: username /myquota</code><br> 3).  修改/etc/fstab 文件</li>
-</ol>
-<h3 id="任务计划"><a href="#任务计划" class="headerlink" title="任务计划"></a>任务计划</h3><ul>
-<li>执行一次的 at 命令<ul>
-<li>格式 <code>at [选项] [时间日期] </code></li>
-</ul>
-</li>
-<li>任意时间执行的 batch 命令<ul>
-<li>格式  输入batch命令后，机器显示 at&gt; ，输入机器执行的内容，在系统不忙时会自动执行。</li>
-</ul>
-</li>
-<li>在指定时间执行的 crontab 命令<ul>
-<li>格式  <code>crontab  [选项] [用户名]</code></li>
-</ul>
-</li>
-</ul>
-]]></content>
-      <tags>
-        <tag>2019</tag>
-        <tag>原创</tag>
-        <tag>Linux</tag>
-        <tag>Study</tag>
-        <tag>HBTU</tag>
       </tags>
   </entry>
   <entry>
