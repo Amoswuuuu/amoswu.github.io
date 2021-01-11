@@ -6,7 +6,7 @@
   <link href="https://blog.amoswu.cn/atom.xml" rel="self"/>
   
   <link href="https://blog.amoswu.cn/"/>
-  <updated>2021-01-02T16:41:47.456Z</updated>
+  <updated>2021-01-04T15:28:00.324Z</updated>
   <id>https://blog.amoswu.cn/</id>
   
   <author>
@@ -15,6 +15,36 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>使用计算机有感</title>
+    <link href="https://blog.amoswu.cn/2020/11/20/%E4%BD%BF%E7%94%A8%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%9C%89%E6%84%9F/"/>
+    <id>https://blog.amoswu.cn/2020/11/20/%E4%BD%BF%E7%94%A8%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%9C%89%E6%84%9F/</id>
+    <published>2020-11-19T16:00:00.000Z</published>
+    <updated>2021-01-04T15:28:00.324Z</updated>
+    
+    <content type="html"><![CDATA[<p><img src="https://cdn.amoswu.cn/blog/jyrk4_001.png" class="lazyload" data-srcset="https://cdn.amoswu.cn/blog/jyrk4_001.png" srcset="data:image/png;base64,666"></p><blockquote><p>最近在收听万维钢老师的《精英日课4》，听到“像高手一样使用你的计算机”这一节时，有一些感触，于是我将它发到了评论区，今天抽时间同步到我的博客。</p></blockquote><p>作为重度“折腾”计算机的爱好者，从高中开始收集各种计算机工具，至今也折腾了上千个工具了。听完万老师这一讲，下面我以Windows操作系统为例，分享几点我的计算机“折腾”经历和看法。</p><h3 id="1-用键盘，别用鼠标"><a href="#1-用键盘，别用鼠标" class="headerlink" title="1.用键盘，别用鼠标"></a>1.用键盘，别用鼠标</h3><p>这一点我非常赞同。用久了计算机之后，我越来越习惯于将双手放置于键盘之上，而不是一只手在键盘上一只手在鼠标上。在这里分享两点小技巧，希望能为同学们消除一些使用键盘的障碍。</p><h4 id="【启动软件】"><a href="#【启动软件】" class="headerlink" title="【启动软件】"></a>【启动软件】</h4><p>使用Wox + Everything 或按下 Window + R 输入“软件英文名.exe”，键盘搞定所有软件、工具的启动；</p><h4 id="【快捷键】"><a href="#【快捷键】" class="headerlink" title="【快捷键】"></a>【快捷键】</h4><p>除了文中提到的快捷键外，你还可以开拓更多的快捷键，如 Ctrl + A 全选，PageUp/PageDown 上一页/下一页，Home/End 移动到开头/结尾，F2 重命名，F11 浏览器全屏（看得到电子书时我都这样打开全屏）……当然这些远远不够，你还可以使用搜索引擎搜索关键字“软件名 + 快捷键 ”来解锁更多快捷键；</p><h3 id="2-把事情自动化"><a href="#2-把事情自动化" class="headerlink" title="2.把事情自动化"></a>2.把事情自动化</h3><p>这个部分想说的有很多，今天先给非计算机背景的同学分享两点实用小技巧。</p><h4 id="【1】在线收集表或许是你最简单的自动化工具。"><a href="#【1】在线收集表或许是你最简单的自动化工具。" class="headerlink" title="【1】在线收集表或许是你最简单的自动化工具。"></a>【1】在线收集表或许是你最简单的自动化工具。</h4><p>目前，我们工作和学习过程中难免会遇到收集各种各样信息的情况，我认为，任何信息的收集都能被规范化、自动化。使用腾讯文档、石墨文档、金数据等在线收集工具，他们已经将复杂的逻辑“折叠”进了简单的操作中，而我们只需转发一个链接。</p><h4 id="【2】Excel-公式或许是你数据处理的好帮手。"><a href="#【2】Excel-公式或许是你数据处理的好帮手。" class="headerlink" title="【2】Excel 公式或许是你数据处理的好帮手。"></a>【2】Excel 公式或许是你数据处理的好帮手。</h4><p>收集完信息，我们要处理的是许许多多的数据，难免需要用到Excel这样的工具，好在有公式可以帮我们剩下大量的重复一个动作的时间。还有，Python + Excel 会有更好的效果哦~</p><h3 id="3-建立自己的系统"><a href="#3-建立自己的系统" class="headerlink" title="3.建立自己的系统"></a>3.建立自己的系统</h3><p>这也是我近半年来一直研究的问题。目前，我的解决方案是：非敏感信息——幕布+语雀+印象笔记，每周同步至本地NAS；敏感信息——密码-bitwarden，云文件、文档-NextCloud，这两部分全部存放于本地NAS。文件分享——个人CDN、快传（文叔叔，奶牛快传等等）、天翼云盘。<br>另外，文档书写方面，我现在是重度Markdown爱好者，期待知识城邦能尽快支持Markdown啊~</p><h3 id="4-把所有东西放在“云”上"><a href="#4-把所有东西放在“云”上" class="headerlink" title="4.把所有东西放在“云”上"></a>4.把所有东西放在“云”上</h3><p>这里的云就有很多了，我用的最熟练的还是自建个人云（NAS）方案，能WebDav搞定的，决不让信息流到其他地方。</p><h3 id="5-要折腾"><a href="#5-要折腾" class="headerlink" title="5.要折腾"></a>5.要折腾</h3><p>听到这里的时候，我非常感慨。大学期间，帮老师同学修电脑的时候，发现好多人都知道自己的电脑用起来不顺手，却又不去改造它。我的观点和万老师一样，要主动折腾，而不是被动使用。<br>这几年，我对计算机软硬件的折腾有很多，以至于一出现打开PPT不播放、播放视频不全屏、垃圾软件充斥整个电脑这些现象时就会引起我的不舒适。<br>同时，我也在改变这些现象时做了一些努力，如：在知识城邦以ppt的形式推荐好用的工具、在公司建立内网专用软件工具拓展库等等。</p><p>今天说的有点多，如果得到的同学们有这方面的疑惑，欢迎一起探讨~</p><blockquote><p>今天就说到这里，在最后我附上我的得到学生证。如果你也是“我辈中人”，很期待与你交流。</p></blockquote><p><img src="https://cdn.amoswu.cn/blog/dedaocard0.png" class="lazyload" data-srcset="https://cdn.amoswu.cn/blog/dedaocard0.png" srcset="data:image/png;base64,666"></p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;&lt;img src=&quot;https://cdn.amoswu.cn/blog/jyrk4_001.png&quot; class=&quot;lazyload&quot; data-srcset=&quot;https://cdn.amoswu.cn/blog/jyrk4_001.png&quot; srcset=&quot;data:</summary>
+      
+    
+    
+    
+    <category term="随笔" scheme="https://blog.amoswu.cn/categories/%E9%9A%8F%E7%AC%94/"/>
+    
+    
+    <category term="原创" scheme="https://blog.amoswu.cn/tags/%E5%8E%9F%E5%88%9B/"/>
+    
+    <category term="2020" scheme="https://blog.amoswu.cn/tags/2020/"/>
+    
+    <category term="随笔" scheme="https://blog.amoswu.cn/tags/%E9%9A%8F%E7%AC%94/"/>
+    
+    <category term="新知识" scheme="https://blog.amoswu.cn/tags/%E6%96%B0%E7%9F%A5%E8%AF%86/"/>
+    
+  </entry>
   
   <entry>
     <title>浅谈互联网下载查毒</title>
