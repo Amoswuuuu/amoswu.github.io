@@ -283,6 +283,53 @@
       </tags>
   </entry>
   <entry>
+    <title>Qt 动态链接库</title>
+    <url>/2020/09/02/Qt%20%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/</url>
+    <content><![CDATA[<p>近期，在学完 Qt 编程的一些基础知识后，我逐渐往更深层次进发。今天，要记录的是，Qt 框架中动态链接库相关的知识。</p>
+<p>有动态链接库是就会有静态链接库，来都来了，肯定是要一次性都解决的。先来看看这两类链接库的区别。</p>
+<p><strong>静态链接库</strong>（Static-link library）就是把要调用的函数或者过程链接到可执行文件中，成为可执行文件的一部分的库。换言之，函数和过程的代码就在主程序的 <code>.exe</code> 文件中，该文件包含了运行时所需的全部代码。当多个程序调用相同的函数是，内存中会存在这个函数的多个拷贝。在 Windows 操作系统中，静态链接库对应的后缀名为 <code>.lib</code>, 在 Linux 操作系统中，静态链接库对应的后缀名为 <code>.a</code> 。</p>
+<p><strong>动态链接库</strong>（Dynamic-link library）是微软公司在 Windows 操作系统中实现共享库概念的一种实现方式，后被很多操作系统作为参考，从而使其有了更大的发展。在 Windows 操作系统中，静态链接库对应的后缀名为 <code>.dll</code> , 在 Linux 操作系统中，动态链接库对应的后缀名为 <code>.so</code>。</p>
+<p>在 Windows 操作戏台中，所谓动态链接，就是把一些经常会共享的代码（静态链接的 OBJ 程序库）制作成 DLL 档，当可执行文件调用到 DLL 档内的函数时， Windows 操作系统才会把 DLL 档加载到内存中， DLL 档本身的结构就是可执行档，当程序有需求时函数才进行链接。一般情况下，如果一个应用使用了动态链接库， Win32 系统保证内存中只有DLL的一份复制品。</p>
+<p>说完动态链接库与静态链接库的区别，不能光纸上谈兵，应该动手来个实例。不如就动手实现一个简易计算的动态库吧。</p>
+<h2 id="编写动态库"><a href="#编写动态库" class="headerlink" title="编写动态库"></a>编写动态库</h2><h4 id="1-建立库文件"><a href="#1-建立库文件" class="headerlink" title="1.建立库文件"></a>1.建立库文件</h4><p>首先打开 Qt Creator 的新建对话窗口，找到 <code>Library</code>，点击创建 <code>C++ Library</code>。<br><img src="http://img.wehuihua.cn/blog/20200902140112.png" class="lazyload" data-srcset="http://img.wehuihua.cn/blog/20200902140112.png" srcset="data:image/png;base64,666" alt="image-20200902140109533"></p>
+<p>给定一个名字，然后点击下一步 ，在选择 Qt module 时，选择 <code>Core</code>模块。</p>
+<p><img src="http://img.wehuihua.cn/blog/20200902140459.png" class="lazyload" data-srcset="http://img.wehuihua.cn/blog/20200902140459.png" srcset="data:image/png;base64,666" alt="image-20200902140458089"></p>
+<p>接着，勾选一个编译环境。</p>
+<p><img src="http://img.wehuihua.cn/blog/20200902140559.png" class="lazyload" data-srcset="http://img.wehuihua.cn/blog/20200902140559.png" srcset="data:image/png;base64,666" alt="image-20200902140557133"></p>
+<h4 id="2-编写库函数代码"><a href="#2-编写库函数代码" class="headerlink" title="2. 编写库函数代码"></a>2. 编写库函数代码</h4><p><code>compute.pro</code></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">QT -= gui</span><br><span class="line"></span><br><span class="line">TEMPLATE = lib</span><br><span class="line">DEFINES += COMPUTE_LIBRARY</span><br><span class="line"></span><br><span class="line">CONFIG += c++11</span><br><span class="line"></span><br><span class="line">DEFINES += QT_DEPRECATED_WARNINGS</span><br><span class="line"></span><br><span class="line">SOURCES += \</span><br><span class="line">    compute.cpp</span><br><span class="line"></span><br><span class="line">HEADERS += \</span><br><span class="line">    compute_global.h \</span><br><span class="line">    compute.h</span><br><span class="line"></span><br><span class="line">unix &#123;</span><br><span class="line">    target.path = /usr/lib</span><br><span class="line">&#125;</span><br><span class="line">!isEmpty(target.path): INSTALLS += target</span><br></pre></td></tr></table></figure>
+<p><code>compute.h</code></p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">/***************************************************</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * @file       compute.h</span></span><br><span class="line"><span class="comment"> * @version    1.0</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * @author     AmosWu</span></span><br><span class="line"><span class="comment"> * @date       2020/09/02</span></span><br><span class="line"><span class="comment"> * @history    </span></span><br><span class="line"><span class="comment"> ***************************************************/</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> COMPUTE_H</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> COMPUTE_H</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;compute_global.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">COMPUTE_EXPORT</span> <span class="title">Compute</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    Compute();</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">sum</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span> y)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">diff</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span> y)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">double</span> <span class="title">prod</span><span class="params">(<span class="keyword">double</span> a, <span class="keyword">double</span> b)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">double</span> <span class="title">divi</span><span class="params">(<span class="keyword">double</span> a, <span class="keyword">double</span> b)</span></span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span> <span class="comment">// COMPUTE_H</span></span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><code>compute_global.h</code></p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> COMPUTE_GLOBAL_H</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> COMPUTE_GLOBAL_H</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QtCore/qglobal.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">if</span> defined(COMPUTE_LIBRARY)</span></span><br><span class="line"><span class="meta">#  <span class="meta-keyword">define</span> COMPUTE_EXPORT Q_DECL_EXPORT</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">else</span></span></span><br><span class="line"><span class="meta">#  <span class="meta-keyword">define</span> COMPUTE_EXPORT Q_DECL_IMPORT</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span> <span class="comment">// COMPUTE_GLOBAL_H</span></span></span><br></pre></td></tr></table></figure>
+<p><code>compute.cpp</code></p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">/***************************************************</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * @file       compute.cpp</span></span><br><span class="line"><span class="comment"> * @version    1.0</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * @author     AmosWu</span></span><br><span class="line"><span class="comment"> * @date       2020/09/02</span></span><br><span class="line"><span class="comment"> * @history    </span></span><br><span class="line"><span class="comment"> ***************************************************/</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;compute.h&quot;</span></span></span><br><span class="line"></span><br><span class="line">Compute::Compute()</span><br><span class="line">&#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">Compute::sum</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span> y)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> x + y;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">Compute::diff</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span> y)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> x - y;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">double</span> <span class="title">Compute::prod</span><span class="params">(<span class="keyword">double</span> a, <span class="keyword">double</span> b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> a * b;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">double</span> <span class="title">Compute::divi</span><span class="params">(<span class="keyword">double</span> a, <span class="keyword">double</span> b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(b &gt; <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> a / b;</span><br><span class="line">        &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">999.99</span>;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在编写完上述代码后，我们调试一下，或者构建不运行，就会在对应文件夹看到已经生成  <code>.lib</code> 和 <code>.dll</code>等库文件了。</p>
+<p> <img src="http://img.wehuihua.cn/blog/20200902145446.png" class="lazyload" data-srcset="http://img.wehuihua.cn/blog/20200902145446.png" srcset="data:image/png;base64,666" alt="image-20200902145444525"></p>
+<h2 id="调用动态库"><a href="#调用动态库" class="headerlink" title="调用动态库"></a>调用动态库</h2><h4 id="1-创建项目"><a href="#1-创建项目" class="headerlink" title="1.创建项目"></a>1.创建项目</h4><p><em>这里就不再赘述了了了了了了了了了了</em></p>
+<h4 id="2-拷贝头文件"><a href="#2-拷贝头文件" class="headerlink" title="2.拷贝头文件"></a>2.拷贝头文件</h4><p>将头文件拷贝到应用工程的目录下，对于大型项目要单独建立文件夹，这里是一个小 Demo ，我就直接放到根目录下了。</p>
+<p><img src="http://img.wehuihua.cn/blog/20200910124325.png" class="lazyload" data-srcset="http://img.wehuihua.cn/blog/20200910124325.png" srcset="data:image/png;base64,666" alt="image-20200910124324053"></p>
+<h4 id="3-引入dll"><a href="#3-引入dll" class="headerlink" title="3. 引入dll"></a>3. 引入dll</h4><p><code>.pro</code></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">LIBS += ‪-LE:/Qt_code/build-compute-Desktop_Qt_5_14_0_MinGW_64_bit-Debug/compute.dll</span><br></pre></td></tr></table></figure>
+<p><code>main.cpp</code></p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;widget.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;compute.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QApplication&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QDebug&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="function">QApplication <span class="title">a</span><span class="params">(argc, argv)</span></span>;</span><br><span class="line">    Widget w;</span><br><span class="line">    w.setWindowTitle(QStringLiteral(<span class="string">&quot;简易计算器&quot;</span>));</span><br><span class="line"></span><br><span class="line">    Compute cal;</span><br><span class="line">    qDebug() &lt;&lt; <span class="string">&quot;Result:&quot;</span> &lt;&lt;  cal.sum(<span class="number">2</span>, <span class="number">10</span>) &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line"></span><br><span class="line">    w.show();</span><br><span class="line">    <span class="keyword">return</span> a.exec();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="4-拷贝-dll-到编译好的程序-exe-同级目录下"><a href="#4-拷贝-dll-到编译好的程序-exe-同级目录下" class="headerlink" title="4.拷贝 .dll 到编译好的程序 .exe 同级目录下"></a>4.拷贝 .dll 到编译好的程序 .exe 同级目录下</h4><p><img src="http://img.wehuihua.cn/blog/20200910124647.png" class="lazyload" data-srcset="http://img.wehuihua.cn/blog/20200910124647.png" srcset="data:image/png;base64,666" alt="image-20200910124645704"></p>
+<h4 id="5-调试运行"><a href="#5-调试运行" class="headerlink" title="5. 调试运行"></a>5. 调试运行</h4><p><img src="http://img.wehuihua.cn/blog/20200910123827.png" class="lazyload" data-srcset="http://img.wehuihua.cn/blog/20200910123827.png" srcset="data:image/png;base64,666" alt="image-20200910123826075"></p>
+<p>此篇仅做动态链接库知识基础，还有更多高级应用，请移步搜索引擎~</p>
+]]></content>
+      <categories>
+        <category>新知</category>
+        <category>笔记</category>
+      </categories>
+      <tags>
+        <tag>原创</tag>
+        <tag>2020</tag>
+        <tag>Qt</tag>
+        <tag>C++</tag>
+        <tag>笔记</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Qt Creator 编辑器下的代码格式化</title>
     <url>/2020/08/11/Qt%20Creator%E7%BC%96%E8%BE%91%E5%99%A8%E4%B8%8B%E7%9A%84%E4%BB%A3%E7%A0%81%E6%A0%BC%E5%BC%8F%E5%8C%96/</url>
     <content><![CDATA[<p>对于习惯使用<code>VsCode</code>、<code>SublimeText</code>、<code>JetBrains 全家桶</code>等编译器的开发人员来说，一键格式化代码是必不可少的功能。最近，我在进行Qt C++开发时发现，Qt Creator默认没有一键格式化代码相关的配置。经过几小时的面向搜索引擎解决问题后，我发现了一个可行的解决方案，今天在这里分享给大家。</p>
@@ -335,53 +382,6 @@
 <h3 id="4-设置快捷键"><a href="#4-设置快捷键" class="headerlink" title="4.设置快捷键"></a>4.设置快捷键</h3><p>依次点击菜单栏<code>工具</code>、<code>环境</code>、<code>键盘</code>，找到<code>FormatFile</code>，然后点击<code>Record</code>录制自己的快捷键，最后点击<code>Appply</code>。</p>
 <p><img src="http://img.wehuihua.cn/blog/20200811133920.png" class="lazyload" data-srcset="http://img.wehuihua.cn/blog/20200811133920.png" srcset="data:image/png;base64,666" alt="image-20200811133917824"></p>
 <p>到这儿，我们Qt 环境配置的教程就结束了，后续我会继续带来Qt学习的相关笔记、想法和其他干货~</p>
-]]></content>
-      <categories>
-        <category>新知</category>
-        <category>笔记</category>
-      </categories>
-      <tags>
-        <tag>原创</tag>
-        <tag>2020</tag>
-        <tag>Qt</tag>
-        <tag>C++</tag>
-        <tag>笔记</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Qt 动态链接库</title>
-    <url>/2020/09/02/Qt%20%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/</url>
-    <content><![CDATA[<p>近期，在学完 Qt 编程的一些基础知识后，我逐渐往更深层次进发。今天，要记录的是，Qt 框架中动态链接库相关的知识。</p>
-<p>有动态链接库是就会有静态链接库，来都来了，肯定是要一次性都解决的。先来看看这两类链接库的区别。</p>
-<p><strong>静态链接库</strong>（Static-link library）就是把要调用的函数或者过程链接到可执行文件中，成为可执行文件的一部分的库。换言之，函数和过程的代码就在主程序的 <code>.exe</code> 文件中，该文件包含了运行时所需的全部代码。当多个程序调用相同的函数是，内存中会存在这个函数的多个拷贝。在 Windows 操作系统中，静态链接库对应的后缀名为 <code>.lib</code>, 在 Linux 操作系统中，静态链接库对应的后缀名为 <code>.a</code> 。</p>
-<p><strong>动态链接库</strong>（Dynamic-link library）是微软公司在 Windows 操作系统中实现共享库概念的一种实现方式，后被很多操作系统作为参考，从而使其有了更大的发展。在 Windows 操作系统中，静态链接库对应的后缀名为 <code>.dll</code> , 在 Linux 操作系统中，动态链接库对应的后缀名为 <code>.so</code>。</p>
-<p>在 Windows 操作戏台中，所谓动态链接，就是把一些经常会共享的代码（静态链接的 OBJ 程序库）制作成 DLL 档，当可执行文件调用到 DLL 档内的函数时， Windows 操作系统才会把 DLL 档加载到内存中， DLL 档本身的结构就是可执行档，当程序有需求时函数才进行链接。一般情况下，如果一个应用使用了动态链接库， Win32 系统保证内存中只有DLL的一份复制品。</p>
-<p>说完动态链接库与静态链接库的区别，不能光纸上谈兵，应该动手来个实例。不如就动手实现一个简易计算的动态库吧。</p>
-<h2 id="编写动态库"><a href="#编写动态库" class="headerlink" title="编写动态库"></a>编写动态库</h2><h4 id="1-建立库文件"><a href="#1-建立库文件" class="headerlink" title="1.建立库文件"></a>1.建立库文件</h4><p>首先打开 Qt Creator 的新建对话窗口，找到 <code>Library</code>，点击创建 <code>C++ Library</code>。<br><img src="http://img.wehuihua.cn/blog/20200902140112.png" class="lazyload" data-srcset="http://img.wehuihua.cn/blog/20200902140112.png" srcset="data:image/png;base64,666" alt="image-20200902140109533"></p>
-<p>给定一个名字，然后点击下一步 ，在选择 Qt module 时，选择 <code>Core</code>模块。</p>
-<p><img src="http://img.wehuihua.cn/blog/20200902140459.png" class="lazyload" data-srcset="http://img.wehuihua.cn/blog/20200902140459.png" srcset="data:image/png;base64,666" alt="image-20200902140458089"></p>
-<p>接着，勾选一个编译环境。</p>
-<p><img src="http://img.wehuihua.cn/blog/20200902140559.png" class="lazyload" data-srcset="http://img.wehuihua.cn/blog/20200902140559.png" srcset="data:image/png;base64,666" alt="image-20200902140557133"></p>
-<h4 id="2-编写库函数代码"><a href="#2-编写库函数代码" class="headerlink" title="2. 编写库函数代码"></a>2. 编写库函数代码</h4><p><code>compute.pro</code></p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">QT -= gui</span><br><span class="line"></span><br><span class="line">TEMPLATE = lib</span><br><span class="line">DEFINES += COMPUTE_LIBRARY</span><br><span class="line"></span><br><span class="line">CONFIG += c++11</span><br><span class="line"></span><br><span class="line">DEFINES += QT_DEPRECATED_WARNINGS</span><br><span class="line"></span><br><span class="line">SOURCES += \</span><br><span class="line">    compute.cpp</span><br><span class="line"></span><br><span class="line">HEADERS += \</span><br><span class="line">    compute_global.h \</span><br><span class="line">    compute.h</span><br><span class="line"></span><br><span class="line">unix &#123;</span><br><span class="line">    target.path = /usr/lib</span><br><span class="line">&#125;</span><br><span class="line">!isEmpty(target.path): INSTALLS += target</span><br></pre></td></tr></table></figure>
-<p><code>compute.h</code></p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">/***************************************************</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * @file       compute.h</span></span><br><span class="line"><span class="comment"> * @version    1.0</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * @author     AmosWu</span></span><br><span class="line"><span class="comment"> * @date       2020/09/02</span></span><br><span class="line"><span class="comment"> * @history    </span></span><br><span class="line"><span class="comment"> ***************************************************/</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> COMPUTE_H</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> COMPUTE_H</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;compute_global.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">COMPUTE_EXPORT</span> <span class="title">Compute</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    Compute();</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">sum</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span> y)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">diff</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span> y)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">double</span> <span class="title">prod</span><span class="params">(<span class="keyword">double</span> a, <span class="keyword">double</span> b)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">double</span> <span class="title">divi</span><span class="params">(<span class="keyword">double</span> a, <span class="keyword">double</span> b)</span></span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span> <span class="comment">// COMPUTE_H</span></span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p><code>compute_global.h</code></p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> COMPUTE_GLOBAL_H</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> COMPUTE_GLOBAL_H</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QtCore/qglobal.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">if</span> defined(COMPUTE_LIBRARY)</span></span><br><span class="line"><span class="meta">#  <span class="meta-keyword">define</span> COMPUTE_EXPORT Q_DECL_EXPORT</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">else</span></span></span><br><span class="line"><span class="meta">#  <span class="meta-keyword">define</span> COMPUTE_EXPORT Q_DECL_IMPORT</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span> <span class="comment">// COMPUTE_GLOBAL_H</span></span></span><br></pre></td></tr></table></figure>
-<p><code>compute.cpp</code></p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">/***************************************************</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * @file       compute.cpp</span></span><br><span class="line"><span class="comment"> * @version    1.0</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * @author     AmosWu</span></span><br><span class="line"><span class="comment"> * @date       2020/09/02</span></span><br><span class="line"><span class="comment"> * @history    </span></span><br><span class="line"><span class="comment"> ***************************************************/</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;compute.h&quot;</span></span></span><br><span class="line"></span><br><span class="line">Compute::Compute()</span><br><span class="line">&#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">Compute::sum</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span> y)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> x + y;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">Compute::diff</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span> y)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> x - y;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">double</span> <span class="title">Compute::prod</span><span class="params">(<span class="keyword">double</span> a, <span class="keyword">double</span> b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> a * b;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">double</span> <span class="title">Compute::divi</span><span class="params">(<span class="keyword">double</span> a, <span class="keyword">double</span> b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(b &gt; <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> a / b;</span><br><span class="line">        &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">999.99</span>;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>在编写完上述代码后，我们调试一下，或者构建不运行，就会在对应文件夹看到已经生成  <code>.lib</code> 和 <code>.dll</code>等库文件了。</p>
-<p> <img src="http://img.wehuihua.cn/blog/20200902145446.png" class="lazyload" data-srcset="http://img.wehuihua.cn/blog/20200902145446.png" srcset="data:image/png;base64,666" alt="image-20200902145444525"></p>
-<h2 id="调用动态库"><a href="#调用动态库" class="headerlink" title="调用动态库"></a>调用动态库</h2><h4 id="1-创建项目"><a href="#1-创建项目" class="headerlink" title="1.创建项目"></a>1.创建项目</h4><p><em>这里就不再赘述了了了了了了了了了了</em></p>
-<h4 id="2-拷贝头文件"><a href="#2-拷贝头文件" class="headerlink" title="2.拷贝头文件"></a>2.拷贝头文件</h4><p>将头文件拷贝到应用工程的目录下，对于大型项目要单独建立文件夹，这里是一个小 Demo ，我就直接放到根目录下了。</p>
-<p><img src="http://img.wehuihua.cn/blog/20200910124325.png" class="lazyload" data-srcset="http://img.wehuihua.cn/blog/20200910124325.png" srcset="data:image/png;base64,666" alt="image-20200910124324053"></p>
-<h4 id="3-引入dll"><a href="#3-引入dll" class="headerlink" title="3. 引入dll"></a>3. 引入dll</h4><p><code>.pro</code></p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">LIBS += ‪-LE:/Qt_code/build-compute-Desktop_Qt_5_14_0_MinGW_64_bit-Debug/compute.dll</span><br></pre></td></tr></table></figure>
-<p><code>main.cpp</code></p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;widget.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;compute.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QApplication&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QDebug&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="function">QApplication <span class="title">a</span><span class="params">(argc, argv)</span></span>;</span><br><span class="line">    Widget w;</span><br><span class="line">    w.setWindowTitle(QStringLiteral(<span class="string">&quot;简易计算器&quot;</span>));</span><br><span class="line"></span><br><span class="line">    Compute cal;</span><br><span class="line">    qDebug() &lt;&lt; <span class="string">&quot;Result:&quot;</span> &lt;&lt;  cal.sum(<span class="number">2</span>, <span class="number">10</span>) &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line"></span><br><span class="line">    w.show();</span><br><span class="line">    <span class="keyword">return</span> a.exec();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="4-拷贝-dll-到编译好的程序-exe-同级目录下"><a href="#4-拷贝-dll-到编译好的程序-exe-同级目录下" class="headerlink" title="4.拷贝 .dll 到编译好的程序 .exe 同级目录下"></a>4.拷贝 .dll 到编译好的程序 .exe 同级目录下</h4><p><img src="http://img.wehuihua.cn/blog/20200910124647.png" class="lazyload" data-srcset="http://img.wehuihua.cn/blog/20200910124647.png" srcset="data:image/png;base64,666" alt="image-20200910124645704"></p>
-<h4 id="5-调试运行"><a href="#5-调试运行" class="headerlink" title="5. 调试运行"></a>5. 调试运行</h4><p><img src="http://img.wehuihua.cn/blog/20200910123827.png" class="lazyload" data-srcset="http://img.wehuihua.cn/blog/20200910123827.png" srcset="data:image/png;base64,666" alt="image-20200910123826075"></p>
-<p>此篇仅做动态链接库知识基础，还有更多高级应用，请移步搜索引擎~</p>
 ]]></content>
       <categories>
         <category>新知</category>
@@ -589,66 +589,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Ubuntu Linux 学习笔记03</title>
-    <url>/2019/03/03/Ubuntu%20Linux%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003/</url>
-    <content><![CDATA[<blockquote>
-<p>Open source is not free.</p>
-</blockquote>
-<h2 id="Chapter-5-Ubuntu文件管理"><a href="#Chapter-5-Ubuntu文件管理" class="headerlink" title="Chapter 5.Ubuntu文件管理"></a>Chapter 5.Ubuntu文件管理</h2><ul>
-<li><strong>格式化分区</strong>  <code>mkfs</code></li>
-<li><strong>文件与目录的定义</strong><ul>
-<li>/etc   存放系统所需的重要配置与管理文件</li>
-<li>/dev   存放device file （装置文件）</li>
-<li>/boot  存放与系统激活的相关文件，是系统启动时用到的程序</li>
-<li>/home 登录用户的主目录就放在此目录下，以用户的名称作为/home 目录下各个子目录的名称</li>
-<li>/lib  存放许多系统激活时所需要的重要的共享函数库</li>
-<li>/usr/lib  存放一些应用程序的共享函数库</li>
-<li>/mnt    一般为空，是系统默认的挂载点</li>
-<li>/proc    虚拟文件系统，不占用硬盘空间，该目录下的文件均放置于内存中</li>
-<li>/root    系统管理用户root的主目录</li>
-<li>/bin    存放一些系统启动时所需要的普通程序和系统程序，及一些经常被其他程序调用的程序，是Linux常用的外部命令存放的目录</li>
-<li>/tmp   存放系统启动时产生的临时文件</li>
-<li>/var    存放被系统修改过的数据</li>
-</ul>
-</li>
-<li><strong>文件操作命令</strong><ul>
-<li>cat   串接文件或显示文件的内容</li>
-<li>cat a1.txt a2.txt &gt;&gt; a3.txt   或者  cat a.txt &gt; a1.txt 显示文件内容到文件</li>
-<li>串接输入内容到文件cat  &gt;a.txt  按下Ctrl + D 结束输入</li>
-<li>more 显示输入的 内容，然后根据窗口大小进行分页显示，在终端底部打印出“–More–”及已显示文本占全部文本的百分比</li>
-<li>head 显示文件的前n行或前c个字节，不带选项时，默认显示文件的前10行</li>
-<li>tail 显示文件的最后n行，默认值为10</li>
-<li>echo 输出字符串到基本输出，通常就是在显示器上输出，输出的字符串间以空白字符串隔开，并在最后加上换行号</li>
-<li>ls 列出目录的内容，是list的简写形式</li>
-<li>pwd 显示当前工作目录的完整路径，是Print Working Directory的简写</li>
-<li>cd  改变当前工作目录，是Change Directory 的简写</li>
-<li>touch  生成空文件和修改文件存取时间</li>
-<li>rm 删除一个目录中的若干个文件或子目录，在默认情况下，rm命令只能删除制定的文件，   <code>rm -rf /*</code>    表示的就是递归强制删除根目录下的所有文件，即格式化当前磁盘，是Remove的简写</li>
-<li>mkdir  创建指定名称的目录，要求创建目录的用户在当前目录中具有写权限，是Make Directory的简写</li>
-<li>rmdir  删除空目录，是Remove Directory的简写</li>
-<li>cp 将文件或目录复制到另一个文件或目录中，是Copy的简写</li>
-<li>mv 将文件或目录改名，或将文件由一个目录移入另一个目录，是Move的简写</li>
-<li>tar 是在Ubuntu中广泛使用的压缩解压命令，是tarball的简写</li>
-<li>chgrp 改变文件或目录的所属组，是Change Group的简写</li>
-<li>chown  将文件或目录的所有者改变为制定用户，还可以修改文件所属组群，是 Change Owner的简写</li>
-<li>chmod  改变文件或目录的访问权限，是Change Mode的简写</li>
-</ul>
-</li>
-</ul>
-]]></content>
-      <categories>
-        <category>新知</category>
-        <category>笔记</category>
-      </categories>
-      <tags>
-        <tag>2019</tag>
-        <tag>原创</tag>
-        <tag>Linux</tag>
-        <tag>Study</tag>
-        <tag>HBTU</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Ubuntu Linux 学习笔记04</title>
     <url>/2019/03/04/Ubuntu%20Linux%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004/</url>
     <content><![CDATA[<blockquote>
@@ -715,6 +655,66 @@
 <li>-e  不是执行命令，而是修改文件，相当于命令Sudoedit</li>
 </ul>
 </li>
+</ul>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>新知</category>
+        <category>笔记</category>
+      </categories>
+      <tags>
+        <tag>2019</tag>
+        <tag>原创</tag>
+        <tag>Linux</tag>
+        <tag>Study</tag>
+        <tag>HBTU</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Ubuntu Linux 学习笔记03</title>
+    <url>/2019/03/03/Ubuntu%20Linux%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003/</url>
+    <content><![CDATA[<blockquote>
+<p>Open source is not free.</p>
+</blockquote>
+<h2 id="Chapter-5-Ubuntu文件管理"><a href="#Chapter-5-Ubuntu文件管理" class="headerlink" title="Chapter 5.Ubuntu文件管理"></a>Chapter 5.Ubuntu文件管理</h2><ul>
+<li><strong>格式化分区</strong>  <code>mkfs</code></li>
+<li><strong>文件与目录的定义</strong><ul>
+<li>/etc   存放系统所需的重要配置与管理文件</li>
+<li>/dev   存放device file （装置文件）</li>
+<li>/boot  存放与系统激活的相关文件，是系统启动时用到的程序</li>
+<li>/home 登录用户的主目录就放在此目录下，以用户的名称作为/home 目录下各个子目录的名称</li>
+<li>/lib  存放许多系统激活时所需要的重要的共享函数库</li>
+<li>/usr/lib  存放一些应用程序的共享函数库</li>
+<li>/mnt    一般为空，是系统默认的挂载点</li>
+<li>/proc    虚拟文件系统，不占用硬盘空间，该目录下的文件均放置于内存中</li>
+<li>/root    系统管理用户root的主目录</li>
+<li>/bin    存放一些系统启动时所需要的普通程序和系统程序，及一些经常被其他程序调用的程序，是Linux常用的外部命令存放的目录</li>
+<li>/tmp   存放系统启动时产生的临时文件</li>
+<li>/var    存放被系统修改过的数据</li>
+</ul>
+</li>
+<li><strong>文件操作命令</strong><ul>
+<li>cat   串接文件或显示文件的内容</li>
+<li>cat a1.txt a2.txt &gt;&gt; a3.txt   或者  cat a.txt &gt; a1.txt 显示文件内容到文件</li>
+<li>串接输入内容到文件cat  &gt;a.txt  按下Ctrl + D 结束输入</li>
+<li>more 显示输入的 内容，然后根据窗口大小进行分页显示，在终端底部打印出“–More–”及已显示文本占全部文本的百分比</li>
+<li>head 显示文件的前n行或前c个字节，不带选项时，默认显示文件的前10行</li>
+<li>tail 显示文件的最后n行，默认值为10</li>
+<li>echo 输出字符串到基本输出，通常就是在显示器上输出，输出的字符串间以空白字符串隔开，并在最后加上换行号</li>
+<li>ls 列出目录的内容，是list的简写形式</li>
+<li>pwd 显示当前工作目录的完整路径，是Print Working Directory的简写</li>
+<li>cd  改变当前工作目录，是Change Directory 的简写</li>
+<li>touch  生成空文件和修改文件存取时间</li>
+<li>rm 删除一个目录中的若干个文件或子目录，在默认情况下，rm命令只能删除制定的文件，   <code>rm -rf /*</code>    表示的就是递归强制删除根目录下的所有文件，即格式化当前磁盘，是Remove的简写</li>
+<li>mkdir  创建指定名称的目录，要求创建目录的用户在当前目录中具有写权限，是Make Directory的简写</li>
+<li>rmdir  删除空目录，是Remove Directory的简写</li>
+<li>cp 将文件或目录复制到另一个文件或目录中，是Copy的简写</li>
+<li>mv 将文件或目录改名，或将文件由一个目录移入另一个目录，是Move的简写</li>
+<li>tar 是在Ubuntu中广泛使用的压缩解压命令，是tarball的简写</li>
+<li>chgrp 改变文件或目录的所属组，是Change Group的简写</li>
+<li>chown  将文件或目录的所有者改变为制定用户，还可以修改文件所属组群，是 Change Owner的简写</li>
+<li>chmod  改变文件或目录的访问权限，是Change Mode的简写</li>
 </ul>
 </li>
 </ul>
