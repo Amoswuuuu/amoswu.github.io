@@ -453,7 +453,7 @@
 
   
   <p>近期在Qt环境下编写C++代码时，我发现如果不安装 <code>Visual Stadio</code> 全家桶的话无法进行 <code>MSVC</code>编译。而我所面临的问题是，放在公司的这台笔记本存储空间只有<code>128GB</code>。对，你没有看错，是128G，而且是整个电脑。安装之前我忘记截图了，这里就po一张按照本文配置完后的磁盘截图。</p>
-<p><img src="http://img.wehuihua.cn/blog/20200820194349.png" class="lazyload" data-srcset="http://img.wehuihua.cn/blog/20200820194349.png" srcset="data:image/png;base64,666" alt="image-20200820194309682"></p>
+<p><img src="https://img.wehuihua.cn/blog/20200820194349.png" class="lazyload" data-srcset="https://img.wehuihua.cn/blog/20200820194349.png" srcset="data:image/png;base64,666" alt="image-20200820194309682"></p>
 <p>当时，我就产生了一个想法，难道微软这么大的厂，不安装它的全家桶不至于让我们编译不了吧。在经过一番搜索之后，我发现了一个非常棒的解决方案。经过我一个多小时的测试，非常有效！！！</p>
 <p>废话不多说了，上干货。</p>
 <hr>
@@ -484,7 +484,7 @@
 <li>Win 32bit环境下： <code>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\VisualStuidio\SxS\VS7</code></li>
 <li>Win 64bit环境下：<code>HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\VisualStuidio\SxS\VS7</code></li>
 </ol>
-<p><img src="http://img.wehuihua.cn/blog/20200821195746.png" class="lazyload" data-srcset="http://img.wehuihua.cn/blog/20200821195746.png" srcset="data:image/png;base64,666" alt="image-20200821195744303"></p>
+<p><img src="https://img.wehuihua.cn/blog/20200821195746.png" class="lazyload" data-srcset="https://img.wehuihua.cn/blog/20200821195746.png" srcset="data:image/png;base64,666" alt="image-20200821195744303"></p>
 <p>Qt Creator会遍历<code>SxS</code>文件夹下的每一个项来比对注册表的变化。</p>
 <ul>
 <li>如果键名（其实就是数字）大于 14（从 15 开始，即 msvc2017，那就把该键值（其实就是硬盘里的 vs 安装路径）后面拼接上 <code>/VC/Auxiliary/Build</code> 查看此处是不是有 <code>vcvarsall.bat</code> 文件。</li>
@@ -516,46 +516,46 @@
 <h5 id="Visual-Stadio-2019-生成工具的安装"><a href="#Visual-Stadio-2019-生成工具的安装" class="headerlink" title="Visual Stadio 2019 生成工具的安装"></a>Visual Stadio 2019 生成工具的安装</h5><ol>
 <li>打开已经下载好的安装包，第一次打开需要下载一些包文件，下载速度视网速决定，请耐心等待。</li>
 </ol>
-<p><img src="http://img.wehuihua.cn/blog/20200821202050.png" class="lazyload" data-srcset="http://img.wehuihua.cn/blog/20200821202050.png" srcset="data:image/png;base64,666" alt="image-20200821202048835"></p>
+<p><img src="https://img.wehuihua.cn/blog/20200821202050.png" class="lazyload" data-srcset="https://img.wehuihua.cn/blog/20200821202050.png" srcset="data:image/png;base64,666" alt="image-20200821202048835"></p>
 <ol start="2">
 <li>进入界面后，只需勾选<code>C++生成工具</code>，在右侧的<code>安装详细信息</code>菜单中再继续勾选你需要的工具。</li>
 </ol>
 <blockquote>
 <p>Tips：Qt 5.14 推荐采用 MSVC 2017，下图右侧也有 2017的可选项，但是该工具默认链接的是2019版，并且也能正常使用，所以就先不折腾了，保持默认，只勾图中左侧一个勾，右侧会自动勾选默认的几个选项。 然后就耐心等待联网下载和安装。</p>
 </blockquote>
-<p><img src="http://img.wehuihua.cn/blog/20200821202353.png" class="lazyload" data-srcset="http://img.wehuihua.cn/blog/20200821202353.png" srcset="data:image/png;base64,666" alt="image-20200821202351645"></p>
+<p><img src="https://img.wehuihua.cn/blog/20200821202353.png" class="lazyload" data-srcset="https://img.wehuihua.cn/blog/20200821202353.png" srcset="data:image/png;base64,666" alt="image-20200821202351645"></p>
 <p>等安装完毕，就可以关闭这个页面了。</p>
 <h5 id="3-增加Qt-Creator组件"><a href="#3-增加Qt-Creator组件" class="headerlink" title="3.增加Qt Creator组件"></a>3.增加Qt Creator组件</h5><p><em>如果你和我一样，在配置之前，已经安装完Qt Creator了，那请你继续看这一段。</em></p>
 <ul>
 <li> 打开Qt Creator安装目录</li>
 </ul>
-<p><img src="http://img.wehuihua.cn/blog/20200831164028.png" class="lazyload" data-srcset="http://img.wehuihua.cn/blog/20200831164028.png" srcset="data:image/png;base64,666" alt="image-20200831164019946"></p>
+<p><img src="https://img.wehuihua.cn/blog/20200831164028.png" class="lazyload" data-srcset="https://img.wehuihua.cn/blog/20200831164028.png" srcset="data:image/png;base64,666" alt="image-20200831164019946"></p>
 <ul>
 <li>打开<code>MaintenanceTool.exe</code></li>
 </ul>
-<p><img src="http://img.wehuihua.cn/blog/20200831164312.png" class="lazyload" data-srcset="http://img.wehuihua.cn/blog/20200831164312.png" srcset="data:image/png;base64,666" alt="image-20200831164309640"></p>
-<p><img src="http://img.wehuihua.cn/blog/20200831164340.png" class="lazyload" data-srcset="http://img.wehuihua.cn/blog/20200831164340.png" srcset="data:image/png;base64,666" alt="image-20200831164338045"></p>
+<p><img src="https://img.wehuihua.cn/blog/20200831164312.png" class="lazyload" data-srcset="https://img.wehuihua.cn/blog/20200831164312.png" srcset="data:image/png;base64,666" alt="image-20200831164309640"></p>
+<p><img src="https://img.wehuihua.cn/blog/20200831164340.png" class="lazyload" data-srcset="https://img.wehuihua.cn/blog/20200831164340.png" srcset="data:image/png;base64,666" alt="image-20200831164338045"></p>
 <ul>
 <li>单击右下角<code>设置</code>，再单击<code>资料档案库</code>，添加<code>临时资料档案库</code>，地址是<code>http://mirrors.ustc.edu.cn/qtproject/online/qtsdkrepository/windows_x86/root/qt/</code></li>
 </ul>
-<p><img src="http://img.wehuihua.cn/blog/20200831164651.png" class="lazyload" data-srcset="http://img.wehuihua.cn/blog/20200831164651.png" srcset="data:image/png;base64,666" alt="image-20200831164649634"></p>
+<p><img src="https://img.wehuihua.cn/blog/20200831164651.png" class="lazyload" data-srcset="https://img.wehuihua.cn/blog/20200831164651.png" srcset="data:image/png;base64,666" alt="image-20200831164649634"></p>
 <p><em>Ps : 这里有个大坑，必须说一下，下载元信息响应会很慢，稍等10分钟左右就可以了。</em></p>
-<p><img src="http://img.wehuihua.cn/blog/20200831164936.png" class="lazyload" data-srcset="http://img.wehuihua.cn/blog/20200831164936.png" srcset="data:image/png;base64,666" alt="image-20200831164932459"></p>
+<p><img src="https://img.wehuihua.cn/blog/20200831164936.png" class="lazyload" data-srcset="https://img.wehuihua.cn/blog/20200831164936.png" srcset="data:image/png;base64,666" alt="image-20200831164932459"></p>
 <ul>
 <li>选择要添加的组件</li>
 </ul>
-<p><img src="http://img.wehuihua.cn/blog/20200831165239.png" class="lazyload" data-srcset="http://img.wehuihua.cn/blog/20200831165239.png" srcset="data:image/png;base64,666" alt="image-20200831165236555"></p>
+<p><img src="https://img.wehuihua.cn/blog/20200831165239.png" class="lazyload" data-srcset="https://img.wehuihua.cn/blog/20200831165239.png" srcset="data:image/png;base64,666" alt="image-20200831165236555"></p>
 <h5 id="4-环境配置【重要！！！】"><a href="#4-环境配置【重要！！！】" class="headerlink" title="4.环境配置【重要！！！】"></a>4.环境配置【重要！！！】</h5><p>如果这时候你直接打开Qt Creator，你会发现编程器里面还是空的。别着急，要想让自动Qt Creator 检测刚刚安好的编译器，还有关键一步。</p>
 <ul>
 <li>关闭 Qt Creator；</li>
 <li>按下 <code>Windows + R </code>在弹出的窗口输入<code>regedit</code>，打开注册表编辑器；</li>
 </ul>
-<p><img src="http://img.wehuihua.cn/blog/20200831170221.png" class="lazyload" data-srcset="http://img.wehuihua.cn/blog/20200831170221.png" srcset="data:image/png;base64,666" alt="image-20200831170218746"></p>
+<p><img src="https://img.wehuihua.cn/blog/20200831170221.png" class="lazyload" data-srcset="https://img.wehuihua.cn/blog/20200831170221.png" srcset="data:image/png;base64,666" alt="image-20200831170218746"></p>
 <ul>
 <li>打开后，在输入框粘贴下方的路径</li>
 </ul>
 <p><code>\HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\VisualStudio</code></p>
-<p><img src="http://img.wehuihua.cn/blog/20200831170315.png" class="lazyload" data-srcset="http://img.wehuihua.cn/blog/20200831170315.png" srcset="data:image/png;base64,666" alt="image-20200831170314139"></p>
+<p><img src="https://img.wehuihua.cn/blog/20200831170315.png" class="lazyload" data-srcset="https://img.wehuihua.cn/blog/20200831170315.png" srcset="data:image/png;base64,666" alt="image-20200831170314139"></p>
 <ul>
 <li>右击，新建 -&gt; 项 ，连续新建两项，注意<strong>层次关系和大小写。</strong> </li>
 </ul>
@@ -565,15 +565,15 @@
 <p>至此，再打开 Qt Creator 会发现已经自动识别编译环境并且添加好了。</p>
 <hr>
 <p>当你兴奋地去新建一个测试程序时，你会发现一个新问题，这个编译环境不能单步调试。这是因为当前 Qt 无法调用 <code>cdb.exe</code>所致。下面我们手动为 Qt 与 cdb 工具建立链接。</p>
-<h5 id="1-打开控制面板"><a href="#1-打开控制面板" class="headerlink" title="1. 打开控制面板"></a>1. 打开控制面板</h5><p><img src="http://img.wehuihua.cn/blog/20200831171455.png" class="lazyload" data-srcset="http://img.wehuihua.cn/blog/20200831171455.png" srcset="data:image/png;base64,666" alt="image-20200831171453173"></p>
+<h5 id="1-打开控制面板"><a href="#1-打开控制面板" class="headerlink" title="1. 打开控制面板"></a>1. 打开控制面板</h5><p><img src="https://img.wehuihua.cn/blog/20200831171455.png" class="lazyload" data-srcset="https://img.wehuihua.cn/blog/20200831171455.png" srcset="data:image/png;base64,666" alt="image-20200831171453173"></p>
 <p>依次找到 <code>程序 -&gt; 程序和功能</code> ，右击截图中的 Windows SDK ，选择 <code>更改</code>。</p>
-<p><img src="http://img.wehuihua.cn/blog/20200831171635.png" class="lazyload" data-srcset="http://img.wehuihua.cn/blog/20200831171635.png" srcset="data:image/png;base64,666" alt="image-20200831171633586"></p>
+<p><img src="https://img.wehuihua.cn/blog/20200831171635.png" class="lazyload" data-srcset="https://img.wehuihua.cn/blog/20200831171635.png" srcset="data:image/png;base64,666" alt="image-20200831171633586"></p>
 <p>选择 <code>Change</code></p>
-<p><img src="http://img.wehuihua.cn/blog/20200831171754.png" class="lazyload" data-srcset="http://img.wehuihua.cn/blog/20200831171754.png" srcset="data:image/png;base64,666" alt="image-20200831171751694"></p>
+<p><img src="https://img.wehuihua.cn/blog/20200831171754.png" class="lazyload" data-srcset="https://img.wehuihua.cn/blog/20200831171754.png" srcset="data:image/png;base64,666" alt="image-20200831171751694"></p>
 <p>勾选图中的选项。</p>
-<p><img src="http://img.wehuihua.cn/blog/20200831171857.png" class="lazyload" data-srcset="http://img.wehuihua.cn/blog/20200831171857.png" srcset="data:image/png;base64,666" alt="image-20200831171854682"></p>
+<p><img src="https://img.wehuihua.cn/blog/20200831171857.png" class="lazyload" data-srcset="https://img.wehuihua.cn/blog/20200831171857.png" srcset="data:image/png;base64,666" alt="image-20200831171854682"></p>
 <p>再次重启，Qt Creator ，你会发现 <code>Debugger</code>下拉框里已经探测到 cdb 了。</p>
-<p><img src="http://img.wehuihua.cn/blog/20200831172235.png" class="lazyload" data-srcset="http://img.wehuihua.cn/blog/20200831172235.png" srcset="data:image/png;base64,666" alt="image-20200831172232742"></p>
+<p><img src="https://img.wehuihua.cn/blog/20200831172235.png" class="lazyload" data-srcset="https://img.wehuihua.cn/blog/20200831172235.png" srcset="data:image/png;base64,666" alt="image-20200831172232742"></p>
 <blockquote>
 <p>参考文章：</p>
 <p><a target="_blank" rel="noopener" href="https://hacpai.com/article/1592296047699#%E6%AD%A3%E7%A1%AE%E5%9C%A8-Windows-%E4%B8%8A%E9%85%8D%E7%BD%AE-MSVC-2019--%E4%BD%9C%E4%B8%BA-Qt-%E7%BC%96%E8%AF%91%E5%99%A8">正确在 Windows 上配置 MSVC(2019) 作为 Qt 编译器</a></p>
@@ -612,10 +612,10 @@
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-01-03T00:39:40+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-01-12T23:48:38+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：2021年1月3日</p>
+    <p>更新于：2021年1月12日</p>
   </a>
 </div>
 
