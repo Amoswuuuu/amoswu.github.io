@@ -5,10 +5,6 @@
   <!-- SEO相关 -->
   
     
-      
-        <meta name="robots" content="noindex,follow">
-      
-    
   
   <!-- 渲染优化 -->
   <meta http-equiv='x-dns-prefetch-control' content='on' />
@@ -23,7 +19,9 @@
 
   <!-- 页面元数据 -->
   
-  <title>Amos&#39;Blog</title>
+  <title>Markdown 从零开始 - Amos&#39;Blog</title>
+  
+    <meta name="keywords" content="原创,笔记,2021,Markdown">
   
 
   
@@ -321,7 +319,7 @@
       <div id="l_cover">
   
     
-        <div id="full" class='cover-wrapper  search' style="display: none;">
+        <div id="full" class='cover-wrapper post search' style="display: none;">
           
             <div id='cover-backstretch'></div>
           
@@ -361,672 +359,379 @@
           
 
 <div class='l_main'>
+  <article class="article post white-box reveal md shadow article-type-post" id="post" itemscope itemprop="blogPost">
   
-  <section class="post-list">
-    
-    
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
+
+
   
     <div class='headimg-div'>
-      <a class='headimg-a' href="/2019/04/27/Windows%E8%A3%85%E6%9C%BA%E7%9B%B8%E5%85%B3%E9%97%AE%E9%A2%98/">
-        <img class='headimg' src='https://cdn.amoswu.cn/blog/post-bg-debug.png'/>
+      <a class='headimg-a'>
+        <img class='headimg' src='https://cdn.amoswu.cn/blog/20210304222238.png'/>
       </a>
+    </div>
+  
+  <div class="article-meta" id="top">
+    
+    
+    
+      <h1 class="title">
+        Markdown 从零开始
+      </h1>
+      <div class='new-meta-box'>
+        
+          
+            
+<div class='new-meta-item author'>
+  <a class='author' href="/" rel="nofollow">
+    <img no-lazy src="https://cdn.amoswu.cn/blog/avatar.jpg">
+    <p>Amos</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  <div class='new-meta-item category'>
+    <a class='notlink'>
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <a class="category-link" href="/categories/%E6%95%99%E7%A8%8B/">教程</a><span class="sep"></span><a class="category-link" href="/categories/%E6%95%99%E7%A8%8B/%E7%AC%94%E8%AE%B0/">笔记</a>
+    </a>
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：2021年3月4日</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  <div class="new-meta-item browse leancloud">
+    <a class='notlink'>
+      
+      <div id="lc-pv" data-title="Markdown 从零开始" data-path="/2021/03/04/Markdown%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B/">
+        <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
+        <span id='number'><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
+        次浏览
+      </div>
+    </a>
+  </div>
+
+
+          
+        
+          
+            
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>字数：2k字</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>时长：7分钟</p>
+    </a>
+  </div>
+
+
+          
+        
+      </div>
+    
+  </div>
+
+
+  
+  <p><img src="https://cdn.amoswu.cn/blog/20210304222247.png" class="lazyload" data-srcset="https://cdn.amoswu.cn/blog/20210304222247.png" srcset="data:image/png;base64,666"></p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="http://zh.wikipedia.org/wiki/Markdown">Markdown</a> 是一种轻量级的「标记语言」，它的优点很多，自2004年被 John Gruber 发明以来，它已经发展成了世界上最受欢迎的标记语言之一。它也被越来越多的写作爱好者，撰稿者广泛使用。看到这里请不要被「标记」、「语言」所迷惑，Markdown 的语法十分简单。常用的标记符号也不超过十个，所以它的学习成本极低。</p>
+</blockquote>
+<h2 id="认识-Markdown"><a href="#认识-Markdown" class="headerlink" title="认识 Markdown"></a>认识 Markdown</h2><p>正如前言所说，<strong>Markdown 是一种标记语言</strong>。所谓标记语言，字面意思可以理解为把我们写下的文字标记成统一的样式。说人话就是，它可以让使用者不用关注排版、样式、各种设置等繁琐操作，让使用者真正专注于书写。</p>
+<p>既然是一种语言，它就会有特定的编辑器（专业术语也叫IDE）。Markdown 编辑器发展到现在已经不再是单一系统或单一形式的存在了。从 Windows 、Linux 再到 MacOS，从 Web、桌面客户端到手机 APP ，到处都有 Markdown 的身影，可以说是<strong>随时随地 Markdown</strong>。</p>
+<h2 id="学习-Markdown-的理由"><a href="#学习-Markdown-的理由" class="headerlink" title="学习 Markdown 的理由"></a>学习 Markdown 的理由</h2><p>当你可以通过按下界面中的按钮来设置文本格式时，为什么还要使用 Markdown 来书写呢？大家目前公认的使用 Markdown 而不是 word 类编辑器的原因有：</p>
+<ul>
+<li><strong>Markdown 无处不在。</strong>StackOverflow、CSDN、掘金、简书、GitBook、有道云笔记、V2EX、光谷社区、微信公众号等。主流的代码托管平台，如 GitHub、GitLab、BitBucket、Coding、Gitee 等等，都支持 Markdown 语法，很多开源项目的 README、开发文档、帮助文档、Wiki 等都用 Markdown 写作。大型互联网公司的内部文档管理系统，如阿里语雀、字节跳动飞书文档等等，都是使用 Markdown 作为书写载体进而达到知识的统一管理；</li>
+<li><strong>Markdown 是纯文本可移植的。</strong>几乎可以使用任何应用程序打开包含 Markdown 格式的文本文件。如果你不喜欢当前使用的 Markdown 编辑器了，则可以将 Markdown 文件导入任意一个你喜欢的 Markdown 编辑器中；</li>
+<li><strong>Markdown 是独立于平台的</strong>。你可以在运行任何操作系统的任何设备上创建 Markdown 格式的文本，无论是 PC 、移动 APP 甚至 Web 网页 ；</li>
+<li><strong>Markdown 能适应未来的变化。</strong>即使你正在使用的编辑器将来会在某个时刻不能使用了，你仍然可以使用文本编辑器读取 Markdown 格式的文本。当涉及需要无限期保存的书籍、大学论文和其他里程碑式的文件时，这是一个重要的考虑因素；</li>
+<li>······</li>
+</ul>
+<p>简单说，我个人认为使用 Markdown 写作的理由有五个：</p>
+<ol>
+<li><strong>简单易学</strong>——学习成本低，结合可视化编辑器十分钟就能上手；</li>
+<li><strong>专注写作</strong>——可以让我只关心于写作内容；</li>
+<li><strong>轻松导出</strong>——方便导出其他的文档格式；</li>
+<li><strong>格式多样</strong>——导出格式多种多样111，如 PDF、HTML、Word、EPUB等等；</li>
+<li><strong>方便管理</strong>——不必纠结于文档格式和保存形式，方便统一管理。</li>
+</ol>
+<h2 id="Markdown-的原理"><a href="#Markdown-的原理" class="headerlink" title="Markdown 的原理"></a>Markdown 的原理</h2><p>在使用 Markdown 格式书写时，文本内容存储在带有 <code>.md</code> 或 <code>.markdown</code> 扩展名的纯文本文件中。那然后呢？你的 Markdown 格式的文件如何转换为 HTML 或可打印的文档呢？</p>
+<p>简单来说，你需要一个能够处理 Markdown 文件的 <em>Markdown 应用程序</em>。有许多应用程序可供选择，从简单的脚本到类似于 Microsoft Word 的桌面应用程序。尽管它们在视觉上有所不同，但所有应用程序都执行相同的操作。像 <a target="_blank" rel="noopener" href="https://markdown.com.cn/editor/">在线 Markdown 编辑器</a> 一样，它们都是将 Markdown 格式的文本转换为 HTML，以便可以在 Web 浏览器中显示。</p>
+<p>Markdown 应用程序使用一种称为 <em>Markdown 处理器</em>（也通常称为“解析器”或“实现”）的东西将获取到的 Markdown 格式的文本输出为 HTML 格式。此时，可以在 Web 浏览器中查看你的文档，或者将其与样式表组合并打印。你可以在下图看到此过程的直观表示。</p>
+<p><strong>注意：</strong> Markdown 应用程序和处理器是两个单独的组件。为了简洁起见，在下图中，我将它们组合为一个元素（即 “Markdown应用程序”）。</p>
+<h2 id="Markdown-编辑器推荐"><a href="#Markdown-编辑器推荐" class="headerlink" title="Markdown 编辑器推荐"></a>Markdown 编辑器推荐</h2><p>对于一下编辑器，直接搜索引擎搜索安装即可。</p>
+<h3 id="Windows-平台"><a href="#Windows-平台" class="headerlink" title="Windows 平台"></a>Windows 平台</h3><ul>
+<li>Typora</li>
+<li>Vditor</li>
+<li>Vs Code</li>
+<li>Atom</li>
+<li>Vim</li>
+<li>Sublime Text</li>
+<li>Notepad++</li>
+</ul>
+<h3 id="Linux-平台"><a href="#Linux-平台" class="headerlink" title="Linux 平台"></a>Linux 平台</h3><ul>
+<li>Typora</li>
+<li>Vditor</li>
+<li>UberWriter</li>
+<li>GNU Emacs</li>
+<li>Atom</li>
+<li>Vim</li>
+</ul>
+<h3 id="MacOS-iOS"><a href="#MacOS-iOS" class="headerlink" title="MacOS | iOS"></a>MacOS | iOS</h3><ul>
+<li>Mou</li>
+<li>iA Writer</li>
+<li>Ulysses</li>
+<li>Writer Pro</li>
+<li>Typora</li>
+</ul>
+<h3 id="Web-在线使用"><a href="#Web-在线使用" class="headerlink" title="Web 在线使用"></a>Web 在线使用</h3><ul>
+<li>印象笔记</li>
+<li>有道云笔记</li>
+<li>语雀</li>
+<li>StackEdit</li>
+<li>Dillinger</li>
+</ul>
+<h3 id="Android"><a href="#Android" class="headerlink" title="Android"></a>Android</h3><ul>
+<li>麻雀记</li>
+<li>纯纯写作</li>
+<li>言叶</li>
+<li>Markdrop</li>
+</ul>
+<h2 id="十分钟入门"><a href="#十分钟入门" class="headerlink" title="十分钟入门"></a>十分钟入门</h2><blockquote>
+<p>说明：</p>
+<ul>
+<li>教程验证环境——</li>
+</ul>
+<p><code>操作系统（OS） - Windows10 Home 20H2 x64</code>  </p>
+<p><code>编辑器（IDE） - Typora v0.9.96</code></p>
+<ul>
+<li>教程全文遵循 Markdown <a target="_blank" rel="noopener" href="https://github.github.com/gfm/?utm_source=ld246.com">GFM 语法规范</a>，如果和其他规范有差别，请以 Github 官方发布的规范为准。</li>
+<li>以下为源代码模式写作教程，如果你认为此种方式学习仍然比较困难，我推荐你使用 <code>Typora</code> 这类编辑器，可以图形化操作，直接右击鼠标点击你想要写的格式即可。</li>
+</ul>
+</blockquote>
+<h3 id="标题"><a href="#标题" class="headerlink" title="标题"></a>标题</h3><p><img src="https://cdn.amoswu.cn/blog/20210304222635.jpeg" class="lazyload" data-srcset="https://cdn.amoswu.cn/blog/20210304222635.jpeg" srcset="data:image/png;base64,666" alt="img"></p>
+<p>标题是每篇文章都需要也是最常用的格式，在 Markdown 中，如果一段文字被定义为标题，只要在这段文字前加 <code>#</code> 号即可。</p>
+<p><code># 一级标题</code></p>
+<p><code>## 二级标题</code></p>
+<p><code>### 三级标题</code></p>
+<p>以此类推，总共<strong>六级</strong>标题，建议在井号后加一个空格，这是最标准的 Markdown 语法。</p>
+<h3 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h3><p><img src="https://cdn.amoswu.cn/blog/20210304222701.jpeg" class="lazyload" data-srcset="https://cdn.amoswu.cn/blog/20210304222701.jpeg" srcset="data:image/png;base64,666" alt="img"></p>
+<p>熟悉 HTML 的同学肯定知道有序列表与无序列表的区别，在 Markdown 下，列表的显示只需要在文字前加上 <code>-</code> 或 <code>*</code> 即可变为无序列表，有序列表则直接在文字前加 <code>1.</code> <code>2.</code> <code>3.</code> 符号要和文字之间加上一个字符的空格。</p>
+<h3 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h3><p><img src="https://cdn.amoswu.cn/blog/20210304222749.jpeg" class="lazyload" data-srcset="https://cdn.amoswu.cn/blog/20210304222749.jpeg" srcset="data:image/png;base64,666" alt="img"></p>
+<p>如果你需要引用一小段别处的句子，那么就要用引用的格式。</p>
+<p><code>&gt; 例如这样</code></p>
+<p>只需要在文本前加入 <code>&gt;</code> 这种尖括号（大于号）即可</p>
+<h3 id="图片与链接"><a href="#图片与链接" class="headerlink" title="图片与链接"></a>图片与链接</h3><p><img src="https://cdn.amoswu.cn/blog/20210304223106.jpeg" class="lazyload" data-srcset="https://cdn.amoswu.cn/blog/20210304223106.jpeg" srcset="data:image/png;base64,666" alt="img"></p>
+<p>插入链接与插入图片的语法很像，区别在一个 <code>!</code>号</p>
+<p>插入图片的地址需要图床，这里推荐 <code>PicGo</code> + <code>Github / 七牛云</code>的形式，生成URL地址即可。</p>
+<p>如果是内网，只需将图片和 Markdown 文件放到同一级目录后插入图片即可。</p>
+<h3 id="粗体与斜体"><a href="#粗体与斜体" class="headerlink" title="粗体与斜体"></a>粗体与斜体</h3><p>Markdown 的粗体和斜体也非常简单，用两个 <code>*</code> 包含一段文本就是粗体的语法，用一个 <code>*</code> 包含一段文本就是斜体的语法。</p>
+<p>例如：<strong>这里是粗体</strong> <em>这里是斜体</em></p>
+<h3 id="表格"><a href="#表格" class="headerlink" title="表格"></a>表格</h3><p>表格是我觉得 Markdown 比较累人的地方，例子如下：</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">| Tables        | Are           | Cool  |</span><br><span class="line"></span><br><span class="line"><span class="code">	</span></span><br><span class="line"><span class="code">| ------------- |:-------------:| -----:|</span></span><br><span class="line"><span class="code"></span></span><br><span class="line"><span class="code">	</span></span><br><span class="line"><span class="code">| col 3 is      | right-aligned | $1600 |</span></span><br><span class="line"><span class="code"></span></span><br><span class="line"><span class="code">	</span></span><br><span class="line"><span class="code">| col 2 is      | centered      |   $12 |</span></span><br><span class="line"><span class="code"></span></span><br><span class="line"><span class="code">	</span></span><br><span class="line"><span class="code">| zebra stripes | are neat      |    $1 |</span></span><br></pre></td></tr></table></figure>
+<p>这种语法生成的表格如下：</p>
+<table>
+<thead>
+<tr>
+<th>Tables</th>
+<th>Are</th>
+<th>Cool</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>col 3 is</td>
+<td>right-aligned</td>
+<td>$1600</td>
+</tr>
+<tr>
+<td>col 2 is</td>
+<td>centered</td>
+<td>$12</td>
+</tr>
+<tr>
+<td>zebra stripes</td>
+<td>are neat</td>
+<td>$1</td>
+</tr>
+</tbody></table>
+<h3 id="代码框"><a href="#代码框" class="headerlink" title="代码框"></a>代码框</h3><p><img src="https://cdn.amoswu.cn/blog/20210304223448.jpeg" class="lazyload" data-srcset="https://cdn.amoswu.cn/blog/20210304223448.jpeg" srcset="data:image/png;base64,666" alt="img"></p>
+<p>如果你是个程序猿，需要在文章里优雅的引用代码框，在 Markdown 下实现也非常简单，只需要用两个 <code>``</code>  把中间的代码包裹起来，如   <code>code</code>。编辑代码过程中，使用 <code>tab</code> 键即可缩进。</p>
+<h3 id="分割线"><a href="#分割线" class="headerlink" title="分割线"></a>分割线</h3><p>分割线的语法只需要另起一行，连续输入三个星号 <code>***</code> 即可。</p>
+<hr>
+<p>好了，看到这里你就可以安心使用 Markdown 简单书写你想写的一切东西了。不过，我还要提醒你的是，这只是其中最简单的部分，如果你想了解更多，欢迎查询相关资料进行进阶学习。</p>
+<p>*<em>部分图片来源于网络</em></p>
+<blockquote>
+<p>参考内容：</p>
+<p>[1] 少数派 - <a target="_blank" rel="noopener" href="https://sspai.com/post/25137">认识与入门 Markdown</a></p>
+<p>[2] 链滴- <a target="_blank" rel="noopener" href="https://ld246.com/article/1583129520165">Markdown 使用指南 - 基础语法</a></p>
+<p>[3] Daring Fireball-<a target="_blank" rel="noopener" href="https://daringfireball.net/projects/markdown/">Daring Fireball: Markdown</a></p>
+<p>[4] Github - <a target="_blank" rel="noopener" href="https://github.github.com/gfm/">GitHub Flavored Markdown Spec</a></p>
+</blockquote>
+
+  
+  
+    
+    <div class='footer'>
+      
+      
+      
+        <div class='copyright'>
+          <blockquote>
+            
+              
+                <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
+              
+            
+              
+                <p>本文永久链接是：<a href=https://blog.amoswu.cn/2021/03/04/Markdown%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B/>https://blog.amoswu.cn/2021/03/04/Markdown%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B/</a></p>
+              
+            
+          </blockquote>
+        </div>
+      
+      
     </div>
   
   
     
-    <h2 class="article-title" >
-      <a href="/2019/04/27/Windows%E8%A3%85%E6%9C%BA%E7%9B%B8%E5%85%B3%E9%97%AE%E9%A2%98/">
-        Windows装机相关问题之装机知识扫盲
-      </a>
-    </h2>
+
+
+  <div class='article-meta' id="bottom">
+    <div class='new-meta-box'>
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-03-04T22:49:16+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：2021年3月4日</p>
+  </a>
+</div>
+
+        
+      
+        
+          
   
-  <div class='md'>
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/%E5%8E%9F%E5%88%9B/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>原创</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/%E7%AC%94%E8%AE%B0/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>笔记</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/2021/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>2021</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Markdown/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Markdown</p></a></div>
+
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
     
       
-        众所周知，电脑系统崩溃，除了恢复出厂设置之外，就需要重装系统了。重装系统也称之为装机，装机之前就需要做好准备工作，准备工作之一就是先了解下面几个问题。
-硬盘分区格式目前主流的电脑硬盘分区格式有两种，一种是GUID（GUID Partition Table，缩写：GPT），另一种是MBR（Main Boot Record）。
-定义GUID：
-定义1——
-
-A GUID is an acrony...
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://blog.amoswu.cn/2021/03/04/Markdown%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B/&title=Markdown 从零开始 - Amos'Blog&summary="
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qq.png" class="lazyload" data-srcset="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qq.png" srcset="data:image/png;base64,666">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://blog.amoswu.cn/2021/03/04/Markdown%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B/&title=Markdown 从零开始 - Amos'Blog&summary="
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qzone.png" class="lazyload" data-srcset="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qzone.png" srcset="data:image/png;base64,666">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="http://service.weibo.com/share/share.php?url=https://blog.amoswu.cn/2021/03/04/Markdown%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B/&title=Markdown 从零开始 - Amos'Blog&summary="
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/weibo.png" class="lazyload" data-srcset="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/weibo.png" srcset="data:image/png;base64,666">
+          
+        </a>
+      
+    
+      
+        
+        <div class='hoverbox'>
+          <a class='share'><img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org@1.1.3/logo/128/qrcode.png" class="lazyload" data-srcset="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org@1.1.3/logo/128/qrcode.png" srcset="data:image/png;base64,666"></a>
+          <div class='target'>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAVgAAAFYCAAAAAAzB7ucAAAEb0lEQVR42u3aQZKjMAwF0Nz/0j0HmOpC+hKGdD3vSIixn1lIij4/xi3jgwAsWAMsWLAG2COwn3D8N+Fwnunn1fX9dr22D7BgwYIFCxYsWLBHYcsB8MX9VZjq993nVqG74OXfgwULFixYsGDBgn0EthrIpwF1FSb9vppYdK/L84EFCxYsWLBgwYL9KthpID8tTKfr354PLFiwYMGCBQsW7HfBVgvEWwH6tJA9TYDAggULFixYsGDBvgt2ClNttOhCdQP+6vzHGjbAggULFixYsGDB3gKbNl781evYAyxYsGDBggULFuwR2OlIGynSxoy0sL2VEFx6gAULFixYsGDBgj0Cu9UgsVWA7jZkVOG31wcWLFiwYMGCBQv23bDbBeGtg+qCp40c1d+DBQsWLFiwYMGCfTdsFb5aEO8G/t3APj2wboICFixYsGDBggUL9hnYKVR3I9X531pwLycIYMGCBQsWLFiwYG+FnSYC7UB6WDjvrnfrxblMMMCCBQsWLFiwYMEeha0G0tMAfivRSOeZNm60GzbAggULFixYsGDBHoHtLmi7cWLrAKf76SYiYMGCBQsWLFiwYJ+FvbvxIS1Apy/AtOD+0xxgwYIFCxYsWLBgn4VN4bYK52lBeqsRJV4HWLBgwYIFCxYs2COw3YaG7e/vLlBvFbTLLwJYsGDBggULFizYI7B3B953BfrTFyNNkC4PECxYsGDBggULFuwR2C3g7sar92/N1w304+eDBQsWLFiwYMGCPQKbBvbTQHtaeJ4eWHrAl/sECxYsWLBgwYIFewS2CrO1ka1EI22smBbyLz8HCxYsWLBgwYIFexS2+6DpdRW027CRJhK3/YMAFixYsGDBggUL9ta+gmng3d1AF3brOZ/iiBMgsGDBggULFixYsEdg04A5XWD3AKsb3Cpojw8OLFiwYMGCBQsW7BHYrYV2C9Hdee6CSRMUsGDBggULFixYsO+A7W64myCkCUG5UWJ5XfE6wIIFCxYsWLBgwT4C2w2808aH6X1pYXy6XrBgwYIFCxYsWLDvgp02bKSF67vvnxbGuwcCFixYsGDBggUL9hnYaqA9Dbi3EoFuYN99MdoJCFiwYMGCBQsWLNhHYdNAfCtRmAb0Ww0f7RcNLFiwYMGCBQsW7COwXajuwqcF9WkAv1W4/3U+sGDBggULFixYsI/Cdht2txog0gJ8evCfcIAFCxYsWLBgwYJ9FnarQDwN7LcbN25ryLi6BgsWLFiwYMGCBXsEditATjdeLbBPC9ZpYtJNYMCCBQsWLFiwYMGehd1uvEgbMaYHO01wqgf76+dgwYIFCxYsWLBgH4HdCqCrG+g2ZqQHnRbmu+sGCxYsWLBgwYIF+12w04aNNCCfFsq3GjvAggULFixYsGDBfjdsWujeKlinB5smCmDBggULFixYsGDfATstOKeNGtMEYXs/cUMKWLBgwYIFCxYs2KOw3dFtmJgG3lsHW503XS9YsGDBggULFizYM7DG7gALFqwBFixYA+yt4x9zIpm+K5e8GQAAAABJRU5ErkJggg==">
+          </div>
+        </div>
       
     
   </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2019-04-27</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/%E7%A7%91%E6%99%AE/">科普</a>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2019/04/27/Windows%E8%A3%85%E6%9C%BA%E7%9B%B8%E5%85%B3%E9%97%AE%E9%A2%98/'>
-            阅读全文
-          </a>
-        </div>
-      
-    </div>
-  
-
 </div>
 
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-    <div class='headimg-div'>
-      <a class='headimg-a' href="/2019/03/24/Windows%E8%BD%AF%E4%BB%B6%E7%B3%BB%E5%88%97%E6%8E%A8%E8%8D%90%E8%AF%B4%E6%98%8E-2/">
-        <img class='headimg' src='https://cdn.amoswu.cn/blog/post-bg-debug.png'/>
-      </a>
-    </div>
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2019/03/24/Windows%E8%BD%AF%E4%BB%B6%E7%B3%BB%E5%88%97%E6%8E%A8%E8%8D%90%E8%AF%B4%E6%98%8E-2/">
-        Windows软件系列推荐说明-2
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        日常使用那些事儿输入工具序号：1
-软件名称：搜狗输入法智慧版
-推荐指数：☆☆☆☆
-推荐理由：
-​    搜狗输入法的官方优化版，新增了诸如”情景感知“、”文思泉涌“、”妙笔生花“、”搜狗卷轴“等等功能。在去掉正式版广告的同时，增加了更人性化的”取消热词弹窗“的选项。
 
-软件简介：
-​    搜狗拼音推出的新概念的“搜狗拼音输入法智慧版”，除了完美支持 Windows8、Windows10 之...
+
+        
       
-    
+    </div>
   </div>
+
+
   
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2019-03-24</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/%E6%8E%A8%E8%8D%90/">推荐</a>
-        
-      </div>
+  
+
+  
+    <div class="prev-next">
       
-        <div>
-          <a class='readmore' href='/2019/03/24/Windows%E8%BD%AF%E4%BB%B6%E7%B3%BB%E5%88%97%E6%8E%A8%E8%8D%90%E8%AF%B4%E6%98%8E-2/'>
-            阅读全文
-          </a>
-        </div>
+      
+        <a class='next' href='/2021/01/17/%E5%B9%B3%E5%87%A1%EF%BC%8C%E8%8B%A6%E9%9A%BE%E4%B8%AD%E7%9A%84%E6%9C%9F%E7%9B%BC/'>
+          <p class='title'>平凡，苦难中的期盼<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+          <p class='content'>
+
+我们都曾经经历过磨难，我们都曾经失去爱人，我们的生活都曾经被碾压成碎片，但是我们相信风雨之后必有彩虹，这是就躺在我们这个胜利的民族，每一个人血液中的坚实信仰。        ——食贫道《小城...</p>
+        </a>
       
     </div>
   
+</article>
 
+
+  
+
+  <article class="post white-box reveal shadow" id="comments">
+    <p ct><i class='fas fa-comments'></i> 评论</p>
+    
+    <div id="valine_container" class="valine_thread">
+  <i class="fas fa-cog fa-spin fa-fw fa-2x"></i>
 </div>
 
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-    <div class='headimg-div'>
-      <a class='headimg-a' href="/2019/03/23/Windows%E8%BD%AF%E4%BB%B6%E7%B3%BB%E5%88%97%E6%8E%A8%E8%8D%90%E8%AF%B4%E6%98%8E-1/">
-        <img class='headimg' src='https://cdn.amoswu.cn/blog/post-bg-debug.png'/>
-      </a>
-    </div>
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2019/03/23/Windows%E8%BD%AF%E4%BB%B6%E7%B3%BB%E5%88%97%E6%8E%A8%E8%8D%90%E8%AF%B4%E6%98%8E-1/">
-        Windows软件系列推荐说明-1
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        从装机开始U盘启动盘的制作序号：1
-软件名称：微PE工具箱
-推荐指数：☆☆☆☆☆
-推荐理由：
-​    免费，小巧，干净，纯粹！用它重装系统不会有任何的捆绑软件！
-
-软件简介：
-
-
-微乎其微，触手可及
-功能极其强大，但又精巧到“可以塞进钱包”。微PE不仅实现了这一目标，甚至还超过了许多的预期。
-
-一键安装，极速启动
-全新的安装程序，处处彰显品质。极速进入PE，争分夺秒。我们所做的一切，让您的...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2019-03-23</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/%E6%8E%A8%E8%8D%90/">推荐</a>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2019/03/23/Windows%E8%BD%AF%E4%BB%B6%E7%B3%BB%E5%88%97%E6%8E%A8%E8%8D%90%E8%AF%B4%E6%98%8E-1/'>
-            阅读全文
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-    <div class='headimg-div'>
-      <a class='headimg-a' href="/2019/03/22/Windows%E8%BD%AF%E4%BB%B6%E7%B3%BB%E5%88%97%E6%8E%A8%E8%8D%90%E8%AF%B4%E6%98%8E-0/">
-        <img class='headimg' src='https://cdn.amoswu.cn/blog/post-bg-debug.png'/>
-      </a>
-    </div>
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2019/03/22/Windows%E8%BD%AF%E4%BB%B6%E7%B3%BB%E5%88%97%E6%8E%A8%E8%8D%90%E8%AF%B4%E6%98%8E-0/">
-        Windows软件系列推荐说明-0
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        写在前面 这个软件系列推荐是我结合近两年以来使用过的软件以及遇到过的痛点而总结的一个系列，文中的截图以及文字部分皆为我的原创或整理。如果你也有更好用的软件或者文中所提及软件的补充款，欢迎你和我一起交流。
-在这里有必要和大家申明以下几个问题：
-
--为什么要做这个系列推荐？ 
-
--这个系列推荐，我早在2017年9月份就开始着手准备，无奈自己能力有限，精力有限才会在这个时间点让它和大家见面。由于我...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2019-03-22</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/%E6%8E%A8%E8%8D%90/">推荐</a>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2019/03/22/Windows%E8%BD%AF%E4%BB%B6%E7%B3%BB%E5%88%97%E6%8E%A8%E8%8D%90%E8%AF%B4%E6%98%8E-0/'>
-            阅读全文
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-    <div class='headimg-div'>
-      <a class='headimg-a' href="/2019/03/05/Ubuntu%20Linux%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B005/">
-        <img class='headimg' src='https://cdn.amoswu.cn/blog/post-bg-universe.jpg'/>
-      </a>
-    </div>
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2019/03/05/Ubuntu%20Linux%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B005/">
-        Ubuntu Linux 学习笔记05
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        
-Open source is not free.
-
-Chapter7.硬盘和内存硬盘的命名方式
-一般主板上有两个IDE接口，一共可以安装四个IDE设备。Linux下对IDE设备的命名是以 hd开头，分别是hda、hdb、hdc、hdd。
- SCSI接口设备是用 sd命名，第一个是sda，第二个是sdb，以此类推。
-
-硬盘的分区
-查看分区表  sudo fdisk -l 
-创建分区   su...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2019-03-05</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/%E6%96%B0%E7%9F%A5/">新知</a><span class="sep"></span><a class="category-link" href="/categories/%E6%96%B0%E7%9F%A5/%E7%AC%94%E8%AE%B0/">笔记</a>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2019/03/05/Ubuntu%20Linux%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B005/'>
-            阅读全文
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-    <div class='headimg-div'>
-      <a class='headimg-a' href="/2019/03/04/Ubuntu%20Linux%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004/">
-        <img class='headimg' src='https://cdn.amoswu.cn/blog/post-bg-universe.jpg'/>
-      </a>
-    </div>
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2019/03/04/Ubuntu%20Linux%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004/">
-        Ubuntu Linux 学习笔记04
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        
-Open source is not free.
-
-Chapter 6.用户和组管理Linux用户
-Linux是一个多用户多任务的分时操作系统。
-每个用户不仅有唯一的用户名，还有唯一的用户id（uid）
+  </article>
 
 
 
 
-UID范围
-用户类型
-
-
-
-0
-超级用户
-
-
-1~499
-系统用户
-
-
-500+
-
-
-
-· 用户相关文件    1./etc/passwd 文件    &gt; Linux系统的用...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2019-03-04</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/%E6%96%B0%E7%9F%A5/">新知</a><span class="sep"></span><a class="category-link" href="/categories/%E6%96%B0%E7%9F%A5/%E7%AC%94%E8%AE%B0/">笔记</a>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2019/03/04/Ubuntu%20Linux%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004/'>
-            阅读全文
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-    <div class='headimg-div'>
-      <a class='headimg-a' href="/2019/03/03/Ubuntu%20Linux%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003/">
-        <img class='headimg' src='https://cdn.amoswu.cn/blog/post-bg-universe.jpg'/>
-      </a>
-    </div>
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2019/03/03/Ubuntu%20Linux%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003/">
-        Ubuntu Linux 学习笔记03
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        
-Open source is not free.
-
-Chapter 5.Ubuntu文件管理
-格式化分区  mkfs
-文件与目录的定义
-/etc   存放系统所需的重要配置与管理文件
-/dev   存放device file （装置文件）
-/boot  存放与系统激活的相关文件，是系统启动时用到的程序
-/home 登录用户的主目录就放在此目录下，以用户的名称作为/home 目录下各个子目录...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2019-03-03</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/%E6%96%B0%E7%9F%A5/">新知</a><span class="sep"></span><a class="category-link" href="/categories/%E6%96%B0%E7%9F%A5/%E7%AC%94%E8%AE%B0/">笔记</a>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2019/03/03/Ubuntu%20Linux%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003/'>
-            阅读全文
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-    <div class='headimg-div'>
-      <a class='headimg-a' href="/2019/03/02/Ubuntu%20Linux%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002/">
-        <img class='headimg' src='https://cdn.amoswu.cn/blog/post-bg-universe.jpg'/>
-      </a>
-    </div>
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2019/03/02/Ubuntu%20Linux%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002/">
-        Ubuntu Linux 学习笔记02
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        
-Open source is not free.
-
-Chapter 4.Ubuntu Linux 14.04 字符界面使用
-Shell功能
-设置root超级管理员密码，在终端中输入以下代码：
-
-
-
-123456sudo passwd/当前用户密码/su输入新的 UNIX 密码:重新输入新的 UNIX 密码:passwd: 已成功更新密码
-
- - 进入和退出超级管理员模式：
-     - 进...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2019-03-02</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/%E6%96%B0%E7%9F%A5/">新知</a><span class="sep"></span><a class="category-link" href="/categories/%E6%96%B0%E7%9F%A5/%E7%AC%94%E8%AE%B0/">笔记</a>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2019/03/02/Ubuntu%20Linux%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002/'>
-            阅读全文
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-    <div class='headimg-div'>
-      <a class='headimg-a' href="/2019/03/01/Ubuntu%20Linux%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001/">
-        <img class='headimg' src='https://cdn.amoswu.cn/blog/post-bg-universe.jpg'/>
-      </a>
-    </div>
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2019/03/01/Ubuntu%20Linux%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001/">
-        Ubuntu Linux 学习笔记01
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        
-Open source is not free.
-
-Chapter 1 - 3：虚拟机、Ubuntu Linux 系统介绍、Ubuntu Linux 14.04图形界面
-
-
-Debugging environment：
-
-
-
-
-VMware Version：
-WorkStation14 Pro
-
-
-Windows Version：
-10 Home and Basic 64bit
-
-
-Lin...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2019-03-01</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/%E6%96%B0%E7%9F%A5/">新知</a><span class="sep"></span><a class="category-link" href="/categories/%E6%96%B0%E7%9F%A5/%E7%AC%94%E8%AE%B0/">笔记</a>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2019/03/01/Ubuntu%20Linux%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001/'>
-            阅读全文
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-    <div class='headimg-div'>
-      <a class='headimg-a' href="/2018/12/31/%E7%BE%8E%E5%A5%BD%EF%BC%8C%E5%9C%A8%E4%B8%8B%E4%B8%80%E4%B8%AA%E6%9C%AA%E6%9D%A5/">
-        <img class='headimg' src='https://cdn.amoswu.cn/blog/post-bg-2015.jpg'/>
-      </a>
-    </div>
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2018/12/31/%E7%BE%8E%E5%A5%BD%EF%BC%8C%E5%9C%A8%E4%B8%8B%E4%B8%80%E4%B8%AA%E6%9C%AA%E6%9D%A5/">
-        美好，在下一个未来
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        
-没有任何道路可以通向真诚，真诚本身就是一条道路。
-
-​    
-
-  &nbsp;  &nbsp;  &nbsp;  &nbsp;转眼间，2018年已悄然走到尽头。时间的车轮在碾碎压力的同时也载着希望开往下一个未来。
-  
-回望2018
-年初的Flag
-&nbsp;  &nbsp;  &nbsp;  &nbsp;-看至少30部影片&nbsp;  &nbsp;  &nbsp;  &nbsp;...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2018-12-31</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/%E5%B9%B4%E5%BA%A6%E6%80%BB%E7%BB%93/">年度总结</a>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2018/12/31/%E7%BE%8E%E5%A5%BD%EF%BC%8C%E5%9C%A8%E4%B8%8B%E4%B8%80%E4%B8%AA%E6%9C%AA%E6%9D%A5/'>
-            阅读全文
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-    
-  </section>
-  
-    
-      <br>
-      <div class="prev-next">
-        
-          <a class="prev" rel="prev" href="/page/2/">
-            <section class="post prev white-box shadow" >
-              <i class="fas fa-chevron-left" aria-hidden="true"></i>&nbsp;上一页&nbsp;
-            </section>
-          </a>
-        
-        <p class="current">
-          3 / 4
-        </p>
-        
-          <a class="next" rel="next" href="/page/4/">
-            <section class="post next white-box shadow">
-              &nbsp;下一页&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i>
-            </section>
-          </a>
-        
-      </div>
-    
-  
 
 
 </div>
@@ -1036,336 +741,22 @@ Lin...
     
     
 
-<section class="widget blogger shadow desktop mobile">
-  <div class='content'>
-    
-      
-        <a class='avatar flat-box circle' href='/about/'>
-          <img no-lazy src='https://cdn.amoswu.cn/blog/avatar.jpg'/>
-        </a>
-      
-    
-    
-      <div class='text'>
-        
-          <h2>AmosWu</h2>
-        
-        
-          <p>恒者行远，思者常新。</p>
 
-        
-        
-      </div>
-    
-    
-      <div class="social-wrapper">
-        
-          
-            <a href="/atom.xml"
-              class="social fas fa-rss flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-              
-            </a>
-          
-        
-          
-            <a href="mailto:a@amoswu.cn"
-              class="social fas fa-envelope flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-              
-            </a>
-          
-        
-          
-            <a href="https://github.com/amoswuuuu/"
-              class="social fab fa-github flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-              
-            </a>
-          
-        
-          
-            <a href="http://weibo.com/570557703"
-              class="social fab fa-weibo flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-              
-            </a>
-          
-        
-      </div>
-    
-  </div>
-</section>
 
-  
-
-  
-    
-    
-  
-
-  <section class="widget category shadow desktop">
+  <section class="widget toc-wrapper shadow desktop mobile" id="toc-div" >
     
   <header>
     
-      <a href='/blog/categories/'><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i><span class='name'>文章分类</span></a>
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
     
   </header>
 
 
     <div class='content'>
-      <ul class="entry navigation">
-        
-          <li><a class="flat-box"
-            title="/categories/%E5%B9%B4%E5%BA%A6%E6%80%BB%E7%BB%93/" href="/categories/%E5%B9%B4%E5%BA%A6%E6%80%BB%E7%BB%93/"
-            id="categoriesE5B9B4E5BAA6E680BBE7BB93"
-            ><div class='name'>年度总结</div><div class='badge'>(3)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E6%8E%A8%E8%8D%90/" href="/categories/%E6%8E%A8%E8%8D%90/"
-            id="categoriesE68EA8E88D90"
-            ><div class='name'>推荐</div><div class='badge'>(4)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E6%95%99%E7%A8%8B/" href="/categories/%E6%95%99%E7%A8%8B/"
-            id="categoriesE69599E7A88B"
-            ><div class='name'>教程</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/%E6%95%99%E7%A8%8B/%E7%AC%94%E8%AE%B0/" href="/categories/%E6%95%99%E7%A8%8B/%E7%AC%94%E8%AE%B0/"
-            id="categoriesE69599E7A88BE7AC94E8AEB0"
-            ><div class='name'>笔记</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E6%96%B0%E7%9F%A5/" href="/categories/%E6%96%B0%E7%9F%A5/"
-            id="categoriesE696B0E79FA5"
-            ><div class='name'>新知</div><div class='badge'>(14)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/%E6%96%B0%E7%9F%A5/%E7%AC%94%E8%AE%B0/" href="/categories/%E6%96%B0%E7%9F%A5/%E7%AC%94%E8%AE%B0/"
-            id="categoriesE696B0E79FA5E7AC94E8AEB0"
-            ><div class='name'>笔记</div><div class='badge'>(12)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/%E6%96%B0%E7%9F%A5/%E9%9A%8F%E7%AC%94/" href="/categories/%E6%96%B0%E7%9F%A5/%E9%9A%8F%E7%AC%94/"
-            id="categoriesE696B0E79FA5E99A8FE7AC94"
-            ><div class='name'>随笔</div><div class='badge'>(2)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E7%89%B9%E5%88%AB%E5%8D%9A%E6%96%87/" href="/categories/%E7%89%B9%E5%88%AB%E5%8D%9A%E6%96%87/"
-            id="categoriesE789B9E588ABE58D9AE69687"
-            ><div class='name'>特别博文</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E7%9F%A5%E8%AF%86%E6%95%B4%E7%90%86/" href="/categories/%E7%9F%A5%E8%AF%86%E6%95%B4%E7%90%86/"
-            id="categoriesE79FA5E8AF86E695B4E79086"
-            ><div class='name'>知识整理</div><div class='badge'>(3)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/%E7%9F%A5%E8%AF%86%E6%95%B4%E7%90%86/%E7%AC%94%E8%AE%B0/" href="/categories/%E7%9F%A5%E8%AF%86%E6%95%B4%E7%90%86/%E7%AC%94%E8%AE%B0/"
-            id="categoriesE79FA5E8AF86E695B4E79086E7AC94E8AEB0"
-            ><div class='name'>笔记</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E7%A7%91%E6%99%AE/" href="/categories/%E7%A7%91%E6%99%AE/"
-            id="categoriesE7A791E699AE"
-            ><div class='name'>科普</div><div class='badge'>(2)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E7%A8%BF%E4%BB%B6/" href="/categories/%E7%A8%BF%E4%BB%B6/"
-            id="categoriesE7A8BFE4BBB6"
-            ><div class='name'>稿件</div><div class='badge'>(3)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/%E7%A8%BF%E4%BB%B6/PPT/" href="/categories/%E7%A8%BF%E4%BB%B6/PPT/"
-            id="categoriesE7A8BFE4BBB6PPT"
-            ><div class='name'>PPT</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E9%9A%8F%E7%AC%94/" href="/categories/%E9%9A%8F%E7%AC%94/"
-            id="categoriesE99A8FE7AC94"
-            ><div class='name'>随笔</div><div class='badge'>(1)</div></a></li>
-        
-      </ul>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%A4%E8%AF%86-Markdown"><span class="toc-text">认识 Markdown</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%A6%E4%B9%A0-Markdown-%E7%9A%84%E7%90%86%E7%94%B1"><span class="toc-text">学习 Markdown 的理由</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Markdown-%E7%9A%84%E5%8E%9F%E7%90%86"><span class="toc-text">Markdown 的原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Markdown-%E7%BC%96%E8%BE%91%E5%99%A8%E6%8E%A8%E8%8D%90"><span class="toc-text">Markdown 编辑器推荐</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Windows-%E5%B9%B3%E5%8F%B0"><span class="toc-text">Windows 平台</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Linux-%E5%B9%B3%E5%8F%B0"><span class="toc-text">Linux 平台</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MacOS-iOS"><span class="toc-text">MacOS | iOS</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Web-%E5%9C%A8%E7%BA%BF%E4%BD%BF%E7%94%A8"><span class="toc-text">Web 在线使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Android"><span class="toc-text">Android</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%81%E5%88%86%E9%92%9F%E5%85%A5%E9%97%A8"><span class="toc-text">十分钟入门</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%87%E9%A2%98"><span class="toc-text">标题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%97%E8%A1%A8"><span class="toc-text">列表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%95%E7%94%A8"><span class="toc-text">引用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%BE%E7%89%87%E4%B8%8E%E9%93%BE%E6%8E%A5"><span class="toc-text">图片与链接</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B2%97%E4%BD%93%E4%B8%8E%E6%96%9C%E4%BD%93"><span class="toc-text">粗体与斜体</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A1%A8%E6%A0%BC"><span class="toc-text">表格</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E6%A1%86"><span class="toc-text">代码框</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E5%89%B2%E7%BA%BF"><span class="toc-text">分割线</span></a></li></ol></li></ol>
     </div>
   </section>
 
-
-  
-
-  
-    
-    
-  
-
-  <section class="widget tagcloud shadow desktop mobile">
-    
-  <header>
-    
-      <a href='/blog/tags/'><i class="fas fa-tags fa-fw" aria-hidden="true"></i><span class='name'>热门标签</span></a>
-    
-  </header>
-
-
-    <div class='content'>
-      <a href="/tags/2018/" style="font-size: 16.22px; color: #8a8a8a">2018</a> <a href="/tags/2019/" style="font-size: 22.89px; color: #5d5d5d">2019</a> <a href="/tags/2020/" style="font-size: 21.78px; color: #646464">2020</a> <a href="/tags/2021/" style="font-size: 15.11px; color: #919191">2021</a> <a href="/tags/C/" style="font-size: 19.56px; color: #737373">C++</a> <a href="/tags/HBTU/" style="font-size: 20.67px; color: #6c6c6c">HBTU</a> <a href="/tags/Linux/" style="font-size: 18.44px; color: #7b7b7b">Linux</a> <a href="/tags/Markdown/" style="font-size: 14px; color: #999">Markdown</a> <a href="/tags/Qt/" style="font-size: 19.56px; color: #737373">Qt</a> <a href="/tags/Study/" style="font-size: 19.56px; color: #737373">Study</a> <a href="/tags/Windows/" style="font-size: 17.33px; color: #828282">Windows</a> <a href="/tags/Windows10/" style="font-size: 14px; color: #999">Windows10</a> <a href="/tags/office/" style="font-size: 14px; color: #999">office</a> <a href="/tags/%E5%8E%9F%E5%88%9B/" style="font-size: 24px; color: #555">原创</a> <a href="/tags/%E5%8F%91%E8%A8%80%E7%A8%BF/" style="font-size: 14px; color: #999">发言稿</a> <a href="/tags/%E5%9B%A2%E6%80%BB%E6%94%AF/" style="font-size: 14px; color: #999">团总支</a> <a href="/tags/%E5%B7%A5%E5%AD%A6/" style="font-size: 14px; color: #999">工学</a> <a href="/tags/%E5%B9%B4%E5%BA%A6%E6%80%BB%E7%BB%93/" style="font-size: 16.22px; color: #8a8a8a">年度总结</a> <a href="/tags/%E5%BE%AE%E6%9C%BA%E5%8E%9F%E7%90%86/" style="font-size: 15.11px; color: #919191">微机原理</a> <a href="/tags/%E5%BE%AE%E8%AF%BE%E5%A0%82/" style="font-size: 14px; color: #999">微课堂</a> <a href="/tags/%E6%95%99%E7%A8%8B/" style="font-size: 14px; color: #999">教程</a> <a href="/tags/%E6%96%B0%E7%9F%A5%E8%AF%86/" style="font-size: 17.33px; color: #828282">新知识</a> <a href="/tags/%E6%A1%8C%E9%9D%A2%E7%BE%8E%E5%8C%96/" style="font-size: 14px; color: #999">桌面美化</a> <a href="/tags/%E6%AF%95%E4%B8%9A%E5%AD%A3/" style="font-size: 14px; color: #999">毕业季</a> <a href="/tags/%E6%B1%87%E7%BC%96/" style="font-size: 15.11px; color: #919191">汇编</a> <a href="/tags/%E7%89%B9%E5%88%AB%E5%8D%9A%E6%96%87/" style="font-size: 14px; color: #999">特别博文</a> <a href="/tags/%E7%94%B5%E8%84%91%E4%BC%98%E5%8C%96/" style="font-size: 14px; color: #999">电脑优化</a> <a href="/tags/%E7%94%B5%E8%84%91%E6%8A%80%E5%B7%A7/" style="font-size: 14px; color: #999">电脑技巧</a> <a href="/tags/%E7%AC%94%E8%AE%B0/" style="font-size: 19.56px; color: #737373">笔记</a> <a href="/tags/%E8%A3%85%E6%9C%BA/" style="font-size: 17.33px; color: #828282">装机</a> <a href="/tags/%E8%BD%AC%E8%BD%BD/" style="font-size: 15.11px; color: #919191">转载</a> <a href="/tags/%E8%BD%AF%E4%BB%B6/" style="font-size: 16.22px; color: #8a8a8a">软件</a> <a href="/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 17.33px; color: #828282">随笔</a>
-    </div>
-  </section>
-
-
-  
-
-  
-
-  
-    
-    
-
-<section class="widget shadow desktop">
-  
-  <header>
-    
-      <i class="fas fa-award fa-fw" aria-hidden="true"></i><span class='name'>站点信息</span>
-    
-  </header>
-
-
-  <div class='content'>
-    <div class="webinfo">
-      
-        <div class="webinfo-item">
-          <div>文章数目：</div>
-          <div>32 篇</div>
-        </div>
-      
-
-      
-        <div class="webinfo-item">
-          <div>已运行时间：</div>
-          <div id="webinfo-runtime-count" publish_date="03/24/2020 21:34:09"></div>
-        </div>
-        <script>
-          var BirthDay = new Date(new Date('2018/08/08'));
-          var today = new Date();
-          var timeold = (today.getTime() - BirthDay.getTime());
-          var daysold = Math.floor(timeold / (24 * 60 * 60 * 1000));
-          document.getElementById('webinfo-runtime-count').innerHTML = daysold + ' 天';
-        </script>
-      
-
-
-      
-        <div class="webinfo-item">
-          <div>本站总字数：</div>
-          <div>59.9k 字</div>
-        </div>
-      
-
-      
-        <div class="webinfo-item">
-          <div>本站访客数：</div>
-          
-          <div><span id="lc-uv"><span id='number'><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span></span> 人</div>
-          
-        </div>
-      
-
-      
-        <div class="webinfo-item">
-          <div>本站总访问量：</div>
-          
-          <div><span id="lc-sv"><span id='number'><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span></span> 次</div>
-          
-        </div>
-      
-
-      
-        <div class="webinfo-item">
-          <div>最后活动时间：</div>
-          
-            <div id="last-update" style="display: none;">Thu Mar 04 2021 22:51:28 GMT+0800 (中国标准时间)</div>
-            <div id="last-update-show">2021-03-04 日</div>
-          
-        </div>
-        
-        <script>
-          function timeago(dateTimeStamp) {
-              var minute = 1000 * 60; //把分，时，天，周，半个月，一个月用毫秒表示
-              var hour = minute * 60;
-              var day = hour * 24;
-              var week = day * 7;
-              var month = day * 30;
-              var now = new Date().getTime(); //获取当前时间毫秒
-              var diffValue = now - dateTimeStamp; //时间差
-              if (diffValue < 0) {
-                  return;
-              }
-              var minC = diffValue / minute; //计算时间差的分，时，天，周，月
-              var hourC = diffValue / hour;
-              var dayC = diffValue / day;
-              var weekC = diffValue / week;
-              var monthC = diffValue / month;
-              if (monthC >= 1 && monthC <= 3) {
-                  result = " " + parseInt(monthC) + " 月前"
-              } else if (weekC >= 1 && weekC <= 3) {
-                  result = " " + parseInt(weekC) + " 周前"
-              } else if (dayC >= 1 && dayC <= 6) {
-                  result = " " + parseInt(dayC) + " 天前"
-              } else if (hourC >= 1 && hourC <= 23) {
-                  result = " " + parseInt(hourC) + " 小时前"
-              } else if (minC >= 1 && minC <= 59) {
-                  result = " " + parseInt(minC) + " 分钟前"
-              } else if (diffValue >= 0 && diffValue <= minute) {
-                  result = "刚刚"
-              } else {
-                  var datetime = new Date();
-                  datetime.setTime(dateTimeStamp);
-                  var Nyear = datetime.getFullYear();
-                  var Nmonth = datetime.getMonth() + 1 < 10 ? "0" + (datetime.getMonth() + 1) : datetime.getMonth() + 1;
-                  var Ndate = datetime.getDate() < 10 ? "0" + datetime.getDate() : datetime.getDate();
-                  var Nhour = datetime.getHours() < 10 ? "0" + datetime.getHours() : datetime.getHours();
-                  var Nminute = datetime.getMinutes() < 10 ? "0" + datetime.getMinutes() : datetime.getMinutes();
-                  var Nsecond = datetime.getSeconds() < 10 ? "0" + datetime.getSeconds() : datetime.getSeconds();
-                  result = Nyear + "-" + Nmonth + "-" + Ndate
-              }
-              return result;
-          }
-          var lastUpDate = document.getElementById('last-update').innerHTML;
-          try {
-            document.getElementById('last-update-show').innerHTML = timeago(new Date(lastUpDate));
-          } catch (error) {
-            document.getElementById('last-update-show').innerHTML = '2021-03-04 日';
-          }
-        </script>
-        
-      
-    </div>
-  </div>
-</section>
-
-  
-
-  
-    
-    
-
-<section class="widget qrcode shadow desktop mobile">
-  
-
-  <div class='content article-entry'>
-    
-      <img src='https://cdn.amoswu.cn/blog/do_wechatpay.png'
-      />
-    
-      <img src='https://cdn.amoswu.cn/blog/do_alipay.jpg'
-      />
-    
-  </div>
-</section>
 
   
 
@@ -1378,8 +769,8 @@ Lin...
 
 <script>
   window.pdata={}
-  pdata.ispage=false;
-  pdata.postTitle="";
+  pdata.ispage=true;
+  pdata.postTitle="Markdown 从零开始";
   pdata.commentPath="";
   pdata.commentPlaceholder="";
 
