@@ -3326,6 +3326,7 @@
 <p>简单来说，你需要一个能够处理 Markdown 文件的 <em>Markdown 应用程序</em>。有许多应用程序可供选择，从简单的脚本到类似于 Microsoft Word 的桌面应用程序。尽管它们在视觉上有所不同，但所有应用程序都执行相同的操作。像 <a href="https://markdown.com.cn/editor/">在线 Markdown 编辑器</a> 一样，它们都是将 Markdown 格式的文本转换为 HTML，以便可以在 Web 浏览器中显示。</p>
 <p>Markdown 应用程序使用一种称为 <em>Markdown 处理器</em>（也通常称为“解析器”或“实现”）的东西将获取到的 Markdown 格式的文本输出为 HTML 格式。此时，可以在 Web 浏览器中查看你的文档，或者将其与样式表组合并打印。你可以在下图看到此过程的直观表示。</p>
 <p><strong>注意：</strong> Markdown 应用程序和处理器是两个单独的组件。为了简洁起见，在下图中，我将它们组合为一个元素（即 “Markdown应用程序”）。</p>
+<p><img src="https://cdn.amoswu.cn/blog/20210304232132.png" class="lazyload" data-srcset="https://cdn.amoswu.cn/blog/20210304232132.png" srcset="data:image/png;base64,666"></p>
 <h2 id="Markdown-编辑器推荐"><a href="#Markdown-编辑器推荐" class="headerlink" title="Markdown 编辑器推荐"></a>Markdown 编辑器推荐</h2><p>对于一下编辑器，直接搜索引擎搜索安装即可。</p>
 <h3 id="Windows-平台"><a href="#Windows-平台" class="headerlink" title="Windows 平台"></a>Windows 平台</h3><ul>
 <li>Typora</li>
