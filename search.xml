@@ -3447,4 +3447,72 @@
         <tag>Markdown</tag>
       </tags>
   </entry>
+  <entry>
+    <title>Golang 环境配置小记</title>
+    <url>/2021/03/09/Golang%20%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%E5%B0%8F%E8%AE%B0/</url>
+    <content><![CDATA[<p><img src="https://cdn.amoswu.cn/blog/20210309233111.png" class="lazyload" data-srcset="https://cdn.amoswu.cn/blog/20210309233111.png" srcset="data:image/png;base64,666" alt="2"></p>
+<blockquote>
+<p>Go 编程语言是一个开源项目，它使程序员更具生产力。</p>
+<p>Go 语言具有很强的表达能力，它简洁、清晰而高效。得益于其并发机制，用它编写的程序能够非常有效地利用多核与联网的计算机，其新颖的类型系统则使程序结构变得灵活而模块化。 Go 代码编译成机器码不仅非常迅速，还具有方便的垃圾收集机制和强大的运行时反射机制。 它是一个快速的、静态类型的编译型语言，感觉却像动态类型的解释型语言。</p>
+<p>—— From Golang Blog</p>
+</blockquote>
+<h2 id="0x00-安装环境"><a href="#0x00-安装环境" class="headerlink" title="0x00. 安装环境"></a>0x00. 安装环境</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">OS   - Windows 10 Home x64 20H2</span><br><span class="line">Mem  - 16GB</span><br></pre></td></tr></table></figure>
+<h2 id="0x01-下载-amp-安装"><a href="#0x01-下载-amp-安装" class="headerlink" title="0x01.下载&amp;安装"></a>0x01.下载&amp;安装</h2><h3 id="1-下载源"><a href="#1-下载源" class="headerlink" title="1. 下载源"></a>1. 下载源</h3><p>国内源 <code>https://studygolang.com/dl</code></p>
+<p>国际源  <code>http://docs.studygolang.com/doc/install</code></p>
+<h3 id="2-安装"><a href="#2-安装" class="headerlink" title="2. 安装"></a>2. 安装</h3><ol>
+<li>下载完成后，双击 <code>.msi</code>安装包，安装到自己想要的路径；</li>
+<li>在 cmd 中输入 <code>go version</code>，输出当前 golang 版本则安装成功。</li>
+</ol>
+<p><img src="https://cdn.amoswu.cn/blog/20210309221913.png" class="lazyload" data-srcset="https://cdn.amoswu.cn/blog/20210309221913.png" srcset="data:image/png;base64,666" alt="image-20210309221913230"></p>
+<h2 id="0x02-环境配置"><a href="#0x02-环境配置" class="headerlink" title="0x02. 环境配置"></a>0x02. 环境配置</h2><h3 id="1-环境变量配置"><a href="#1-环境变量配置" class="headerlink" title="1. 环境变量配置"></a>1. 环境变量配置</h3><ol>
+<li><p>新建 <code>GoPath</code>目录，在此目录下新建三个文件夹 <code>bin</code> <code>pkg</code> <code>src</code>；</p>
+</li>
+<li><p>新建系统环境变量  <code>GOBIN</code> <code>GOPATH</code> <code>GOROOT</code> ，它们对应的路径分别是： <code>GoPath目录下的bin文件夹</code> <code>GoPath路径</code> <code>Go安装路径</code>；</p>
+<p><img src="https://cdn.amoswu.cn/blog/20210309220729.png" class="lazyload" data-srcset="https://cdn.amoswu.cn/blog/20210309220729.png" srcset="data:image/png;base64,666" alt="image-20210309220721987"></p>
+</li>
+<li><p>添加 系统环境变量下 <code>Path</code> 的值为 <code>%GOROOT%bin</code></p>
+<p><img src="https://cdn.amoswu.cn/blog/20210309221459.png" class="lazyload" data-srcset="https://cdn.amoswu.cn/blog/20210309221459.png" srcset="data:image/png;base64,666" alt="image-20210309221459238"></p>
+</li>
+<li><p>重启，或管理员权限打开两个CMD，一个输入 <code>set PATH=C:</code>，另一个输入 <code>echo %PATH%</code>，在输出的路径中可以看到刚才的四个路径；</p>
+</li>
+<li><p>在 cmd 中输入 <code>go env</code> ，对应红框位置路径为刚刚设置的即可。</p>
+<p><img src="https://cdn.amoswu.cn/blog/20210309222202.png" class="lazyload" data-srcset="https://cdn.amoswu.cn/blog/20210309222202.png" srcset="data:image/png;base64,666" alt="image-20210309222202763"></p>
+</li>
+</ol>
+<h3 id="2-配置镜像源"><a href="#2-配置镜像源" class="headerlink" title="2. 配置镜像源"></a>2. 配置镜像源</h3><p>在 cmd 中输入， <code>go env -w GOPROXY=https://mirrors.aliyun.com/goproxy/</code></p>
+<p><img src="https://cdn.amoswu.cn/blog/20210309222339.png" class="lazyload" data-srcset="https://cdn.amoswu.cn/blog/20210309222339.png" srcset="data:image/png;base64,666" alt="image-20210309222339330"></p>
+<h3 id="3-配置-GoLand"><a href="#3-配置-GoLand" class="headerlink" title="3. 配置 GoLand"></a>3. 配置 GoLand</h3><ol>
+<li><p>安装后，打开<code>GoLand</code>并选择你的项目目录(或者是一个空目录，即将写代码的目录)，</p>
+</li>
+<li><p>依次点击<code>file -&gt; setting -&gt; Go</code>，点击<code>GOROOT</code>,选择你的 GoLand 位置所在，如下图<img src="https://cdn.amoswu.cn/blog/20210309225349.png" class="lazyload" data-srcset="https://cdn.amoswu.cn/blog/20210309225349.png" srcset="data:image/png;base64,666" alt="image-20210309225349688"></p>
+</li>
+<li><p>点击 <code>GOPATH</code> ，选择你的项目目录，如下图</p>
+<p><img src="https://cdn.amoswu.cn/blog/20210309225444.png" class="lazyload" data-srcset="https://cdn.amoswu.cn/blog/20210309225444.png" srcset="data:image/png;base64,666" alt="image-20210309225444795"></p>
+</li>
+<li><p>在刚才创建的<code>src</code>目录下新建一个文件夹，可以是项目的名称，然后创建一个名为<code>main.go</code>的文件，代码如下</p>
+<p><img src="https://cdn.amoswu.cn/blog/20210309230218.png" class="lazyload" data-srcset="https://cdn.amoswu.cn/blog/20210309230218.png" srcset="data:image/png;base64,666" alt="image-20210309230218614"></p>
+</li>
+</ol>
+<p>这里发生了一个小插曲，运行代码后发现编译器找不到包。</p>
+<p><strong>原因分析：</strong><br>编译器没有去<code>GOPATH</code>下找包。</p>
+<blockquote>
+<p>gomod 和 gopath 两个包管理方案，并且相互不兼容，在 gopath 查找包，按照 goroot 和多 gopath 目录下 src/xxx 依次查找。在 gomod 下查找包，解析 go.mod 文件查找包，mod 包名就是包的前缀，里面的目录就后续路径了。在 gomod 模式下，查找包就不会去 gopath 查找，只是 gomod 包缓存在 gopath/pkg/mod 里面。</p>
+<p>——From CSDN</p>
+</blockquote>
+<p><strong>解决方案：</strong></p>
+<p>设置<code>GO111MODULE</code>为<code>off</code>即可。</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">go</span> env -w GO111MODULE=off</span><br></pre></td></tr></table></figure>
+<p><img src="https://cdn.amoswu.cn/blog/20210309230522.png" class="lazyload" data-srcset="https://cdn.amoswu.cn/blog/20210309230522.png" srcset="data:image/png;base64,666" alt="image-20210309230522762"></p>
+<p>运行成功，配置结束~ ✌</p>
+]]></content>
+      <categories>
+        <category>笔记</category>
+      </categories>
+      <tags>
+        <tag>原创</tag>
+        <tag>笔记</tag>
+        <tag>2021</tag>
+        <tag>Golang</tag>
+      </tags>
+  </entry>
 </search>

@@ -5,8 +5,6 @@
   <!-- SEO相关 -->
   
     
-      <meta name="robots" content="noindex,follow">
-    
   
   <!-- 渲染优化 -->
   <meta http-equiv='x-dns-prefetch-control' content='on' />
@@ -21,7 +19,9 @@
 
   <!-- 页面元数据 -->
   
-  <title>分类：随笔 - Amos&#39;Blog</title>
+  <title>Golang 环境配置小记 - Amos&#39;Blog</title>
+  
+    <meta name="keywords" content="原创,笔记,2021,Golang">
   
 
   
@@ -319,7 +319,7 @@
       <div id="l_cover">
   
     
-        <div id="full" class='cover-wrapper  search' style="display: none;">
+        <div id="full" class='cover-wrapper post search' style="display: none;">
           
             <div id='cover-backstretch'></div>
           
@@ -358,87 +358,302 @@
         <div class="body-wrapper" id="pjax-container">
           
 
-
 <div class='l_main'>
+  <article class="article post white-box reveal md shadow article-type-post" id="post" itemscope itemprop="blogPost">
+  
+
+
+  
+    <div class='headimg-div'>
+      <a class='headimg-a'>
+        <img class='headimg' src='https://cdn.amoswu.cn/blog/20210309233052.png'/>
+      </a>
+    </div>
+  
+  <div class="article-meta" id="top">
+    
+    
+    
+      <h1 class="title">
+        Golang 环境配置小记
+      </h1>
+      <div class='new-meta-box'>
+        
+          
+            
+<div class='new-meta-item author'>
+  <a class='author' href="/" rel="nofollow">
+    <img no-lazy src="https://cdn.amoswu.cn/blog/avatar.jpg">
+    <p>Amos</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  <div class='new-meta-item category'>
+    <a class='notlink'>
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <a class="category-link" href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a>
+    </a>
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：2021年3月9日</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  <div class="new-meta-item browse leancloud">
+    <a class='notlink'>
+      
+      <div id="lc-pv" data-title="Golang 环境配置小记" data-path="/2021/03/09/Golang%20%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%E5%B0%8F%E8%AE%B0/">
+        <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
+        <span id='number'><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
+        次浏览
+      </div>
+    </a>
+  </div>
+
+
+          
+        
+          
+            
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>字数：699字</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>时长：2分钟</p>
+    </a>
+  </div>
+
+
+          
+        
+      </div>
+    
+  </div>
+
+
+  
+  <p><img src="https://cdn.amoswu.cn/blog/20210309233111.png" class="lazyload" data-srcset="https://cdn.amoswu.cn/blog/20210309233111.png" srcset="data:image/png;base64,666" alt="2"></p>
+<blockquote>
+<p>Go 编程语言是一个开源项目，它使程序员更具生产力。</p>
+<p>Go 语言具有很强的表达能力，它简洁、清晰而高效。得益于其并发机制，用它编写的程序能够非常有效地利用多核与联网的计算机，其新颖的类型系统则使程序结构变得灵活而模块化。 Go 代码编译成机器码不仅非常迅速，还具有方便的垃圾收集机制和强大的运行时反射机制。 它是一个快速的、静态类型的编译型语言，感觉却像动态类型的解释型语言。</p>
+<p>—— From Golang Blog</p>
+</blockquote>
+<h2 id="0x00-安装环境"><a href="#0x00-安装环境" class="headerlink" title="0x00. 安装环境"></a>0x00. 安装环境</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">OS   - Windows 10 Home x64 20H2</span><br><span class="line">Mem  - 16GB</span><br></pre></td></tr></table></figure>
+<h2 id="0x01-下载-amp-安装"><a href="#0x01-下载-amp-安装" class="headerlink" title="0x01.下载&amp;安装"></a>0x01.下载&amp;安装</h2><h3 id="1-下载源"><a href="#1-下载源" class="headerlink" title="1. 下载源"></a>1. 下载源</h3><p>国内源 <code>https://studygolang.com/dl</code></p>
+<p>国际源  <code>http://docs.studygolang.com/doc/install</code></p>
+<h3 id="2-安装"><a href="#2-安装" class="headerlink" title="2. 安装"></a>2. 安装</h3><ol>
+<li>下载完成后，双击 <code>.msi</code>安装包，安装到自己想要的路径；</li>
+<li>在 cmd 中输入 <code>go version</code>，输出当前 golang 版本则安装成功。</li>
+</ol>
+<p><img src="https://cdn.amoswu.cn/blog/20210309221913.png" class="lazyload" data-srcset="https://cdn.amoswu.cn/blog/20210309221913.png" srcset="data:image/png;base64,666" alt="image-20210309221913230"></p>
+<h2 id="0x02-环境配置"><a href="#0x02-环境配置" class="headerlink" title="0x02. 环境配置"></a>0x02. 环境配置</h2><h3 id="1-环境变量配置"><a href="#1-环境变量配置" class="headerlink" title="1. 环境变量配置"></a>1. 环境变量配置</h3><ol>
+<li><p>新建 <code>GoPath</code>目录，在此目录下新建三个文件夹 <code>bin</code> <code>pkg</code> <code>src</code>；</p>
+</li>
+<li><p>新建系统环境变量  <code>GOBIN</code> <code>GOPATH</code> <code>GOROOT</code> ，它们对应的路径分别是： <code>GoPath目录下的bin文件夹</code> <code>GoPath路径</code> <code>Go安装路径</code>；</p>
+<p><img src="https://cdn.amoswu.cn/blog/20210309220729.png" class="lazyload" data-srcset="https://cdn.amoswu.cn/blog/20210309220729.png" srcset="data:image/png;base64,666" alt="image-20210309220721987"></p>
+</li>
+<li><p>添加 系统环境变量下 <code>Path</code> 的值为 <code>%GOROOT%bin</code></p>
+<p><img src="https://cdn.amoswu.cn/blog/20210309221459.png" class="lazyload" data-srcset="https://cdn.amoswu.cn/blog/20210309221459.png" srcset="data:image/png;base64,666" alt="image-20210309221459238"></p>
+</li>
+<li><p>重启，或管理员权限打开两个CMD，一个输入 <code>set PATH=C:</code>，另一个输入 <code>echo %PATH%</code>，在输出的路径中可以看到刚才的四个路径；</p>
+</li>
+<li><p>在 cmd 中输入 <code>go env</code> ，对应红框位置路径为刚刚设置的即可。</p>
+<p><img src="https://cdn.amoswu.cn/blog/20210309222202.png" class="lazyload" data-srcset="https://cdn.amoswu.cn/blog/20210309222202.png" srcset="data:image/png;base64,666" alt="image-20210309222202763"></p>
+</li>
+</ol>
+<h3 id="2-配置镜像源"><a href="#2-配置镜像源" class="headerlink" title="2. 配置镜像源"></a>2. 配置镜像源</h3><p>在 cmd 中输入， <code>go env -w GOPROXY=https://mirrors.aliyun.com/goproxy/</code></p>
+<p><img src="https://cdn.amoswu.cn/blog/20210309222339.png" class="lazyload" data-srcset="https://cdn.amoswu.cn/blog/20210309222339.png" srcset="data:image/png;base64,666" alt="image-20210309222339330"></p>
+<h3 id="3-配置-GoLand"><a href="#3-配置-GoLand" class="headerlink" title="3. 配置 GoLand"></a>3. 配置 GoLand</h3><ol>
+<li><p>安装后，打开<code>GoLand</code>并选择你的项目目录(或者是一个空目录，即将写代码的目录)，</p>
+</li>
+<li><p>依次点击<code>file -&gt; setting -&gt; Go</code>，点击<code>GOROOT</code>,选择你的 GoLand 位置所在，如下图<img src="https://cdn.amoswu.cn/blog/20210309225349.png" class="lazyload" data-srcset="https://cdn.amoswu.cn/blog/20210309225349.png" srcset="data:image/png;base64,666" alt="image-20210309225349688"></p>
+</li>
+<li><p>点击 <code>GOPATH</code> ，选择你的项目目录，如下图</p>
+<p><img src="https://cdn.amoswu.cn/blog/20210309225444.png" class="lazyload" data-srcset="https://cdn.amoswu.cn/blog/20210309225444.png" srcset="data:image/png;base64,666" alt="image-20210309225444795"></p>
+</li>
+<li><p>在刚才创建的<code>src</code>目录下新建一个文件夹，可以是项目的名称，然后创建一个名为<code>main.go</code>的文件，代码如下</p>
+<p><img src="https://cdn.amoswu.cn/blog/20210309230218.png" class="lazyload" data-srcset="https://cdn.amoswu.cn/blog/20210309230218.png" srcset="data:image/png;base64,666" alt="image-20210309230218614"></p>
+</li>
+</ol>
+<p>这里发生了一个小插曲，运行代码后发现编译器找不到包。</p>
+<p><strong>原因分析：</strong><br>编译器没有去<code>GOPATH</code>下找包。</p>
+<blockquote>
+<p>gomod 和 gopath 两个包管理方案，并且相互不兼容，在 gopath 查找包，按照 goroot 和多 gopath 目录下 src/xxx 依次查找。在 gomod 下查找包，解析 go.mod 文件查找包，mod 包名就是包的前缀，里面的目录就后续路径了。在 gomod 模式下，查找包就不会去 gopath 查找，只是 gomod 包缓存在 gopath/pkg/mod 里面。</p>
+<p>——From CSDN</p>
+</blockquote>
+<p><strong>解决方案：</strong></p>
+<p>设置<code>GO111MODULE</code>为<code>off</code>即可。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">go</span> env -w GO111MODULE=off</span><br></pre></td></tr></table></figure>
+<p><img src="https://cdn.amoswu.cn/blog/20210309230522.png" class="lazyload" data-srcset="https://cdn.amoswu.cn/blog/20210309230522.png" srcset="data:image/png;base64,666" alt="image-20210309230522762"></p>
+<p>运行成功，配置结束~ ✌</p>
+
+  
   
     
+    <div class='footer'>
       
-  <section class="post-list">
+      
+      
+        <div class='copyright'>
+          <blockquote>
+            
+              
+                <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
+              
+            
+              
+                <p>本文永久链接是：<a href=https://blog.amoswu.cn/2021/03/09/Golang%20%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%E5%B0%8F%E8%AE%B0/>https://blog.amoswu.cn/2021/03/09/Golang%20%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%E5%B0%8F%E8%AE%B0/</a></p>
+              
+            
+          </blockquote>
+        </div>
+      
+      
+    </div>
+  
+  
     
+
+
+  <div class='article-meta' id="bottom">
+    <div class='new-meta-box'>
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-03-09T23:31:31+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：2021年3月9日</p>
+  </a>
+</div>
+
+        
       
         
           
-        
-      
-    
-    
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
   
-  
-  
-    <div class='headimg-div'>
-      <a class='headimg-a' href="/2020/11/20/%E4%BD%BF%E7%94%A8%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%9C%89%E6%84%9F/">
-        <img class='headimg' src='https://cdn.amoswu.cn/blog/mac.png'/>
-      </a>
-    </div>
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2020/11/20/%E4%BD%BF%E7%94%A8%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%9C%89%E6%84%9F/">
-        使用计算机有感
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/%E5%8E%9F%E5%88%9B/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>原创</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/%E7%AC%94%E8%AE%B0/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>笔记</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/2021/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>2021</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Golang/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Golang</p></a></div>
 
-最近在收听万维钢老师的《精英日课4》，听到“像高手一样使用你的计算机”这一节时，有一些感触，于是我将它发到了评论区，今天抽时间同步到我的博客。
 
-作为重度“折腾”计算机的爱好者，从高中开始收集各种计算机工具，至今也折腾了上千个工具了。听完万老师这一讲，下面我以Windows操作系统为例，分享几点我的计算机“折腾”经历和看法。
-1.用键盘，别用鼠标这一点我非常赞同。用久了计算机之后，我越来...
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://blog.amoswu.cn/2021/03/09/Golang%20%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%E5%B0%8F%E8%AE%B0/&title=Golang 环境配置小记 - Amos'Blog&summary="
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qq.png" class="lazyload" data-srcset="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qq.png" srcset="data:image/png;base64,666">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://blog.amoswu.cn/2021/03/09/Golang%20%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%E5%B0%8F%E8%AE%B0/&title=Golang 环境配置小记 - Amos'Blog&summary="
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qzone.png" class="lazyload" data-srcset="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qzone.png" srcset="data:image/png;base64,666">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="http://service.weibo.com/share/share.php?url=https://blog.amoswu.cn/2021/03/09/Golang%20%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%E5%B0%8F%E8%AE%B0/&title=Golang 环境配置小记 - Amos'Blog&summary="
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/weibo.png" class="lazyload" data-srcset="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/weibo.png" srcset="data:image/png;base64,666">
+          
+        </a>
+      
+    
+      
+        
+        <div class='hoverbox'>
+          <a class='share'><img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org@1.1.3/logo/128/qrcode.png" class="lazyload" data-srcset="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org@1.1.3/logo/128/qrcode.png" srcset="data:image/png;base64,666"></a>
+          <div class='target'>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAXgAAAF4CAAAAAB79r16AAAFIElEQVR42u3bMXYbMQwEUN3/0kkfF0sMhuvY77OTLHOJTzVjwJ8/1resDwLw4C3w4C3w4K0C/CdcXzZ8eP/fnz+9fiwg/PzpeZ7OmXqBBw8ePHjw4MGDB9+EbxV8Cpxe8BQ0rWv6BTveFzx48ODBgwcPHjz4C/DToDEtfHoRtYIf9m0HKvDgwYMHDx48ePDgfyL8aYGngejWvqefBw8ePHjw4MGDBw/+N8JPD57us218bC8IPHjw4MGDBw8ePPj/Eb41+NMaFEqDTjpotb241ybJwIMHDx48ePDgwYMPVlrQb3kde4EHDx48ePDgwYMHX4DfrtOGRxqcWgNQ03OkjZZHL/DgwYMHDx48ePDgC/BpQEgbDen700DXGrRKLxo8ePDgwYMHDx48+JvwrcGkp9dpcNp+rj2QNQ1ej40Q8ODBgwcPHjx48OAL8K3BpjRw3IZsNXTSBg548ODBgwcPHjx48A34eINlwaf7pgNHrfO1voDgwYMHDx48ePDgwTfhTwPEFODWYNH2OdP9jxscp+cFDx48ePDgwYMHD/4F+NYgTxqcWgFrCrf9/DpAgQcPHjx48ODBgwd/AN+CTQufNiaOGw+lIDYNfseTZODBgwcPHjx48ODBX4RPPzdteLQaIWmjYvv74MGDBw8ePHjw4MG/Ad9qCKQXsA1K20A3DXDTiwEPHjx48ODBgwcP/jvg242DNLCkhd660PVAE3jw4MGDBw8ePHjwF/8x4VpDoBS84iBzGAxPfy8eaAIPHjx48ODBgwcPfgHfCkbbIJRe7HZtn3f8RQEPHjx48ODBgwcPvgjfOnh64C1wKwimLk91gAcPHjx48ODBgwffhE83bg86tYPc6XlvB8kvPuDBgwcPHjx48ODBF+C3wWMaINKGxzYIpV+c9nnAgwcPHjx48ODBg2/Ap3/QbzUepoVuz5cGwuvJFTx48ODBgwcPHjz44O/x6YbpQNM0kKTn2V7w1gE8ePDgwYMHDx48+JvwW7B0EGgadFrg2/PFjRbw4MGDBw8ePHjw4Avw60AwBJgOIk0bNNvGze2LBQ8ePHjw4MGDBw++Ad8eLHormGyfO/0C1AaswIMHDx48ePDgwYMvwG+DwbZh0gaYBrlxI2PZEAIPHjx48ODBgwcPvgnfClDpAdPGRRq40vfT54IHDx48ePDgwYMHfxN+GyimF9EaqGoFqO2AVjxJBh48ePDgwYMHDx58MB+fFtK6wClAerGtQBX/HDx48ODBgwcPHjz4C/DtYJI2Wt4aPJruv23wgAcPHjx48ODBgwd/Az4FTxsY24C0DWStgHVcB3jw4MGDBw8ePHjwF+CnDzgtIA0obwWsFHRaP3jw4MGDBw8ePHjwTfjvDhbTi3gLsH0R4MGDBw8ePHjw4ME34E8bHK2Gw2kjZAqTnmvqkO4DHjx48ODBgwcPHnwTfru2hUyB0gC1DVatCwUPHjx48ODBgwcPvgH/Cdd0gOh0sGhcSBjQ0nqnrx+TK3jw4MGDBw8ePHjwxUbIKei0oZFeRC3ALC9+3SgBDx48ePDgwYMHD/4C/LaQaSPhrYGiNmQcLMGDBw8ePHjw4MGD/8HwredMB65uNXaOAyJ48ODBgwcPHjx48P8R/Ong0BZy2pg5hXprsAk8ePDgwYMHDx48+BvwaZA4DTDbhsN0//YXZlonePDgwYMHDx48ePA34VOAbcHbxsm0EZHCpQNR4MGDBw8ePHjw4MHfgLfeXeDBg7fAg7fAg7cW6y9O5SgZ7ZHOAAAAAABJRU5ErkJggg==">
+          </div>
+        </div>
       
     
   </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
+</div>
+
+
+
         
-        <time>2020-11-20</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/%E9%9A%8F%E7%AC%94/">随笔</a>
-        
-      </div>
       
-        <div>
-          <a class='readmore' href='/2020/11/20/%E4%BD%BF%E7%94%A8%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%9C%89%E6%84%9F/'>
-            阅读全文
-          </a>
-        </div>
+    </div>
+  </div>
+
+
+  
+  
+
+  
+    <div class="prev-next">
+      
+      
+        <a class='next' href='/2021/03/04/Markdown%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B/'>
+          <p class='title'>Markdown 从零开始<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+          <p class='content'>
+
+Markdown 是一种轻量级的「标记语言」，它的优点很多，自2004年被 John Gruber 发明以来，它已经发展成了世界上最受欢迎的标记语言之一。它也被越来越多的写作爱好者，撰稿者广...</p>
+        </a>
       
     </div>
   
+</article>
 
+
+  
+
+  <article class="post white-box reveal shadow" id="comments">
+    <p ct><i class='fas fa-comments'></i> 评论</p>
+    
+    <div id="valine_container" class="valine_thread">
+  <i class="fas fa-cog fa-spin fa-fw fa-2x"></i>
 </div>
 
-          </div>
-        
-      
-    
-  </section>
-  
-    
-  
+  </article>
 
 
-    
-  
+
+
+
+
 </div>
 <aside class='l_side'>
   
@@ -446,354 +661,36 @@
     
     
 
-<section class="widget blogger shadow desktop mobile">
-  <div class='content'>
-    
-      
-        <a class='avatar flat-box circle' href='/about/'>
-          <img no-lazy src='https://cdn.amoswu.cn/blog/avatar.jpg'/>
-        </a>
-      
-    
-    
-      <div class='text'>
-        
-          <h2>AmosWu</h2>
-        
-        
-          <p>恒者行远，思者常新。</p>
 
-        
-        
-      </div>
-    
-    
-      <div class="social-wrapper">
-        
-          
-            <a href="/atom.xml"
-              class="social fas fa-rss flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-              
-            </a>
-          
-        
-          
-            <a href="mailto:a@amoswu.cn"
-              class="social fas fa-envelope flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-              
-            </a>
-          
-        
-          
-            <a href="https://github.com/amoswuuuu/"
-              class="social fab fa-github flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-              
-            </a>
-          
-        
-          
-            <a href="http://weibo.com/570557703"
-              class="social fab fa-weibo flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-              
-            </a>
-          
-        
-      </div>
-    
-  </div>
-</section>
 
-  
-
-  
-    
-    
-  
-
-  <section class="widget category shadow desktop">
+  <section class="widget toc-wrapper shadow desktop mobile" id="toc-div" >
     
   <header>
     
-      <a href='/blog/categories/'><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i><span class='name'>文章分类</span></a>
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
     
   </header>
 
 
     <div class='content'>
-      <ul class="entry navigation">
-        
-          <li><a class="flat-box"
-            title="/categories/%E5%B9%B4%E5%BA%A6%E6%80%BB%E7%BB%93/" href="/categories/%E5%B9%B4%E5%BA%A6%E6%80%BB%E7%BB%93/"
-            id="categoriesE5B9B4E5BAA6E680BBE7BB93"
-            ><div class='name'>年度总结</div><div class='badge'>(3)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E6%8E%A8%E8%8D%90/" href="/categories/%E6%8E%A8%E8%8D%90/"
-            id="categoriesE68EA8E88D90"
-            ><div class='name'>推荐</div><div class='badge'>(4)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E6%95%99%E7%A8%8B/" href="/categories/%E6%95%99%E7%A8%8B/"
-            id="categoriesE69599E7A88B"
-            ><div class='name'>教程</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/%E6%95%99%E7%A8%8B/%E7%AC%94%E8%AE%B0/" href="/categories/%E6%95%99%E7%A8%8B/%E7%AC%94%E8%AE%B0/"
-            id="categoriesE69599E7A88BE7AC94E8AEB0"
-            ><div class='name'>笔记</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E6%96%B0%E7%9F%A5/" href="/categories/%E6%96%B0%E7%9F%A5/"
-            id="categoriesE696B0E79FA5"
-            ><div class='name'>新知</div><div class='badge'>(14)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/%E6%96%B0%E7%9F%A5/%E7%AC%94%E8%AE%B0/" href="/categories/%E6%96%B0%E7%9F%A5/%E7%AC%94%E8%AE%B0/"
-            id="categoriesE696B0E79FA5E7AC94E8AEB0"
-            ><div class='name'>笔记</div><div class='badge'>(12)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/%E6%96%B0%E7%9F%A5/%E9%9A%8F%E7%AC%94/" href="/categories/%E6%96%B0%E7%9F%A5/%E9%9A%8F%E7%AC%94/"
-            id="categoriesE696B0E79FA5E99A8FE7AC94"
-            ><div class='name'>随笔</div><div class='badge'>(2)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E7%89%B9%E5%88%AB%E5%8D%9A%E6%96%87/" href="/categories/%E7%89%B9%E5%88%AB%E5%8D%9A%E6%96%87/"
-            id="categoriesE789B9E588ABE58D9AE69687"
-            ><div class='name'>特别博文</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E7%9F%A5%E8%AF%86%E6%95%B4%E7%90%86/" href="/categories/%E7%9F%A5%E8%AF%86%E6%95%B4%E7%90%86/"
-            id="categoriesE79FA5E8AF86E695B4E79086"
-            ><div class='name'>知识整理</div><div class='badge'>(3)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/%E7%9F%A5%E8%AF%86%E6%95%B4%E7%90%86/%E7%AC%94%E8%AE%B0/" href="/categories/%E7%9F%A5%E8%AF%86%E6%95%B4%E7%90%86/%E7%AC%94%E8%AE%B0/"
-            id="categoriesE79FA5E8AF86E695B4E79086E7AC94E8AEB0"
-            ><div class='name'>笔记</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E7%A7%91%E6%99%AE/" href="/categories/%E7%A7%91%E6%99%AE/"
-            id="categoriesE7A791E699AE"
-            ><div class='name'>科普</div><div class='badge'>(2)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E7%A8%BF%E4%BB%B6/" href="/categories/%E7%A8%BF%E4%BB%B6/"
-            id="categoriesE7A8BFE4BBB6"
-            ><div class='name'>稿件</div><div class='badge'>(3)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/%E7%A8%BF%E4%BB%B6/PPT/" href="/categories/%E7%A8%BF%E4%BB%B6/PPT/"
-            id="categoriesE7A8BFE4BBB6PPT"
-            ><div class='name'>PPT</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E7%AC%94%E8%AE%B0/" href="/categories/%E7%AC%94%E8%AE%B0/"
-            id="categoriesE7AC94E8AEB0"
-            ><div class='name'>笔记</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E9%9A%8F%E7%AC%94/" href="/categories/%E9%9A%8F%E7%AC%94/"
-            id="categoriesE99A8FE7AC94"
-            ><div class='name'>随笔</div><div class='badge'>(1)</div></a></li>
-        
-      </ul>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#0x00-%E5%AE%89%E8%A3%85%E7%8E%AF%E5%A2%83"><span class="toc-text">0x00. 安装环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01-%E4%B8%8B%E8%BD%BD-amp-%E5%AE%89%E8%A3%85"><span class="toc-text">0x01.下载&amp;安装</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E4%B8%8B%E8%BD%BD%E6%BA%90"><span class="toc-text">1. 下载源</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E5%AE%89%E8%A3%85"><span class="toc-text">2. 安装</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x02-%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE"><span class="toc-text">0x02. 环境配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E9%85%8D%E7%BD%AE"><span class="toc-text">1. 环境变量配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E9%85%8D%E7%BD%AE%E9%95%9C%E5%83%8F%E6%BA%90"><span class="toc-text">2. 配置镜像源</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E9%85%8D%E7%BD%AE-GoLand"><span class="toc-text">3. 配置 GoLand</span></a></li></ol></li></ol>
     </div>
   </section>
 
-
-  
-
-  
-    
-    
-  
-
-  <section class="widget tagcloud shadow desktop mobile">
-    
-  <header>
-    
-      <a href='/blog/tags/'><i class="fas fa-tags fa-fw" aria-hidden="true"></i><span class='name'>热门标签</span></a>
-    
-  </header>
-
-
-    <div class='content'>
-      <a href="/tags/2018/" style="font-size: 16.22px; color: #8a8a8a">2018</a> <a href="/tags/2019/" style="font-size: 22.89px; color: #5d5d5d">2019</a> <a href="/tags/2020/" style="font-size: 21.78px; color: #646464">2020</a> <a href="/tags/2021/" style="font-size: 16.22px; color: #8a8a8a">2021</a> <a href="/tags/C/" style="font-size: 19.56px; color: #737373">C++</a> <a href="/tags/Golang/" style="font-size: 14px; color: #999">Golang</a> <a href="/tags/HBTU/" style="font-size: 20.67px; color: #6c6c6c">HBTU</a> <a href="/tags/Linux/" style="font-size: 18.44px; color: #7b7b7b">Linux</a> <a href="/tags/Markdown/" style="font-size: 14px; color: #999">Markdown</a> <a href="/tags/Qt/" style="font-size: 19.56px; color: #737373">Qt</a> <a href="/tags/Study/" style="font-size: 19.56px; color: #737373">Study</a> <a href="/tags/Windows/" style="font-size: 17.33px; color: #828282">Windows</a> <a href="/tags/Windows10/" style="font-size: 14px; color: #999">Windows10</a> <a href="/tags/office/" style="font-size: 14px; color: #999">office</a> <a href="/tags/%E5%8E%9F%E5%88%9B/" style="font-size: 24px; color: #555">原创</a> <a href="/tags/%E5%8F%91%E8%A8%80%E7%A8%BF/" style="font-size: 14px; color: #999">发言稿</a> <a href="/tags/%E5%9B%A2%E6%80%BB%E6%94%AF/" style="font-size: 14px; color: #999">团总支</a> <a href="/tags/%E5%B7%A5%E5%AD%A6/" style="font-size: 14px; color: #999">工学</a> <a href="/tags/%E5%B9%B4%E5%BA%A6%E6%80%BB%E7%BB%93/" style="font-size: 16.22px; color: #8a8a8a">年度总结</a> <a href="/tags/%E5%BE%AE%E6%9C%BA%E5%8E%9F%E7%90%86/" style="font-size: 15.11px; color: #919191">微机原理</a> <a href="/tags/%E5%BE%AE%E8%AF%BE%E5%A0%82/" style="font-size: 14px; color: #999">微课堂</a> <a href="/tags/%E6%95%99%E7%A8%8B/" style="font-size: 14px; color: #999">教程</a> <a href="/tags/%E6%96%B0%E7%9F%A5%E8%AF%86/" style="font-size: 17.33px; color: #828282">新知识</a> <a href="/tags/%E6%A1%8C%E9%9D%A2%E7%BE%8E%E5%8C%96/" style="font-size: 14px; color: #999">桌面美化</a> <a href="/tags/%E6%AF%95%E4%B8%9A%E5%AD%A3/" style="font-size: 14px; color: #999">毕业季</a> <a href="/tags/%E6%B1%87%E7%BC%96/" style="font-size: 15.11px; color: #919191">汇编</a> <a href="/tags/%E7%89%B9%E5%88%AB%E5%8D%9A%E6%96%87/" style="font-size: 14px; color: #999">特别博文</a> <a href="/tags/%E7%94%B5%E8%84%91%E4%BC%98%E5%8C%96/" style="font-size: 14px; color: #999">电脑优化</a> <a href="/tags/%E7%94%B5%E8%84%91%E6%8A%80%E5%B7%A7/" style="font-size: 14px; color: #999">电脑技巧</a> <a href="/tags/%E7%AC%94%E8%AE%B0/" style="font-size: 20.67px; color: #6c6c6c">笔记</a> <a href="/tags/%E8%A3%85%E6%9C%BA/" style="font-size: 17.33px; color: #828282">装机</a> <a href="/tags/%E8%BD%AC%E8%BD%BD/" style="font-size: 15.11px; color: #919191">转载</a> <a href="/tags/%E8%BD%AF%E4%BB%B6/" style="font-size: 16.22px; color: #8a8a8a">软件</a> <a href="/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 17.33px; color: #828282">随笔</a>
-    </div>
-  </section>
-
-
-  
-
-  
-
-  
-    
-    
-
-<section class="widget shadow desktop">
-  
-  <header>
-    
-      <i class="fas fa-award fa-fw" aria-hidden="true"></i><span class='name'>站点信息</span>
-    
-  </header>
-
-
-  <div class='content'>
-    <div class="webinfo">
-      
-        <div class="webinfo-item">
-          <div>文章数目：</div>
-          <div>33 篇</div>
-        </div>
-      
-
-      
-        <div class="webinfo-item">
-          <div>已运行时间：</div>
-          <div id="webinfo-runtime-count" publish_date="03/24/2020 21:34:09"></div>
-        </div>
-        <script>
-          var BirthDay = new Date(new Date('2018/08/08'));
-          var today = new Date();
-          var timeold = (today.getTime() - BirthDay.getTime());
-          var daysold = Math.floor(timeold / (24 * 60 * 60 * 1000));
-          document.getElementById('webinfo-runtime-count').innerHTML = daysold + ' 天';
-        </script>
-      
-
-
-      
-        <div class="webinfo-item">
-          <div>本站总字数：</div>
-          <div>60.6k 字</div>
-        </div>
-      
-
-      
-        <div class="webinfo-item">
-          <div>本站访客数：</div>
-          
-          <div><span id="lc-uv"><span id='number'><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span></span> 人</div>
-          
-        </div>
-      
-
-      
-        <div class="webinfo-item">
-          <div>本站总访问量：</div>
-          
-          <div><span id="lc-sv"><span id='number'><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span></span> 次</div>
-          
-        </div>
-      
-
-      
-        <div class="webinfo-item">
-          <div>最后活动时间：</div>
-          
-            <div id="last-update" style="display: none;">Tue Mar 09 2021 23:32:32 GMT+0800 (中国标准时间)</div>
-            <div id="last-update-show">2021-03-09 日</div>
-          
-        </div>
-        
-        <script>
-          function timeago(dateTimeStamp) {
-              var minute = 1000 * 60; //把分，时，天，周，半个月，一个月用毫秒表示
-              var hour = minute * 60;
-              var day = hour * 24;
-              var week = day * 7;
-              var month = day * 30;
-              var now = new Date().getTime(); //获取当前时间毫秒
-              var diffValue = now - dateTimeStamp; //时间差
-              if (diffValue < 0) {
-                  return;
-              }
-              var minC = diffValue / minute; //计算时间差的分，时，天，周，月
-              var hourC = diffValue / hour;
-              var dayC = diffValue / day;
-              var weekC = diffValue / week;
-              var monthC = diffValue / month;
-              if (monthC >= 1 && monthC <= 3) {
-                  result = " " + parseInt(monthC) + " 月前"
-              } else if (weekC >= 1 && weekC <= 3) {
-                  result = " " + parseInt(weekC) + " 周前"
-              } else if (dayC >= 1 && dayC <= 6) {
-                  result = " " + parseInt(dayC) + " 天前"
-              } else if (hourC >= 1 && hourC <= 23) {
-                  result = " " + parseInt(hourC) + " 小时前"
-              } else if (minC >= 1 && minC <= 59) {
-                  result = " " + parseInt(minC) + " 分钟前"
-              } else if (diffValue >= 0 && diffValue <= minute) {
-                  result = "刚刚"
-              } else {
-                  var datetime = new Date();
-                  datetime.setTime(dateTimeStamp);
-                  var Nyear = datetime.getFullYear();
-                  var Nmonth = datetime.getMonth() + 1 < 10 ? "0" + (datetime.getMonth() + 1) : datetime.getMonth() + 1;
-                  var Ndate = datetime.getDate() < 10 ? "0" + datetime.getDate() : datetime.getDate();
-                  var Nhour = datetime.getHours() < 10 ? "0" + datetime.getHours() : datetime.getHours();
-                  var Nminute = datetime.getMinutes() < 10 ? "0" + datetime.getMinutes() : datetime.getMinutes();
-                  var Nsecond = datetime.getSeconds() < 10 ? "0" + datetime.getSeconds() : datetime.getSeconds();
-                  result = Nyear + "-" + Nmonth + "-" + Ndate
-              }
-              return result;
-          }
-          var lastUpDate = document.getElementById('last-update').innerHTML;
-          try {
-            document.getElementById('last-update-show').innerHTML = timeago(new Date(lastUpDate));
-          } catch (error) {
-            document.getElementById('last-update-show').innerHTML = '2021-03-09 日';
-          }
-        </script>
-        
-      
-    </div>
-  </div>
-</section>
-
-  
-
-  
-    
-    
-
-<section class="widget qrcode shadow desktop mobile">
-  
-
-  <div class='content article-entry'>
-    
-      <img src='https://cdn.amoswu.cn/blog/do_wechatpay.png'
-      />
-    
-      <img src='https://cdn.amoswu.cn/blog/do_alipay.jpg'
-      />
-    
-  </div>
-</section>
 
   
 
 
 </aside>
 
+
    <!--此文件用来存放一些不方便取值的变量-->
 <!--思路大概是将值藏到重加载的区域内-->
 
 <script>
   window.pdata={}
-  pdata.ispage=false;
-  pdata.postTitle="";
+  pdata.ispage=true;
+  pdata.postTitle="Golang 环境配置小记";
   pdata.commentPath="";
   pdata.commentPlaceholder="";
 
