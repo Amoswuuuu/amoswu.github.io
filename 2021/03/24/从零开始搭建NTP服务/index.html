@@ -5,8 +5,6 @@
   <!-- SEO相关 -->
   
     
-      <meta name="robots" content="noindex,follow">
-    
   
   <!-- 渲染优化 -->
   <meta http-equiv='x-dns-prefetch-control' content='on' />
@@ -21,7 +19,9 @@
 
   <!-- 页面元数据 -->
   
-  <title>分类：年度总结 - Amos&#39;Blog</title>
+  <title>从零开始搭建NTP服务 - Amos&#39;Blog</title>
+  
+    <meta name="keywords" content="原创,教程,2021">
   
 
   
@@ -319,7 +319,7 @@
       <div id="l_cover">
   
     
-        <div id="full" class='cover-wrapper  search' style="display: none;">
+        <div id="full" class='cover-wrapper post search' style="display: none;">
           
             <div id='cover-backstretch'></div>
           
@@ -358,220 +358,290 @@
         <div class="body-wrapper" id="pjax-container">
           
 
-
 <div class='l_main'>
+  <article class="article post white-box reveal md shadow article-type-post" id="post" itemscope itemprop="blogPost">
   
+
+
+  
+    <div class='headimg-div'>
+      <a class='headimg-a'>
+        <img class='headimg' src='https://cdn.amoswu.cn/blog/post-w-ntp.png'/>
+      </a>
+    </div>
+  
+  <div class="article-meta" id="top">
     
-      
-  <section class="post-list">
     
-      
+    
+      <h1 class="title">
+        从零开始搭建NTP服务
+      </h1>
+      <div class='new-meta-box'>
         
+          
+            
+<div class='new-meta-item author'>
+  <a class='author' href="/" rel="nofollow">
+    <img no-lazy src="https://cdn.amoswu.cn/blog/avatar.jpg">
+    <p>Amos</p>
+  </a>
+</div>
+
           
         
           
-        
+            
+  <div class='new-meta-item category'>
+    <a class='notlink'>
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <a class="category-link" href="/categories/%E6%95%99%E7%A8%8B/">教程</a>
+    </a>
+  </div>
+
+
           
         
-      
-    
-    
-      
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：2021年3月24日</p>
+  </a>
+</div>
+
+          
         
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
+          
+            
+  <div class="new-meta-item browse leancloud">
+    <a class='notlink'>
+      
+      <div id="lc-pv" data-title="从零开始搭建NTP服务" data-path="/2021/03/24/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%90%AD%E5%BB%BANTP%E6%9C%8D%E5%8A%A1/">
+        <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
+        <span id='number'><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
+        次浏览
+      </div>
+    </a>
+  </div>
+
+
+          
+        
+          
+            
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>字数：701字</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>时长：2分钟</p>
+    </a>
+  </div>
+
+
+          
+        
+      </div>
+    
+  </div>
+
+
+  
+  <p><img src="https://cdn.amoswu.cn/blog/20210324232312.png" class="lazyload" data-srcset="https://cdn.amoswu.cn/blog/20210324232312.png" srcset="data:image/png;base64,666"></p>
+<h2 id="0x01-NTP-简介"><a href="#0x01-NTP-简介" class="headerlink" title="0x01. NTP 简介"></a>0x01. NTP 简介</h2><p>NTP(Network Time Protocol) 的全称是 <strong>网络时间协议</strong> ，它是用来使计算机时间同步化的一种协议，它可以使计算机对其服务器或时钟源做同步化，它可以提供高精准度的时间校正（LAN上与标准时间差小于1ms，WAN上是几十毫秒）。</p>
+<h2 id="0x02-Windows-时间服务简介"><a href="#0x02-Windows-时间服务简介" class="headerlink" title="0x02. Windows 时间服务简介"></a>0x02. Windows 时间服务简介</h2><p>从Windows2000开始，所有的Microsoft Windows 操作系统都内置了 Windows时间服务（即W32Time），它具有将计算机时钟与NTP服务器同步的能力。</p>
+<blockquote>
+<p>Windows 10 和 Windows Server 2016 中的时间同步已大幅改善。 在合理的操作条件下，可将系统配置为维持 1ms（毫秒）的精度或更高的精度（相对于 UTC）。</p>
+<p>——From <a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/windows-server/networking/windows-time-service/windows-time-service-top">Microsoft</a></p>
+</blockquote>
+<h2 id="0x03-Win-NTP-服务器详细搭建步骤"><a href="#0x03-Win-NTP-服务器详细搭建步骤" class="headerlink" title="0x03. Win NTP 服务器详细搭建步骤"></a>0x03. Win NTP 服务器详细搭建步骤</h2><h4 id="Step-1-打开-Windows-注册表"><a href="#Step-1-打开-Windows-注册表" class="headerlink" title="Step 1. 打开 Windows 注册表"></a>Step 1. 打开 Windows 注册表</h4><p>按下 <code>Windows键 + R</code> 或 打开 <code>运行</code>，输入  <code>regedit</code>后点击确定。</p>
+<p><img src="https://cdn.amoswu.cn/blog/20210324111651.png" class="lazyload" data-srcset="https://cdn.amoswu.cn/blog/20210324111651.png" srcset="data:image/png;base64,666"></p>
+<h4 id="Step-2-找到指定路径-1"><a href="#Step-2-找到指定路径-1" class="headerlink" title="Step 2. 找到指定路径 -1"></a>Step 2. 找到指定路径 -1</h4><p>依次展开至 <code>Config</code> 路径，或直接在路径输入框复制下方路径后回车跳转。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">计算机\HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\W32Time\Config</span><br></pre></td></tr></table></figure>
+<p><img src="https://cdn.amoswu.cn/blog/20210324112116.png" class="lazyload" data-srcset="https://cdn.amoswu.cn/blog/20210324112116.png" srcset="data:image/png;base64,666"></p>
+<h4 id="Step-3-修改指定的值-1"><a href="#Step-3-修改指定的值-1" class="headerlink" title="Step 3. 修改指定的值 -1"></a>Step 3. 修改指定的值 -1</h4><p>在右侧找到 <code>AnnounceFlags</code>，双击，将它的 <code>数值数据</code> 改为 <code>5</code>，单击确定。</p>
+<p> <img src="https://cdn.amoswu.cn/blog/20210324112400.png" class="lazyload" data-srcset="https://cdn.amoswu.cn/blog/20210324112400.png" srcset="data:image/png;base64,666"></p>
+<h4 id="Step-4-找到指定路径-2"><a href="#Step-4-找到指定路径-2" class="headerlink" title="Step 4.找到指定路径 -2"></a>Step 4.找到指定路径 -2</h4><p>依次展开至 <code>NtpServer</code> 路径，或直接在路径输入框复制下方路径后回车跳转。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">计算机\HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\W32Time\TimeProviders\NtpServer</span><br></pre></td></tr></table></figure>
+<p><img src="https://cdn.amoswu.cn/blog/20210324112658.png" class="lazyload" data-srcset="https://cdn.amoswu.cn/blog/20210324112658.png" srcset="data:image/png;base64,666"></p>
+<h4 id="Step-5-修改指定的值-2"><a href="#Step-5-修改指定的值-2" class="headerlink" title="Step 5. 修改指定的值 -2"></a>Step 5. 修改指定的值 -2</h4><p>在右侧找到 <code>Enabled</code>，双击，将它的 <code>数值数据</code> 改为 <code>1</code>，单击确定。</p>
+<p> <img src="https://cdn.amoswu.cn/blog/20210324112848.png" class="lazyload" data-srcset="https://cdn.amoswu.cn/blog/20210324112848.png" srcset="data:image/png;base64,666"></p>
+<h4 id="Step-6-启动-W32Time-服务"><a href="#Step-6-启动-W32Time-服务" class="headerlink" title="Step 6. 启动 W32Time 服务"></a>Step 6. 启动 W32Time 服务</h4><p>按下 <code>Windows键 + R</code> 或 打开 <code>运行</code>，输入  <code>services.msc</code> 后点击确定；</p>
+<p><img src="https://cdn.amoswu.cn/blog/20210324113101.png" class="lazyload" data-srcset="https://cdn.amoswu.cn/blog/20210324113101.png" srcset="data:image/png;base64,666"></p>
+<p>找到 <code>Windows Time</code> 服务项，双击，将它的 <code>启动类型</code> 设置为 <code>自动</code>，单击确定。</p>
+<p><img src="https://cdn.amoswu.cn/blog/20210324113407.png" class="lazyload" data-srcset="https://cdn.amoswu.cn/blog/20210324113407.png" srcset="data:image/png;base64,666"></p>
+<h4 id="Step-7-重启-W32Time-服务"><a href="#Step-7-重启-W32Time-服务" class="headerlink" title="Step 7. 重启 W32Time 服务"></a>Step 7. 重启 W32Time 服务</h4><p>按下 <code>Windows键 + X + A</code> 或  以管理员身份运行 <code>cmd.exe</code> ，依次输入  <code>net stop w32time  </code>和   <code>net start w32time</code> 后点击确定；</p>
+<p><img src="https://cdn.amoswu.cn/blog/20210324114406.png" class="lazyload" data-srcset="https://cdn.amoswu.cn/blog/20210324114406.png" srcset="data:image/png;base64,666"></p>
+<p>按下 <code>Windows键 + R</code> 或 打开 <code>运行</code>，输入  <code>cmd</code> 后点击确定；</p>
+<p><img src="https://cdn.amoswu.cn/blog/20210324113742.png" class="lazyload" data-srcset="https://cdn.amoswu.cn/blog/20210324113742.png" srcset="data:image/png;base64,666"></p>
+<p>在弹出的窗口中，输入 <code>netstat -an</code> ，回车，在输出的文本中可以看到  <code>UDP  0.0.0.0:123     *:*</code>  ，说明 NTP 服务搭建成功。</p>
+<p><img src="https://cdn.amoswu.cn/blog/20210324114931.png" class="lazyload" data-srcset="https://cdn.amoswu.cn/blog/20210324114931.png" srcset="data:image/png;base64,666"></p>
+<h2 id="0x04-Windows-和-Linux-下-NTP-对时服务的使用"><a href="#0x04-Windows-和-Linux-下-NTP-对时服务的使用" class="headerlink" title="0x04. Windows 和 Linux 下 NTP 对时服务的使用"></a>0x04. Windows 和 Linux 下 NTP 对时服务的使用</h2><h3 id="Windows"><a href="#Windows" class="headerlink" title="Windows"></a>Windows</h3><h4 id="Step-1-打开-Internet时间-设置"><a href="#Step-1-打开-Internet时间-设置" class="headerlink" title="Step 1.打开 Internet时间 设置"></a>Step 1.打开 Internet时间 设置</h4><p>在任务栏右下角单击<code>时间</code>，继续单击 <code>日期和时间设置</code> ；</p>
+<p><img src="https://cdn.amoswu.cn/blog/20210324115607.png" class="lazyload" data-srcset="https://cdn.amoswu.cn/blog/20210324115607.png" srcset="data:image/png;base64,666"></p>
+<p>在弹出的窗口中，点击 <code>添加不同时区的时钟</code> ；</p>
+<p><img src="https://cdn.amoswu.cn/blog/20210324115711.png" class="lazyload" data-srcset="https://cdn.amoswu.cn/blog/20210324115711.png" srcset="data:image/png;base64,666"></p>
+<p>在弹出的窗口中，单击 <code>Internet时间</code> 选项卡，单击 <code>更改设置</code> 按钮； </p>
+<p><img src="https://cdn.amoswu.cn/blog/20210324115909.png" class="lazyload" data-srcset="https://cdn.amoswu.cn/blog/20210324115909.png" srcset="data:image/png;base64,666"></p>
+<p>在弹出的窗口中，输入搭建好NTP服务的主机地址，单击 <code>立即更新</code> 。</p>
+<p><img src="https://cdn.amoswu.cn/blog/20210324132214.png" class="lazyload" data-srcset="https://cdn.amoswu.cn/blog/20210324132214.png" srcset="data:image/png;base64,666"></p>
+<h3 id="Ubuntu"><a href="#Ubuntu" class="headerlink" title="Ubuntu"></a>Ubuntu</h3><p>在终端输入命令 <code>sudo ntpdate 192.168.10.123</code> ，输入密码，出现类似 <code>step time server 192.168.10.123 offset -1231.354535 sec</code>  字样即表示成功。</p>
+<blockquote>
+<p>参考链接：</p>
+<p>[1] Microsoft - <a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/windows-server/networking/windows-time-service/windows-time-service-top">Windows 时间服务 (W32Time)</a></p>
+<p>[2] Github - <a target="_blank" rel="noopener" href="https://github.com/microsoft/W32Time">microsoft/W32Time</a></p>
+</blockquote>
+
   
   
-  
-    <div class='headimg-div'>
-      <a class='headimg-a' href="/2021/01/17/%E5%B9%B3%E5%87%A1%EF%BC%8C%E8%8B%A6%E9%9A%BE%E4%B8%AD%E7%9A%84%E6%9C%9F%E7%9B%BC/">
-        <img class='headimg' src='https://cdn.amoswu.cn/blog/post-bg-2021001.png'/>
-      </a>
+    
+    <div class='footer'>
+      
+      
+      
+        <div class='copyright'>
+          <blockquote>
+            
+              
+                <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
+              
+            
+              
+                <p>本文永久链接是：<a href=https://blog.amoswu.cn/2021/03/24/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%90%AD%E5%BB%BANTP%E6%9C%8D%E5%8A%A1/>https://blog.amoswu.cn/2021/03/24/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%90%AD%E5%BB%BANTP%E6%9C%8D%E5%8A%A1/</a></p>
+              
+            
+          </blockquote>
+        </div>
+      
+      
     </div>
   
   
     
-    <h2 class="article-title" >
-      <a href="/2021/01/17/%E5%B9%B3%E5%87%A1%EF%BC%8C%E8%8B%A6%E9%9A%BE%E4%B8%AD%E7%9A%84%E6%9C%9F%E7%9B%BC/">
-        平凡，苦难中的期盼
-      </a>
-    </h2>
+
+
+  <div class='article-meta' id="bottom">
+    <div class='new-meta-box'>
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-03-24T23:24:05+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：2021年3月24日</p>
+  </a>
+</div>
+
+        
+      
+        
+          
   
-  <div class='md'>
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/%E5%8E%9F%E5%88%9B/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>原创</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/%E6%95%99%E7%A8%8B/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>教程</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/2021/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>2021</p></a></div>
+
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://blog.amoswu.cn/2021/03/24/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%90%AD%E5%BB%BANTP%E6%9C%8D%E5%8A%A1/&title=从零开始搭建NTP服务 - Amos'Blog&summary="
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qq.png" class="lazyload" data-srcset="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qq.png" srcset="data:image/png;base64,666">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://blog.amoswu.cn/2021/03/24/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%90%AD%E5%BB%BANTP%E6%9C%8D%E5%8A%A1/&title=从零开始搭建NTP服务 - Amos'Blog&summary="
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qzone.png" class="lazyload" data-srcset="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qzone.png" srcset="data:image/png;base64,666">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="http://service.weibo.com/share/share.php?url=https://blog.amoswu.cn/2021/03/24/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%90%AD%E5%BB%BANTP%E6%9C%8D%E5%8A%A1/&title=从零开始搭建NTP服务 - Amos'Blog&summary="
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/weibo.png" class="lazyload" data-srcset="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/weibo.png" srcset="data:image/png;base64,666">
+          
+        </a>
+      
     
       
         
-
-我们都曾经经历过磨难，我们都曾经失去爱人，我们的生活都曾经被碾压成碎片，但是我们相信风雨之后必有彩虹，这是就躺在我们这个胜利的民族，每一个人血液中的坚实信仰。        ——食贫道《小城夜食记》梧州篇
-
-
-1. 苦难，我们不怕
-	
-		
-		
-			
-		
-		
-			音乐名: 我们不怕
-			表演者: 高进
-			发行时间: 2020-02-09
-			评分: ...
+        <div class='hoverbox'>
+          <a class='share'><img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org@1.1.3/logo/128/qrcode.png" class="lazyload" data-srcset="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org@1.1.3/logo/128/qrcode.png" srcset="data:image/png;base64,666"></a>
+          <div class='target'>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAXgAAAF4CAAAAAB79r16AAAFK0lEQVR42u3dQY4bMRADQP//08kDAmfUbMpeLEo3O94ZqaQLQQF5/TG+Ml4IwIM3wIM3wIM3CvCvcPzzwIffTT8/LiD8/en8nuaZeoEHDx48ePDgwYMH34T/1IJTmPbfpevceoEHDx48ePDgwYMHfwN+G4SmG/D0/tP3nM57+761F3jw4MGDBw8ePHjwPwj+dpGwPQjbYAYePHjw4MGDBw8e/G+ET4uEafCZXrSagm4PHnjw4MGDBw8ePHjw34AfX9ApFSPTDWwdhHTeX79JBh48ePDgwYMHDx78xSLit36OvcCDBw8ePHjw4MGDL8BvxzZQTAuL0yDWKjym63tcF3jw4MGDBw8ePHjwBfg0IKRwLaAU7On79kaDBw8ePHjw4MGDB38DvhV8ngqEKUy60a1gtl13rQgBDx48ePDgwYMHD/4/8KcLPg0s0yDSAkyLmfaBePsc8ODBgwcPHjx48OAL8KcLaC0onXAa+NIDNS10jg8cePDgwYMHDx48ePBF+OnEWxO6/bvjgmK5nuN5gwcPHjx48ODBgwdfgG8VIk8TPQ082wCWrusUPD2g4MGDBw8ePHjw4ME34W8XBtsioxX00qC0DWDHDRR48ODBgwcPHjx48AP4NkwKdCuApcXJdF3HvwcPHjx48ODBgwcPvgg/hWtt2BZwW1jcLlLAgwcPHjx48ODBg78Bn06oNZFT0OnzTg9O66DVGijw4MGDBw8ePHjw4C/8P1BpUJkWIdsion1wUgfw4MGDBw8ePHjw4L8Jf/zg8kWkbcBKi5vtBSnw4MGDBw8ePHjw4D8Bf7qANBhNC5H2e9qFT7pO8ODBgwcPHjx48OAb8NsA0gJpFS+n3083qrUx4MGDBw8ePHjw4ME34befx0Ei3JjtfG697zggggcPHjx48ODBgwd/AT4tLrYXoKaBp12sxJCtAAUePHjw4MGDBw8e/AB++8BpEbItJLYXjNJAl24gePDgwYMHDx48ePA34dMgsw0+W8D271tB7e1BAg8ePHjw4MGDBw/+A/DTQDOd2PSCUfr9KdD0AI2DGnjw4MGDBw8ePHjwBfhbINOio73Q40Bz+L5twQMePHjw4MGDBw8efBP+aULTwmH6OS0otheT0gIkLXzAgwcPHjx48ODBg/8EfKuguHUBKd2g9MJWa2PBgwcPHjx48ODBg2/AfzrovA5HGnxa0GlgHF9oAg8ePHjw4MGDBw9+Ad8KFusLP8MFnX4/LU6e5hdf6AIPHjx48ODBgwcPvgg/XUgaRLYTP/19Wpxsi6BHF/DgwYMHDx48ePDgi/BTiGmwSWHSYLYtYNKNeZwHePDgwYMHDx48ePAF+FvBYRvMtkElXUcavI4PCHjw4MGDBw8ePHjwRfi0sJj+/TZIbQPatpBJL4CBBw8ePHjw4MGDB9+Eb704DVbTedx6/+nfbYsU8ODBgwcPHjx48OAb8NuRBpdW0TFeeBi4phvz9rngwYMHDx48ePDgwRfgX+FobcCnntsqStIiBzx48ODBgwcPHjz4G/DbwJQWHe2CZQvVev/b+YAHDx48ePDgwYMHfwF+u5Dpc7a/S+fTusA0LmLAgwcPHjx48ODBg/+B8ONiYPnv0wtM6fy2QQw8ePDgwYMHDx48+J8Ivw1AbYBpkGrN7zHIgQcPHjx48ODBgwd/AX56oSkNPK2Fn0KmRUndBzx48ODBgwcPHjz4InwadNqBa1potIPeNMBNNwA8ePDgwYMHDx48+Aa88dkBHjx4Azx4Azx4YzH+Anl0o9V5dF+8AAAAAElFTkSuQmCC">
+          </div>
+        </div>
       
     
   </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2021-01-17</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/%E5%B9%B4%E5%BA%A6%E6%80%BB%E7%BB%93/">年度总结</a>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2021/01/17/%E5%B9%B3%E5%87%A1%EF%BC%8C%E8%8B%A6%E9%9A%BE%E4%B8%AD%E7%9A%84%E6%9C%9F%E7%9B%BC/'>
-            阅读全文
-          </a>
-        </div>
-      
-    </div>
-  
-
 </div>
 
-          </div>
+
+
         
       
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-    <div class='headimg-div'>
-      <a class='headimg-a' href="/2019/12/31/%E8%81%9A%E7%84%A6%EF%BC%8C%E5%86%8D%E5%87%BA%E5%8F%91/">
-        <img class='headimg' src='https://cdn.amoswu.cn/blog/post-bg-2015.jpg'/>
-      </a>
     </div>
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2019/12/31/%E8%81%9A%E7%84%A6%EF%BC%8C%E5%86%8D%E5%87%BA%E5%8F%91/">
-        聚焦，再出发
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        
-万物皆有裂痕，那是光照进来的地方。
-
-​    
-
-
-   &nbsp;  &nbsp;  &nbsp; &nbsp;21世纪10年代的最后几个小时，马上就会伴随着21世纪20年代的新年钟声在每个人的生命中度过了。按照惯例，我今年会在这里写下10年年度总结的第2年（2019）。今年开始，我将年度总结的表述形式进行了重构，我将不再按照去年的“两段式”论述，而是采用新的“板块式”论述。回首过去...
-      
-    
   </div>
+
+
   
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2019-12-31</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/%E5%B9%B4%E5%BA%A6%E6%80%BB%E7%BB%93/">年度总结</a>
-        
-      </div>
+  
+
+  
+    <div class="prev-next">
       
-        <div>
-          <a class='readmore' href='/2019/12/31/%E8%81%9A%E7%84%A6%EF%BC%8C%E5%86%8D%E5%87%BA%E5%8F%91/'>
-            阅读全文
-          </a>
-        </div>
+      
+        <a class='next' href='/2021/03/11/10%E5%88%86%E9%92%9F%E6%90%9E%E5%AE%9A%E8%A3%85%E6%9C%BA%E5%85%A5%E9%97%A8%E7%9F%A5%E8%AF%86/'>
+          <p class='title'>10分钟搞定装机入门知识<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+          <p class='content'>
+引言随着疫情防控进入了常态化，越来越多的人需要把家里的“老古董”电脑进行一轮升级换代。有的是适应居家办公的需求，有的是适应居家上网课的需求，还有的是适应居家娱乐的需求······总而言之，这些...</p>
+        </a>
       
     </div>
   
+</article>
 
+
+  
+
+  <article class="post white-box reveal shadow" id="comments">
+    <p ct><i class='fas fa-comments'></i> 评论</p>
+    
+    <div id="valine_container" class="valine_thread">
+  <i class="fas fa-cog fa-spin fa-fw fa-2x"></i>
 </div>
 
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-    <div class='headimg-div'>
-      <a class='headimg-a' href="/2018/12/31/%E7%BE%8E%E5%A5%BD%EF%BC%8C%E5%9C%A8%E4%B8%8B%E4%B8%80%E4%B8%AA%E6%9C%AA%E6%9D%A5/">
-        <img class='headimg' src='https://cdn.amoswu.cn/blog/post-bg-2015.jpg'/>
-      </a>
-    </div>
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2018/12/31/%E7%BE%8E%E5%A5%BD%EF%BC%8C%E5%9C%A8%E4%B8%8B%E4%B8%80%E4%B8%AA%E6%9C%AA%E6%9D%A5/">
-        美好，在下一个未来
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        
-没有任何道路可以通向真诚，真诚本身就是一条道路。
-
-​    
-
-  &nbsp;  &nbsp;  &nbsp;  &nbsp;转眼间，2018年已悄然走到尽头。时间的车轮在碾碎压力的同时也载着希望开往下一个未来。
-  
-回望2018
-年初的Flag
-&nbsp;  &nbsp;  &nbsp;  &nbsp;-看至少30部影片&nbsp;  &nbsp;  &nbsp;  &nbsp;...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2018-12-31</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/%E5%B9%B4%E5%BA%A6%E6%80%BB%E7%BB%93/">年度总结</a>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2018/12/31/%E7%BE%8E%E5%A5%BD%EF%BC%8C%E5%9C%A8%E4%B8%8B%E4%B8%80%E4%B8%AA%E6%9C%AA%E6%9D%A5/'>
-            阅读全文
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-    
-  </section>
-  
-    
-  
+  </article>
 
 
-    
-  
+
+
+
+
 </div>
 <aside class='l_side'>
   
@@ -579,334 +649,36 @@
     
     
 
-<section class="widget blogger shadow desktop mobile">
-  <div class='content'>
-    
-      
-        <a class='avatar flat-box circle' href='/about/'>
-          <img no-lazy src='https://cdn.amoswu.cn/blog/avatar.jpg'/>
-        </a>
-      
-    
-    
-      <div class='text'>
-        
-          <h2>AmosWu</h2>
-        
-        
-          <p>恒者行远，思者常新。</p>
 
-        
-        
-      </div>
-    
-    
-      <div class="social-wrapper">
-        
-          
-            <a href="/atom.xml"
-              class="social fas fa-rss flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-              
-            </a>
-          
-        
-          
-            <a href="mailto:a@amoswu.cn"
-              class="social fas fa-envelope flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-              
-            </a>
-          
-        
-          
-            <a href="https://github.com/amoswuuuu/"
-              class="social fab fa-github flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-              
-            </a>
-          
-        
-          
-            <a href="http://weibo.com/570557703"
-              class="social fab fa-weibo flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-              
-            </a>
-          
-        
-      </div>
-    
-  </div>
-</section>
 
-  
-
-  
-    
-    
-  
-
-  <section class="widget category shadow desktop">
+  <section class="widget toc-wrapper shadow desktop mobile" id="toc-div" >
     
   <header>
     
-      <a href='/blog/categories/'><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i><span class='name'>文章分类</span></a>
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
     
   </header>
 
 
     <div class='content'>
-      <ul class="entry navigation">
-        
-          <li><a class="flat-box"
-            title="/categories/%E5%B9%B4%E5%BA%A6%E6%80%BB%E7%BB%93/" href="/categories/%E5%B9%B4%E5%BA%A6%E6%80%BB%E7%BB%93/"
-            id="categoriesE5B9B4E5BAA6E680BBE7BB93"
-            ><div class='name'>年度总结</div><div class='badge'>(3)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E6%8E%A8%E8%8D%90/" href="/categories/%E6%8E%A8%E8%8D%90/"
-            id="categoriesE68EA8E88D90"
-            ><div class='name'>推荐</div><div class='badge'>(4)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E6%95%99%E7%A8%8B/" href="/categories/%E6%95%99%E7%A8%8B/"
-            id="categoriesE69599E7A88B"
-            ><div class='name'>教程</div><div class='badge'>(2)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/%E6%95%99%E7%A8%8B/%E7%AC%94%E8%AE%B0/" href="/categories/%E6%95%99%E7%A8%8B/%E7%AC%94%E8%AE%B0/"
-            id="categoriesE69599E7A88BE7AC94E8AEB0"
-            ><div class='name'>笔记</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E6%96%B0%E7%9F%A5/" href="/categories/%E6%96%B0%E7%9F%A5/"
-            id="categoriesE696B0E79FA5"
-            ><div class='name'>新知</div><div class='badge'>(14)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/%E6%96%B0%E7%9F%A5/%E7%AC%94%E8%AE%B0/" href="/categories/%E6%96%B0%E7%9F%A5/%E7%AC%94%E8%AE%B0/"
-            id="categoriesE696B0E79FA5E7AC94E8AEB0"
-            ><div class='name'>笔记</div><div class='badge'>(12)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/%E6%96%B0%E7%9F%A5/%E9%9A%8F%E7%AC%94/" href="/categories/%E6%96%B0%E7%9F%A5/%E9%9A%8F%E7%AC%94/"
-            id="categoriesE696B0E79FA5E99A8FE7AC94"
-            ><div class='name'>随笔</div><div class='badge'>(2)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E7%89%B9%E5%88%AB%E5%8D%9A%E6%96%87/" href="/categories/%E7%89%B9%E5%88%AB%E5%8D%9A%E6%96%87/"
-            id="categoriesE789B9E588ABE58D9AE69687"
-            ><div class='name'>特别博文</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E7%9F%A5%E8%AF%86%E6%95%B4%E7%90%86/" href="/categories/%E7%9F%A5%E8%AF%86%E6%95%B4%E7%90%86/"
-            id="categoriesE79FA5E8AF86E695B4E79086"
-            ><div class='name'>知识整理</div><div class='badge'>(3)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/%E7%9F%A5%E8%AF%86%E6%95%B4%E7%90%86/%E7%AC%94%E8%AE%B0/" href="/categories/%E7%9F%A5%E8%AF%86%E6%95%B4%E7%90%86/%E7%AC%94%E8%AE%B0/"
-            id="categoriesE79FA5E8AF86E695B4E79086E7AC94E8AEB0"
-            ><div class='name'>笔记</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E7%A7%91%E6%99%AE/" href="/categories/%E7%A7%91%E6%99%AE/"
-            id="categoriesE7A791E699AE"
-            ><div class='name'>科普</div><div class='badge'>(3)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E7%A8%BF%E4%BB%B6/" href="/categories/%E7%A8%BF%E4%BB%B6/"
-            id="categoriesE7A8BFE4BBB6"
-            ><div class='name'>稿件</div><div class='badge'>(3)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/%E7%A8%BF%E4%BB%B6/PPT/" href="/categories/%E7%A8%BF%E4%BB%B6/PPT/"
-            id="categoriesE7A8BFE4BBB6PPT"
-            ><div class='name'>PPT</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E7%AC%94%E8%AE%B0/" href="/categories/%E7%AC%94%E8%AE%B0/"
-            id="categoriesE7AC94E8AEB0"
-            ><div class='name'>笔记</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E9%9A%8F%E7%AC%94/" href="/categories/%E9%9A%8F%E7%AC%94/"
-            id="categoriesE99A8FE7AC94"
-            ><div class='name'>随笔</div><div class='badge'>(1)</div></a></li>
-        
-      </ul>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01-NTP-%E7%AE%80%E4%BB%8B"><span class="toc-text">0x01. NTP 简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x02-Windows-%E6%97%B6%E9%97%B4%E6%9C%8D%E5%8A%A1%E7%AE%80%E4%BB%8B"><span class="toc-text">0x02. Windows 时间服务简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x03-Win-NTP-%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AF%A6%E7%BB%86%E6%90%AD%E5%BB%BA%E6%AD%A5%E9%AA%A4"><span class="toc-text">0x03. Win NTP 服务器详细搭建步骤</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Step-1-%E6%89%93%E5%BC%80-Windows-%E6%B3%A8%E5%86%8C%E8%A1%A8"><span class="toc-text">Step 1. 打开 Windows 注册表</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Step-2-%E6%89%BE%E5%88%B0%E6%8C%87%E5%AE%9A%E8%B7%AF%E5%BE%84-1"><span class="toc-text">Step 2. 找到指定路径 -1</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Step-3-%E4%BF%AE%E6%94%B9%E6%8C%87%E5%AE%9A%E7%9A%84%E5%80%BC-1"><span class="toc-text">Step 3. 修改指定的值 -1</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Step-4-%E6%89%BE%E5%88%B0%E6%8C%87%E5%AE%9A%E8%B7%AF%E5%BE%84-2"><span class="toc-text">Step 4.找到指定路径 -2</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Step-5-%E4%BF%AE%E6%94%B9%E6%8C%87%E5%AE%9A%E7%9A%84%E5%80%BC-2"><span class="toc-text">Step 5. 修改指定的值 -2</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Step-6-%E5%90%AF%E5%8A%A8-W32Time-%E6%9C%8D%E5%8A%A1"><span class="toc-text">Step 6. 启动 W32Time 服务</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Step-7-%E9%87%8D%E5%90%AF-W32Time-%E6%9C%8D%E5%8A%A1"><span class="toc-text">Step 7. 重启 W32Time 服务</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x04-Windows-%E5%92%8C-Linux-%E4%B8%8B-NTP-%E5%AF%B9%E6%97%B6%E6%9C%8D%E5%8A%A1%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="toc-text">0x04. Windows 和 Linux 下 NTP 对时服务的使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Windows"><span class="toc-text">Windows</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Step-1-%E6%89%93%E5%BC%80-Internet%E6%97%B6%E9%97%B4-%E8%AE%BE%E7%BD%AE"><span class="toc-text">Step 1.打开 Internet时间 设置</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Ubuntu"><span class="toc-text">Ubuntu</span></a></li></ol></li></ol>
     </div>
   </section>
 
-
-  
-
-  
-    
-    
-  
-
-  <section class="widget tagcloud shadow desktop mobile">
-    
-  <header>
-    
-      <a href='/blog/tags/'><i class="fas fa-tags fa-fw" aria-hidden="true"></i><span class='name'>热门标签</span></a>
-    
-  </header>
-
-
-    <div class='content'>
-      <a href="/tags/2018/" style="font-size: 16.22px; color: #8a8a8a">2018</a> <a href="/tags/2019/" style="font-size: 22.89px; color: #5d5d5d">2019</a> <a href="/tags/2020/" style="font-size: 21.78px; color: #646464">2020</a> <a href="/tags/2021/" style="font-size: 18.44px; color: #7b7b7b">2021</a> <a href="/tags/C/" style="font-size: 19.56px; color: #737373">C++</a> <a href="/tags/Golang/" style="font-size: 14px; color: #999">Golang</a> <a href="/tags/HBTU/" style="font-size: 20.67px; color: #6c6c6c">HBTU</a> <a href="/tags/Linux/" style="font-size: 18.44px; color: #7b7b7b">Linux</a> <a href="/tags/Markdown/" style="font-size: 14px; color: #999">Markdown</a> <a href="/tags/Qt/" style="font-size: 19.56px; color: #737373">Qt</a> <a href="/tags/Study/" style="font-size: 19.56px; color: #737373">Study</a> <a href="/tags/Windows/" style="font-size: 17.33px; color: #828282">Windows</a> <a href="/tags/Windows10/" style="font-size: 14px; color: #999">Windows10</a> <a href="/tags/office/" style="font-size: 14px; color: #999">office</a> <a href="/tags/%E5%8E%9F%E5%88%9B/" style="font-size: 24px; color: #555">原创</a> <a href="/tags/%E5%8F%91%E8%A8%80%E7%A8%BF/" style="font-size: 14px; color: #999">发言稿</a> <a href="/tags/%E5%9B%A2%E6%80%BB%E6%94%AF/" style="font-size: 14px; color: #999">团总支</a> <a href="/tags/%E5%B7%A5%E5%AD%A6/" style="font-size: 14px; color: #999">工学</a> <a href="/tags/%E5%B9%B4%E5%BA%A6%E6%80%BB%E7%BB%93/" style="font-size: 16.22px; color: #8a8a8a">年度总结</a> <a href="/tags/%E5%BE%AE%E6%9C%BA%E5%8E%9F%E7%90%86/" style="font-size: 15.11px; color: #919191">微机原理</a> <a href="/tags/%E5%BE%AE%E8%AF%BE%E5%A0%82/" style="font-size: 14px; color: #999">微课堂</a> <a href="/tags/%E6%95%99%E7%A8%8B/" style="font-size: 15.11px; color: #919191">教程</a> <a href="/tags/%E6%96%B0%E7%9F%A5%E8%AF%86/" style="font-size: 17.33px; color: #828282">新知识</a> <a href="/tags/%E6%A1%8C%E9%9D%A2%E7%BE%8E%E5%8C%96/" style="font-size: 14px; color: #999">桌面美化</a> <a href="/tags/%E6%AF%95%E4%B8%9A%E5%AD%A3/" style="font-size: 14px; color: #999">毕业季</a> <a href="/tags/%E6%B1%87%E7%BC%96/" style="font-size: 15.11px; color: #919191">汇编</a> <a href="/tags/%E7%89%B9%E5%88%AB%E5%8D%9A%E6%96%87/" style="font-size: 14px; color: #999">特别博文</a> <a href="/tags/%E7%94%B5%E8%84%91%E4%BC%98%E5%8C%96/" style="font-size: 14px; color: #999">电脑优化</a> <a href="/tags/%E7%94%B5%E8%84%91%E6%8A%80%E5%B7%A7/" style="font-size: 14px; color: #999">电脑技巧</a> <a href="/tags/%E7%A7%91%E6%99%AE/" style="font-size: 14px; color: #999">科普</a> <a href="/tags/%E7%AC%94%E8%AE%B0/" style="font-size: 20.67px; color: #6c6c6c">笔记</a> <a href="/tags/%E8%A3%85%E6%9C%BA/" style="font-size: 17.33px; color: #828282">装机</a> <a href="/tags/%E8%BD%AC%E8%BD%BD/" style="font-size: 15.11px; color: #919191">转载</a> <a href="/tags/%E8%BD%AF%E4%BB%B6/" style="font-size: 16.22px; color: #8a8a8a">软件</a> <a href="/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 18.44px; color: #7b7b7b">随笔</a>
-    </div>
-  </section>
-
-
-  
-
-  
-
-  
-    
-    
-
-<section class="widget shadow desktop">
-  
-  <header>
-    
-      <i class="fas fa-award fa-fw" aria-hidden="true"></i><span class='name'>站点信息</span>
-    
-  </header>
-
-
-  <div class='content'>
-    <div class="webinfo">
-      
-        <div class="webinfo-item">
-          <div>文章数目：</div>
-          <div>35 篇</div>
-        </div>
-      
-
-      
-        <div class="webinfo-item">
-          <div>已运行时间：</div>
-          <div id="webinfo-runtime-count" publish_date="03/24/2020 21:34:09"></div>
-        </div>
-        <script>
-          var BirthDay = new Date(new Date('2018/08/08'));
-          var today = new Date();
-          var timeold = (today.getTime() - BirthDay.getTime());
-          var daysold = Math.floor(timeold / (24 * 60 * 60 * 1000));
-          document.getElementById('webinfo-runtime-count').innerHTML = daysold + ' 天';
-        </script>
-      
-
-
-      
-        <div class="webinfo-item">
-          <div>本站总字数：</div>
-          <div>65.5k 字</div>
-        </div>
-      
-
-      
-        <div class="webinfo-item">
-          <div>本站访客数：</div>
-          
-          <div><span id="lc-uv"><span id='number'><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span></span> 人</div>
-          
-        </div>
-      
-
-      
-        <div class="webinfo-item">
-          <div>本站总访问量：</div>
-          
-          <div><span id="lc-sv"><span id='number'><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span></span> 次</div>
-          
-        </div>
-      
-
-      
-        <div class="webinfo-item">
-          <div>最后活动时间：</div>
-          
-            <div id="last-update" style="display: none;">Wed Mar 24 2021 23:26:14 GMT+0800 (中国标准时间)</div>
-            <div id="last-update-show">2021-03-24 日</div>
-          
-        </div>
-        
-        <script>
-          function timeago(dateTimeStamp) {
-              var minute = 1000 * 60; //把分，时，天，周，半个月，一个月用毫秒表示
-              var hour = minute * 60;
-              var day = hour * 24;
-              var week = day * 7;
-              var month = day * 30;
-              var now = new Date().getTime(); //获取当前时间毫秒
-              var diffValue = now - dateTimeStamp; //时间差
-              if (diffValue < 0) {
-                  return;
-              }
-              var minC = diffValue / minute; //计算时间差的分，时，天，周，月
-              var hourC = diffValue / hour;
-              var dayC = diffValue / day;
-              var weekC = diffValue / week;
-              var monthC = diffValue / month;
-              if (monthC >= 1 && monthC <= 3) {
-                  result = " " + parseInt(monthC) + " 月前"
-              } else if (weekC >= 1 && weekC <= 3) {
-                  result = " " + parseInt(weekC) + " 周前"
-              } else if (dayC >= 1 && dayC <= 6) {
-                  result = " " + parseInt(dayC) + " 天前"
-              } else if (hourC >= 1 && hourC <= 23) {
-                  result = " " + parseInt(hourC) + " 小时前"
-              } else if (minC >= 1 && minC <= 59) {
-                  result = " " + parseInt(minC) + " 分钟前"
-              } else if (diffValue >= 0 && diffValue <= minute) {
-                  result = "刚刚"
-              } else {
-                  var datetime = new Date();
-                  datetime.setTime(dateTimeStamp);
-                  var Nyear = datetime.getFullYear();
-                  var Nmonth = datetime.getMonth() + 1 < 10 ? "0" + (datetime.getMonth() + 1) : datetime.getMonth() + 1;
-                  var Ndate = datetime.getDate() < 10 ? "0" + datetime.getDate() : datetime.getDate();
-                  var Nhour = datetime.getHours() < 10 ? "0" + datetime.getHours() : datetime.getHours();
-                  var Nminute = datetime.getMinutes() < 10 ? "0" + datetime.getMinutes() : datetime.getMinutes();
-                  var Nsecond = datetime.getSeconds() < 10 ? "0" + datetime.getSeconds() : datetime.getSeconds();
-                  result = Nyear + "-" + Nmonth + "-" + Ndate
-              }
-              return result;
-          }
-          var lastUpDate = document.getElementById('last-update').innerHTML;
-          try {
-            document.getElementById('last-update-show').innerHTML = timeago(new Date(lastUpDate));
-          } catch (error) {
-            document.getElementById('last-update-show').innerHTML = '2021-03-24 日';
-          }
-        </script>
-        
-      
-    </div>
-  </div>
-</section>
 
   
 
 
 </aside>
 
+
    <!--此文件用来存放一些不方便取值的变量-->
 <!--思路大概是将值藏到重加载的区域内-->
 
 <script>
   window.pdata={}
-  pdata.ispage=false;
-  pdata.postTitle="";
+  pdata.ispage=true;
+  pdata.postTitle="从零开始搭建NTP服务";
   pdata.commentPath="";
   pdata.commentPlaceholder="";
 

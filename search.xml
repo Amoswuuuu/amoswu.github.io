@@ -3635,4 +3635,60 @@
         <tag>科普</tag>
       </tags>
   </entry>
+  <entry>
+    <title>从零开始搭建NTP服务</title>
+    <url>/2021/03/24/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%90%AD%E5%BB%BANTP%E6%9C%8D%E5%8A%A1/</url>
+    <content><![CDATA[<p><img src="https://cdn.amoswu.cn/blog/20210324232312.png" class="lazyload" data-srcset="https://cdn.amoswu.cn/blog/20210324232312.png" srcset="data:image/png;base64,666"></p>
+<h2 id="0x01-NTP-简介"><a href="#0x01-NTP-简介" class="headerlink" title="0x01. NTP 简介"></a>0x01. NTP 简介</h2><p>NTP(Network Time Protocol) 的全称是 <strong>网络时间协议</strong> ，它是用来使计算机时间同步化的一种协议，它可以使计算机对其服务器或时钟源做同步化，它可以提供高精准度的时间校正（LAN上与标准时间差小于1ms，WAN上是几十毫秒）。</p>
+<h2 id="0x02-Windows-时间服务简介"><a href="#0x02-Windows-时间服务简介" class="headerlink" title="0x02. Windows 时间服务简介"></a>0x02. Windows 时间服务简介</h2><p>从Windows2000开始，所有的Microsoft Windows 操作系统都内置了 Windows时间服务（即W32Time），它具有将计算机时钟与NTP服务器同步的能力。</p>
+<blockquote>
+<p>Windows 10 和 Windows Server 2016 中的时间同步已大幅改善。 在合理的操作条件下，可将系统配置为维持 1ms（毫秒）的精度或更高的精度（相对于 UTC）。</p>
+<p>——From <a href="https://docs.microsoft.com/zh-cn/windows-server/networking/windows-time-service/windows-time-service-top">Microsoft</a></p>
+</blockquote>
+<h2 id="0x03-Win-NTP-服务器详细搭建步骤"><a href="#0x03-Win-NTP-服务器详细搭建步骤" class="headerlink" title="0x03. Win NTP 服务器详细搭建步骤"></a>0x03. Win NTP 服务器详细搭建步骤</h2><h4 id="Step-1-打开-Windows-注册表"><a href="#Step-1-打开-Windows-注册表" class="headerlink" title="Step 1. 打开 Windows 注册表"></a>Step 1. 打开 Windows 注册表</h4><p>按下 <code>Windows键 + R</code> 或 打开 <code>运行</code>，输入  <code>regedit</code>后点击确定。</p>
+<p><img src="https://cdn.amoswu.cn/blog/20210324111651.png" class="lazyload" data-srcset="https://cdn.amoswu.cn/blog/20210324111651.png" srcset="data:image/png;base64,666"></p>
+<h4 id="Step-2-找到指定路径-1"><a href="#Step-2-找到指定路径-1" class="headerlink" title="Step 2. 找到指定路径 -1"></a>Step 2. 找到指定路径 -1</h4><p>依次展开至 <code>Config</code> 路径，或直接在路径输入框复制下方路径后回车跳转。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">计算机\HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\W32Time\Config</span><br></pre></td></tr></table></figure>
+<p><img src="https://cdn.amoswu.cn/blog/20210324112116.png" class="lazyload" data-srcset="https://cdn.amoswu.cn/blog/20210324112116.png" srcset="data:image/png;base64,666"></p>
+<h4 id="Step-3-修改指定的值-1"><a href="#Step-3-修改指定的值-1" class="headerlink" title="Step 3. 修改指定的值 -1"></a>Step 3. 修改指定的值 -1</h4><p>在右侧找到 <code>AnnounceFlags</code>，双击，将它的 <code>数值数据</code> 改为 <code>5</code>，单击确定。</p>
+<p> <img src="https://cdn.amoswu.cn/blog/20210324112400.png" class="lazyload" data-srcset="https://cdn.amoswu.cn/blog/20210324112400.png" srcset="data:image/png;base64,666"></p>
+<h4 id="Step-4-找到指定路径-2"><a href="#Step-4-找到指定路径-2" class="headerlink" title="Step 4.找到指定路径 -2"></a>Step 4.找到指定路径 -2</h4><p>依次展开至 <code>NtpServer</code> 路径，或直接在路径输入框复制下方路径后回车跳转。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">计算机\HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\W32Time\TimeProviders\NtpServer</span><br></pre></td></tr></table></figure>
+<p><img src="https://cdn.amoswu.cn/blog/20210324112658.png" class="lazyload" data-srcset="https://cdn.amoswu.cn/blog/20210324112658.png" srcset="data:image/png;base64,666"></p>
+<h4 id="Step-5-修改指定的值-2"><a href="#Step-5-修改指定的值-2" class="headerlink" title="Step 5. 修改指定的值 -2"></a>Step 5. 修改指定的值 -2</h4><p>在右侧找到 <code>Enabled</code>，双击，将它的 <code>数值数据</code> 改为 <code>1</code>，单击确定。</p>
+<p> <img src="https://cdn.amoswu.cn/blog/20210324112848.png" class="lazyload" data-srcset="https://cdn.amoswu.cn/blog/20210324112848.png" srcset="data:image/png;base64,666"></p>
+<h4 id="Step-6-启动-W32Time-服务"><a href="#Step-6-启动-W32Time-服务" class="headerlink" title="Step 6. 启动 W32Time 服务"></a>Step 6. 启动 W32Time 服务</h4><p>按下 <code>Windows键 + R</code> 或 打开 <code>运行</code>，输入  <code>services.msc</code> 后点击确定；</p>
+<p><img src="https://cdn.amoswu.cn/blog/20210324113101.png" class="lazyload" data-srcset="https://cdn.amoswu.cn/blog/20210324113101.png" srcset="data:image/png;base64,666"></p>
+<p>找到 <code>Windows Time</code> 服务项，双击，将它的 <code>启动类型</code> 设置为 <code>自动</code>，单击确定。</p>
+<p><img src="https://cdn.amoswu.cn/blog/20210324113407.png" class="lazyload" data-srcset="https://cdn.amoswu.cn/blog/20210324113407.png" srcset="data:image/png;base64,666"></p>
+<h4 id="Step-7-重启-W32Time-服务"><a href="#Step-7-重启-W32Time-服务" class="headerlink" title="Step 7. 重启 W32Time 服务"></a>Step 7. 重启 W32Time 服务</h4><p>按下 <code>Windows键 + X + A</code> 或  以管理员身份运行 <code>cmd.exe</code> ，依次输入  <code>net stop w32time  </code>和   <code>net start w32time</code> 后点击确定；</p>
+<p><img src="https://cdn.amoswu.cn/blog/20210324114406.png" class="lazyload" data-srcset="https://cdn.amoswu.cn/blog/20210324114406.png" srcset="data:image/png;base64,666"></p>
+<p>按下 <code>Windows键 + R</code> 或 打开 <code>运行</code>，输入  <code>cmd</code> 后点击确定；</p>
+<p><img src="https://cdn.amoswu.cn/blog/20210324113742.png" class="lazyload" data-srcset="https://cdn.amoswu.cn/blog/20210324113742.png" srcset="data:image/png;base64,666"></p>
+<p>在弹出的窗口中，输入 <code>netstat -an</code> ，回车，在输出的文本中可以看到  <code>UDP  0.0.0.0:123     *:*</code>  ，说明 NTP 服务搭建成功。</p>
+<p><img src="https://cdn.amoswu.cn/blog/20210324114931.png" class="lazyload" data-srcset="https://cdn.amoswu.cn/blog/20210324114931.png" srcset="data:image/png;base64,666"></p>
+<h2 id="0x04-Windows-和-Linux-下-NTP-对时服务的使用"><a href="#0x04-Windows-和-Linux-下-NTP-对时服务的使用" class="headerlink" title="0x04. Windows 和 Linux 下 NTP 对时服务的使用"></a>0x04. Windows 和 Linux 下 NTP 对时服务的使用</h2><h3 id="Windows"><a href="#Windows" class="headerlink" title="Windows"></a>Windows</h3><h4 id="Step-1-打开-Internet时间-设置"><a href="#Step-1-打开-Internet时间-设置" class="headerlink" title="Step 1.打开 Internet时间 设置"></a>Step 1.打开 Internet时间 设置</h4><p>在任务栏右下角单击<code>时间</code>，继续单击 <code>日期和时间设置</code> ；</p>
+<p><img src="https://cdn.amoswu.cn/blog/20210324115607.png" class="lazyload" data-srcset="https://cdn.amoswu.cn/blog/20210324115607.png" srcset="data:image/png;base64,666"></p>
+<p>在弹出的窗口中，点击 <code>添加不同时区的时钟</code> ；</p>
+<p><img src="https://cdn.amoswu.cn/blog/20210324115711.png" class="lazyload" data-srcset="https://cdn.amoswu.cn/blog/20210324115711.png" srcset="data:image/png;base64,666"></p>
+<p>在弹出的窗口中，单击 <code>Internet时间</code> 选项卡，单击 <code>更改设置</code> 按钮； </p>
+<p><img src="https://cdn.amoswu.cn/blog/20210324115909.png" class="lazyload" data-srcset="https://cdn.amoswu.cn/blog/20210324115909.png" srcset="data:image/png;base64,666"></p>
+<p>在弹出的窗口中，输入搭建好NTP服务的主机地址，单击 <code>立即更新</code> 。</p>
+<p><img src="https://cdn.amoswu.cn/blog/20210324132214.png" class="lazyload" data-srcset="https://cdn.amoswu.cn/blog/20210324132214.png" srcset="data:image/png;base64,666"></p>
+<h3 id="Ubuntu"><a href="#Ubuntu" class="headerlink" title="Ubuntu"></a>Ubuntu</h3><p>在终端输入命令 <code>sudo ntpdate 192.168.10.123</code> ，输入密码，出现类似 <code>step time server 192.168.10.123 offset -1231.354535 sec</code>  字样即表示成功。</p>
+<blockquote>
+<p>参考链接：</p>
+<p>[1] Microsoft - <a href="https://docs.microsoft.com/zh-cn/windows-server/networking/windows-time-service/windows-time-service-top">Windows 时间服务 (W32Time)</a></p>
+<p>[2] Github - <a href="https://github.com/microsoft/W32Time">microsoft/W32Time</a></p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>教程</category>
+      </categories>
+      <tags>
+        <tag>原创</tag>
+        <tag>教程</tag>
+        <tag>2021</tag>
+      </tags>
+  </entry>
 </search>
