@@ -3691,4 +3691,154 @@
         <tag>2021</tag>
       </tags>
   </entry>
+  <entry>
+    <title>Qt程序中优雅的打包方案</title>
+    <url>/2021/03/31/Qt%E7%A8%8B%E5%BA%8F%E4%B8%AD%E4%BC%98%E9%9B%85%E7%9A%84%E6%89%93%E5%8C%85%E6%96%B9%E6%A1%88/</url>
+    <content><![CDATA[<p><img src="https://cdn.amoswu.cn/blog/20210402150502.png" class="lazyload" data-srcset="https://cdn.amoswu.cn/blog/20210402150502.png" srcset="data:image/png;base64,666" alt="1"></p>
+<blockquote>
+<p>Qt程序打包，没有想象中那么复杂。</p>
+</blockquote>
+<h2 id="发现问题"><a href="#发现问题" class="headerlink" title="发现问题"></a>发现问题</h2><p>在使用 Qt C++ 发布生成 <code>*.exe</code> 时，需要复制大量 <code>dll</code> 动态链接库文件，这一点相信每一个 Qt 开发者都经历过。除了手动复制，能不能有一种更优雅的解决方案呢？</p>
+<h2 id="问题调研"><a href="#问题调研" class="headerlink" title="问题调研"></a>问题调研</h2><p>在当前的主流语言中，打包方式可谓是大道至简。使用 C++ 时，你可以通过 Visual Studio 自带的打包插件完成打包；使用 Python 时，你可以借助 PyInstaller 这样的打包工具执行命令完成打包； 使用 Golang 时，你可以借助它自带的打包工具执行命令完成打包…</p>
+<p>Qt 官方为了解决这一问题，早就在 Qt 安装时内置一个一键打包程序 —— <code>wideployqt.exe</code>。</p>
+<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><h3 id="windeployqt-exe-使用教程"><a href="#windeployqt-exe-使用教程" class="headerlink" title="windeployqt.exe 使用教程"></a>windeployqt.exe 使用教程</h3><h4 id="1-准备文件"><a href="#1-准备文件" class="headerlink" title="1. 准备文件"></a>1. 准备文件</h4><ul>
+<li>一个 release 模式下编译好的 exe；</li>
+<li>其他非系统库；</li>
+<li>exe 启动时读取的目录或文件等。</li>
+</ul>
+<p>准备好上述文件后，将它们拷贝至一个新建的文件夹中，文件夹路径和命名不能包含中文。</p>
+<p><img src="https://cdn.amoswu.cn/blog/20210402115945.png" class="lazyload" data-srcset="https://cdn.amoswu.cn/blog/20210402115945.png" srcset="data:image/png;base64,666" alt="image-20210402115944384"></p>
+<h4 id="2-启动-Qt-对应编译器的控制台程序"><a href="#2-启动-Qt-对应编译器的控制台程序" class="headerlink" title="2. 启动 Qt 对应编译器的控制台程序"></a>2. 启动 Qt 对应编译器的控制台程序</h4><p>我使用的 MinGW 5.3.0 ， 故选择图中这个控制台程序。</p>
+<p>​                                              <img src="https://cdn.amoswu.cn/blog/20210402133307.png" class="lazyload" data-srcset="https://cdn.amoswu.cn/blog/20210402133307.png" srcset="data:image/png;base64,666" alt="image-20210402133306270">                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     </p>
+<h4 id="3-在控制台打开编译好的-exe-所在路径"><a href="#3-在控制台打开编译好的-exe-所在路径" class="headerlink" title="3.在控制台打开编译好的 exe 所在路径"></a>3.在控制台打开编译好的 exe 所在路径</h4><p><img src="https://cdn.amoswu.cn/blog/20210402133628.png" class="lazyload" data-srcset="https://cdn.amoswu.cn/blog/20210402133628.png" srcset="data:image/png;base64,666" alt="image-20210402133627859"></p>
+<h4 id="4-输入打包命令开始打包"><a href="#4-输入打包命令开始打包" class="headerlink" title="4. 输入打包命令开始打包"></a>4. 输入打包命令开始打包</h4><p>打开对应路径后，输入下方的打包命令，即可开始打包。</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">windeployqt [exe文件名]</span><br></pre></td></tr></table></figure>
+<p><img src="https://cdn.amoswu.cn/blog/20210402133900.png" class="lazyload" data-srcset="https://cdn.amoswu.cn/blog/20210402133900.png" srcset="data:image/png;base64,666" alt="image-20210402133900186"></p>
+<p>稍等片刻，打开文件夹你会看到，所有的 dll 库已经拷贝完成了，我们可以打开 exe 试一试打包是否成功。</p>
+<p><img src="https://cdn.amoswu.cn/blog/20210402134034.png" class="lazyload" data-srcset="https://cdn.amoswu.cn/blog/20210402134034.png" srcset="data:image/png;base64,666" alt="image-20210402134034013"></p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p>[1] 新浪博客 - <a href="http://blog.sina.com.cn/s/blog_a6fb6cc90101fer8.html">Qt之打包发布（NSIS详解）</a></p>
+<p>[2] CSDN - <a href="https://blog.csdn.net/sinat_36264666/article/details/73305712">教你使用windeployqt工具来进行Qt的打包发布</a></p>
+]]></content>
+      <categories>
+        <category>随笔</category>
+      </categories>
+      <tags>
+        <tag>原创</tag>
+        <tag>Qt</tag>
+        <tag>随笔</tag>
+        <tag>2021</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Qt程序中优雅的日志方案</title>
+    <url>/2021/03/31/Qt%E7%A8%8B%E5%BA%8F%E4%B8%AD%E4%BC%98%E9%9B%85%E7%9A%84%E6%97%A5%E5%BF%97%E6%96%B9%E6%A1%88/</url>
+    <content><![CDATA[<p><img src="https://cdn.amoswu.cn/blog/20210401115742.png" class="lazyload" data-srcset="https://cdn.amoswu.cn/blog/20210401115742.png" srcset="data:image/png;base64,666"></p>
+<blockquote>
+<p>一个完整的软件（系统）都要有一套优雅的日志方案。</p>
+</blockquote>
+<h2 id="发现问题"><a href="#发现问题" class="headerlink" title="发现问题"></a>发现问题</h2><p>在使用Qt开发软件（系统）过程中，出于多种目的，开发者难免需要记录程序运行过程中的一些状态信息，也就是我们常说的日志。Qt 中的日志模块（<code>qInstallMessageHandler</code>）配置繁杂，对于日志设计新手来说很不友好，虽然官方给出了Demo，但其繁杂程度依旧不减。</p>
+<p>使用<code>Golang</code>、<code>Python</code>等语言开发过程序的开发者，应该都听说过 <code>Loguru</code>，它是在流行语言领域优雅日志方案的佼佼者。在Qt C++ 开发中有没有<code>Loguru</code>或者和它媲美的日志方案呢？</p>
+<h2 id="问题调研"><a href="#问题调研" class="headerlink" title="问题调研"></a>问题调研</h2><p>在寻找好的日志记录方案前，有必要先了解清楚两个问题，我们为什么要记录日志？日志记录的要素有哪些？</p>
+<h3 id="为什么要记录日志？"><a href="#为什么要记录日志？" class="headerlink" title="为什么要记录日志？"></a>为什么要记录日志？</h3><h4 id="1-开发调试"><a href="#1-开发调试" class="headerlink" title="1.开发调试"></a>1.开发调试</h4><p>目的是开发期调试程序使用，这种日志量比较大，且没有什么实质性的意义，只应该出现在开发期，而<strong>不应该在项目上线之后输出</strong>。</p>
+<h4 id="2-记录用户行为"><a href="#2-记录用户行为" class="headerlink" title="2.记录用户行为"></a>2.记录用户行为</h4><p>这种类型的日志，记录用户的操作行为，用于大数据分析，比如监控、风控、推荐等等。这种日志，一般是给其他团队分析使用，而且可能是多个团队，因此一般会有一定的格式要求，开发者应该按照这个格式来记录，便于其他团队的使用。当然，要记录哪些行为、操作，一般也是约定好的，因此，开发者主要是执行的角色。</p>
+<h4 id="3-记录程序运行情况"><a href="#3-记录程序运行情况" class="headerlink" title="3.记录程序运行情况"></a>3.记录程序运行情况</h4><p>记录程序的运行状况，特别是非预期的行为、异常情况，这种日志，主要是给开发、维护人员使用。什么时候记录，记录什么内容，完全取决于开发人员，开发者具有高度自主性。</p>
+<h4 id="4-记录系统、机器状况"><a href="#4-记录系统、机器状况" class="headerlink" title="4.记录系统、机器状况"></a>4.记录系统、机器状况</h4><p>比如网络请求、系统CPU、内存、IO使用情况等等，这种日志主要是给运维人员使用，生成各种更直观的展现形式，配合预警系统，在系统出问题时及时预警。</p>
+<h3 id="日志记录的要素有哪些？"><a href="#日志记录的要素有哪些？" class="headerlink" title="日志记录的要素有哪些？"></a>日志记录的要素有哪些？</h3><p>每条日志都可以被当作一个<strong>事件（event）</strong>，记录了该事件发生时各种信息，这些信息大概有以下几类。</p>
+<h4 id="1-时间"><a href="#1-时间" class="headerlink" title="1.时间"></a>1.时间</h4><p>这个时间通常是指<strong>事件发生的时间</strong>，并不是日志被打印的时间。它通常用标准时间或时间戳的形式输出。</p>
+<h3 id="2-位置"><a href="#2-位置" class="headerlink" title="2.位置"></a>2.位置</h3><p>这个位置一般有<strong>模块位置、文件位置、函数位置、代码所在行</strong>等等，根据敏感程度的不同，我们输出位置的级别也不同。</p>
+<h3 id="3-级别"><a href="#3-级别" class="headerlink" title="3.级别"></a>3.级别</h3><p>级别也就是日志的重要程度，主要用于不<strong>同的环境（测试、生产）下，打印不同级别的日志；不同级别的日志产生不同级别的监控报警。</strong></p>
+<h3 id="4-内容"><a href="#4-内容" class="headerlink" title="4.内容"></a>4.内容</h3><p>内容也就是我们<strong>要展示</strong>给日志阅读者和使用者<strong>的信息</strong>，要简明扼要地描述这个模块、函数、文件等发生了什么事情。</p>
+<h3 id="5-唯一标识"><a href="#5-唯一标识" class="headerlink" title="5.唯一标识"></a>5.唯一标识</h3><p>在大型集群系统、分布式系统中，为了快速定位日志输出点，我们需要唯一标识作为日志的主体。</p>
+<h3 id="6-格式化"><a href="#6-格式化" class="headerlink" title="6.格式化"></a>6.格式化</h3><p>将上述的信息按照固定的格式打印出来，或输出到文件中，就是日志的格式化。这样做的目的不仅仅是方便阅读，还能方便后期编写日志解析程序。</p>
+<h3 id="7-其他"><a href="#7-其他" class="headerlink" title="7.其他"></a>7.其他</h3><p>根据程序、业务等特点，还可以在日志中记录（包括但不限于）：<code>错误次数</code>、<code>处理进度</code>、<code>IP地址</code>等等。</p>
+<h2 id="解决问题"><a href="#解决问题" class="headerlink" title="解决问题"></a>解决问题</h2><p>明白了上述内容，我们可以在遵循 <code>使用框架或模块</code>、<code>不能出错</code>、<code>避免敏感信息</code>、<code>合理归档分类</code>等原则的情况下，选择一个合适的框架来达到我们的目的。</p>
+<h3 id="Easylogging"><a href="#Easylogging" class="headerlink" title="Easylogging++"></a>Easylogging++</h3><p>如同 Loguru 一样，在 Qt C++ 中也可以有很优雅的日志方案，它就是集简单、轻量、高效、可配置等优点于一身的 **Easylogging++**。</p>
+<p>虽然也有 C++ 版本的 Loguru ，但它的功能显然对 Qt 的支持不是很友好。于是我们选用了通用性较强的 Easylogging++ 来达到我们的目的。</p>
+<h4 id="入门知识"><a href="#入门知识" class="headerlink" title="入门知识"></a>入门知识</h4><h5 id="日志等级"><a href="#日志等级" class="headerlink" title="日志等级"></a>日志等级</h5><p>常用的日志等级，由高到低，依次为 Error 、 Debug 、 Warning 、 Info 。</p>
+<h5 id="使用方式"><a href="#使用方式" class="headerlink" title="使用方式"></a>使用方式</h5><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">LOG(日志等级) &lt;&lt;  “日志内容”;</span><br></pre></td></tr></table></figure>
+<h5 id="支持的-Qt-变量类型"><a href="#支持的-Qt-变量类型" class="headerlink" title="支持的 Qt 变量类型"></a>支持的 Qt 变量类型</h5><table>
+<thead>
+<tr>
+<th>*</th>
+<th>*</th>
+<th>*</th>
+<th>*</th>
+<th>*</th>
+<th>*</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>QString</code></td>
+<td><code>QByteArray</code></td>
+<td><code>QLatin</code></td>
+<td><code>QList</code></td>
+<td><code>QVector</code></td>
+<td><code>QQueue</code></td>
+</tr>
+<tr>
+<td><code>QSet</code></td>
+<td><code>QPair</code></td>
+<td><code>QMap</code></td>
+<td><code>QMultiMap</code></td>
+<td><code>QHash</code></td>
+<td><code>QMultiHash</code></td>
+</tr>
+<tr>
+<td><code>QLinkedList</code></td>
+<td><code>QStack</code></td>
+<td><code>QChar</code></td>
+<td><code>q[u]int[64]</code></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h4 id="使用教程"><a href="#使用教程" class="headerlink" title="使用教程"></a>使用教程</h4><h5 id="1）下载或克隆-Easylogging-仓库源码"><a href="#1）下载或克隆-Easylogging-仓库源码" class="headerlink" title="1）下载或克隆 Easylogging++ 仓库源码"></a>1）下载或克隆 Easylogging++ 仓库源码</h5><p>Github地址： <a href="https://github.com/amrayn/easyloggingpp">https://github.com/amrayn/easyloggingpp</a></p>
+<h5 id="2）-原生-C-方式使用"><a href="#2）-原生-C-方式使用" class="headerlink" title="2） 原生 C++ 方式使用"></a>2） 原生 C++ 方式使用</h5><ol>
+<li><p>将 <code>src</code> 文件夹下的 <code>easylogging++.cc</code> 和 <code>easylogging++.h</code>拷贝到要应用的项目目录；</p>
+</li>
+<li><p>初始化并输出一条日志</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">//  *.cpp</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 导入头文件并初始化</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;easylogging++.h&quot;</span></span></span><br><span class="line">INITIALIZE_EASYLOGGINGPP</span><br><span class="line"></span><br><span class="line"><span class="comment">// 输出日志</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span>* argv[])</span> </span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    LOG(INFO) &lt;&lt; <span class="string">&quot;This is a log generated by Easylogging++.&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+<li><p>注意事项</p>
+<ul>
+<li>所有要输出的变量类型必须为标准 C++ 格式</li>
+<li>初始化必须在 <code>*.cpp</code>文件中进行</li>
+</ul>
+</li>
+</ol>
+<h5 id="3）Qt-调用方式"><a href="#3）Qt-调用方式" class="headerlink" title="3）Qt 调用方式"></a>3）Qt 调用方式</h5><ol>
+<li><p>将 <code>src</code> 文件夹下的 <code>easylogging++.cc</code> 和 <code>easylogging++.h</code>拷贝到要应用的项目目录；</p>
+</li>
+<li><p>配置 <code>*.pro</code> 文件</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">// *.pro</span><br><span class="line"></span><br><span class="line">// 写入配置</span><br><span class="line">DEFINES += ELPP_QT_LOGGING    \</span><br><span class="line">          ELPP_FEATURE_ALL \</span><br><span class="line">          ELPP_STL_LOGGING   \</span><br><span class="line">          ELPP_STRICT_SIZE_CHECK ELPP_UNICODE \</span><br><span class="line">          ELPP_MULTI_LOGGER_SUPPORT \</span><br><span class="line">          ELPP_THREAD_SAFE</span><br><span class="line">          </span><br></pre></td></tr></table></figure></li>
+<li><p>初始化并输出一条日志</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">// *.cpp</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 导入头文件并初始化</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;easylogging++.h&quot;</span></span></span><br><span class="line">INITIALIZE_EASYLOGGINGPP</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;logdemo.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;ui_logdemo.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">LogDemo::LogDemo(QWidget *parent) :</span><br><span class="line">    QWidget(parent),</span><br><span class="line">    ui(<span class="keyword">new</span> Ui::LogDemo)</span><br><span class="line">&#123;</span><br><span class="line">    ui-&gt;setupUi(<span class="keyword">this</span>);</span><br><span class="line">    InitLogger();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">LogDemo::~LogDemo()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">delete</span> ui;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/** 日志初始化</span></span><br><span class="line"><span class="comment"> * @brief LogDemo::InitLogger</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">LogDemo::InitLogger</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    QString s = <span class="string">&quot;This is a log generated by Easylogging++.&quot;</span>;</span><br><span class="line">    LOG(INFO) &lt;&lt; s;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>注意事项</p>
+<ul>
+<li><code>*.pro</code>必须加入相应配置</li>
+<li>所有要输出的变量类型可以为 受支持的Qt格式或标准 C++ 格式</li>
+<li>初始化必须在 <code>*.cpp</code>文件中进行</li>
+</ul>
+</li>
+</ol>
+<h4 id="更多拓展"><a href="#更多拓展" class="headerlink" title="更多拓展"></a>更多拓展</h4><ul>
+<li>独立配置文件</li>
+<li>自定义 Logger</li>
+<li>多线程</li>
+<li>导出成动态链接库</li>
+<li>…</li>
+</ul>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p>[1] 知乎专栏 - <a href="https://zhuanlan.zhihu.com/p/45496501">记录日志有哪些好的技巧？</a></p>
+<p>[2] 静觅 - <a href="https://cuiqingcai.com/7776.html">Python 中更优雅的日志记录方案 loguru</a></p>
+<p>[3] Github - <a href="https://github.com/amrayn/easyloggingpp">Easyloggingpp</a></p>
+]]></content>
+      <categories>
+        <category>随笔</category>
+      </categories>
+      <tags>
+        <tag>原创</tag>
+        <tag>Qt</tag>
+        <tag>随笔</tag>
+        <tag>2021</tag>
+      </tags>
+  </entry>
 </search>

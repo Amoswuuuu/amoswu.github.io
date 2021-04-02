@@ -5,8 +5,6 @@
   <!-- SEO相关 -->
   
     
-      <meta name="robots" content="noindex,follow">
-    
   
   <!-- 渲染优化 -->
   <meta http-equiv='x-dns-prefetch-control' content='on' />
@@ -21,7 +19,9 @@
 
   <!-- 页面元数据 -->
   
-  <title>标签：原创 - Amos&#39;Blog</title>
+  <title>Qt程序中优雅的日志方案 - Amos&#39;Blog</title>
+  
+    <meta name="keywords" content="原创,Qt,随笔,2021">
   
 
   
@@ -319,7 +319,7 @@
       <div id="l_cover">
   
     
-        <div id="full" class='cover-wrapper  search' style="display: none;">
+        <div id="full" class='cover-wrapper post search' style="display: none;">
           
             <div id='cover-backstretch'></div>
           
@@ -358,616 +358,354 @@
         <div class="body-wrapper" id="pjax-container">
           
 
-
 <div class='l_main'>
+  <article class="article post white-box reveal md shadow article-type-post" id="post" itemscope itemprop="blogPost">
   
-    
-      
-  <section class="post-list">
-    
-    
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
+
+
   
     <div class='headimg-div'>
-      <a class='headimg-a' href="/2020/08/31/Qt%20%E6%B5%81%E8%AF%BB%E5%86%99XML/">
-        <img class='headimg' src='https://cdn.amoswu.cn/blog/post-qt.png'/>
+      <a class='headimg-a'>
+        <img class='headimg' src='https://cdn.amoswu.cn/blog/20210401115542.png'/>
       </a>
+    </div>
+  
+  <div class="article-meta" id="top">
+    
+    
+    
+      <h1 class="title">
+        Qt程序中优雅的日志方案
+      </h1>
+      <div class='new-meta-box'>
+        
+          
+            
+<div class='new-meta-item author'>
+  <a class='author' href="/" rel="nofollow">
+    <img no-lazy src="https://cdn.amoswu.cn/blog/avatar.jpg">
+    <p>Amos</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  <div class='new-meta-item category'>
+    <a class='notlink'>
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <a class="category-link" href="/categories/%E9%9A%8F%E7%AC%94/">随笔</a>
+    </a>
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：2021年3月31日</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  <div class="new-meta-item browse leancloud">
+    <a class='notlink'>
+      
+      <div id="lc-pv" data-title="Qt程序中优雅的日志方案" data-path="/2021/03/31/Qt%E7%A8%8B%E5%BA%8F%E4%B8%AD%E4%BC%98%E9%9B%85%E7%9A%84%E6%97%A5%E5%BF%97%E6%96%B9%E6%A1%88/">
+        <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
+        <span id='number'><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
+        次浏览
+      </div>
+    </a>
+  </div>
+
+
+          
+        
+          
+            
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>字数：1.6k字</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>时长：5分钟</p>
+    </a>
+  </div>
+
+
+          
+        
+      </div>
+    
+  </div>
+
+
+  
+  <p><img src="https://cdn.amoswu.cn/blog/20210401115742.png" class="lazyload" data-srcset="https://cdn.amoswu.cn/blog/20210401115742.png" srcset="data:image/png;base64,666"></p>
+<blockquote>
+<p>一个完整的软件（系统）都要有一套优雅的日志方案。</p>
+</blockquote>
+<h2 id="发现问题"><a href="#发现问题" class="headerlink" title="发现问题"></a>发现问题</h2><p>在使用Qt开发软件（系统）过程中，出于多种目的，开发者难免需要记录程序运行过程中的一些状态信息，也就是我们常说的日志。Qt 中的日志模块（<code>qInstallMessageHandler</code>）配置繁杂，对于日志设计新手来说很不友好，虽然官方给出了Demo，但其繁杂程度依旧不减。</p>
+<p>使用<code>Golang</code>、<code>Python</code>等语言开发过程序的开发者，应该都听说过 <code>Loguru</code>，它是在流行语言领域优雅日志方案的佼佼者。在Qt C++ 开发中有没有<code>Loguru</code>或者和它媲美的日志方案呢？</p>
+<h2 id="问题调研"><a href="#问题调研" class="headerlink" title="问题调研"></a>问题调研</h2><p>在寻找好的日志记录方案前，有必要先了解清楚两个问题，我们为什么要记录日志？日志记录的要素有哪些？</p>
+<h3 id="为什么要记录日志？"><a href="#为什么要记录日志？" class="headerlink" title="为什么要记录日志？"></a>为什么要记录日志？</h3><h4 id="1-开发调试"><a href="#1-开发调试" class="headerlink" title="1.开发调试"></a>1.开发调试</h4><p>目的是开发期调试程序使用，这种日志量比较大，且没有什么实质性的意义，只应该出现在开发期，而<strong>不应该在项目上线之后输出</strong>。</p>
+<h4 id="2-记录用户行为"><a href="#2-记录用户行为" class="headerlink" title="2.记录用户行为"></a>2.记录用户行为</h4><p>这种类型的日志，记录用户的操作行为，用于大数据分析，比如监控、风控、推荐等等。这种日志，一般是给其他团队分析使用，而且可能是多个团队，因此一般会有一定的格式要求，开发者应该按照这个格式来记录，便于其他团队的使用。当然，要记录哪些行为、操作，一般也是约定好的，因此，开发者主要是执行的角色。</p>
+<h4 id="3-记录程序运行情况"><a href="#3-记录程序运行情况" class="headerlink" title="3.记录程序运行情况"></a>3.记录程序运行情况</h4><p>记录程序的运行状况，特别是非预期的行为、异常情况，这种日志，主要是给开发、维护人员使用。什么时候记录，记录什么内容，完全取决于开发人员，开发者具有高度自主性。</p>
+<h4 id="4-记录系统、机器状况"><a href="#4-记录系统、机器状况" class="headerlink" title="4.记录系统、机器状况"></a>4.记录系统、机器状况</h4><p>比如网络请求、系统CPU、内存、IO使用情况等等，这种日志主要是给运维人员使用，生成各种更直观的展现形式，配合预警系统，在系统出问题时及时预警。</p>
+<h3 id="日志记录的要素有哪些？"><a href="#日志记录的要素有哪些？" class="headerlink" title="日志记录的要素有哪些？"></a>日志记录的要素有哪些？</h3><p>每条日志都可以被当作一个<strong>事件（event）</strong>，记录了该事件发生时各种信息，这些信息大概有以下几类。</p>
+<h4 id="1-时间"><a href="#1-时间" class="headerlink" title="1.时间"></a>1.时间</h4><p>这个时间通常是指<strong>事件发生的时间</strong>，并不是日志被打印的时间。它通常用标准时间或时间戳的形式输出。</p>
+<h3 id="2-位置"><a href="#2-位置" class="headerlink" title="2.位置"></a>2.位置</h3><p>这个位置一般有<strong>模块位置、文件位置、函数位置、代码所在行</strong>等等，根据敏感程度的不同，我们输出位置的级别也不同。</p>
+<h3 id="3-级别"><a href="#3-级别" class="headerlink" title="3.级别"></a>3.级别</h3><p>级别也就是日志的重要程度，主要用于不<strong>同的环境（测试、生产）下，打印不同级别的日志；不同级别的日志产生不同级别的监控报警。</strong></p>
+<h3 id="4-内容"><a href="#4-内容" class="headerlink" title="4.内容"></a>4.内容</h3><p>内容也就是我们<strong>要展示</strong>给日志阅读者和使用者<strong>的信息</strong>，要简明扼要地描述这个模块、函数、文件等发生了什么事情。</p>
+<h3 id="5-唯一标识"><a href="#5-唯一标识" class="headerlink" title="5.唯一标识"></a>5.唯一标识</h3><p>在大型集群系统、分布式系统中，为了快速定位日志输出点，我们需要唯一标识作为日志的主体。</p>
+<h3 id="6-格式化"><a href="#6-格式化" class="headerlink" title="6.格式化"></a>6.格式化</h3><p>将上述的信息按照固定的格式打印出来，或输出到文件中，就是日志的格式化。这样做的目的不仅仅是方便阅读，还能方便后期编写日志解析程序。</p>
+<h3 id="7-其他"><a href="#7-其他" class="headerlink" title="7.其他"></a>7.其他</h3><p>根据程序、业务等特点，还可以在日志中记录（包括但不限于）：<code>错误次数</code>、<code>处理进度</code>、<code>IP地址</code>等等。</p>
+<h2 id="解决问题"><a href="#解决问题" class="headerlink" title="解决问题"></a>解决问题</h2><p>明白了上述内容，我们可以在遵循 <code>使用框架或模块</code>、<code>不能出错</code>、<code>避免敏感信息</code>、<code>合理归档分类</code>等原则的情况下，选择一个合适的框架来达到我们的目的。</p>
+<h3 id="Easylogging"><a href="#Easylogging" class="headerlink" title="Easylogging++"></a>Easylogging++</h3><p>如同 Loguru 一样，在 Qt C++ 中也可以有很优雅的日志方案，它就是集简单、轻量、高效、可配置等优点于一身的 **Easylogging++**。</p>
+<p>虽然也有 C++ 版本的 Loguru ，但它的功能显然对 Qt 的支持不是很友好。于是我们选用了通用性较强的 Easylogging++ 来达到我们的目的。</p>
+<h4 id="入门知识"><a href="#入门知识" class="headerlink" title="入门知识"></a>入门知识</h4><h5 id="日志等级"><a href="#日志等级" class="headerlink" title="日志等级"></a>日志等级</h5><p>常用的日志等级，由高到低，依次为 Error 、 Debug 、 Warning 、 Info 。</p>
+<h5 id="使用方式"><a href="#使用方式" class="headerlink" title="使用方式"></a>使用方式</h5><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">LOG(日志等级) &lt;&lt;  “日志内容”;</span><br></pre></td></tr></table></figure>
+<h5 id="支持的-Qt-变量类型"><a href="#支持的-Qt-变量类型" class="headerlink" title="支持的 Qt 变量类型"></a>支持的 Qt 变量类型</h5><table>
+<thead>
+<tr>
+<th>*</th>
+<th>*</th>
+<th>*</th>
+<th>*</th>
+<th>*</th>
+<th>*</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>QString</code></td>
+<td><code>QByteArray</code></td>
+<td><code>QLatin</code></td>
+<td><code>QList</code></td>
+<td><code>QVector</code></td>
+<td><code>QQueue</code></td>
+</tr>
+<tr>
+<td><code>QSet</code></td>
+<td><code>QPair</code></td>
+<td><code>QMap</code></td>
+<td><code>QMultiMap</code></td>
+<td><code>QHash</code></td>
+<td><code>QMultiHash</code></td>
+</tr>
+<tr>
+<td><code>QLinkedList</code></td>
+<td><code>QStack</code></td>
+<td><code>QChar</code></td>
+<td><code>q[u]int[64]</code></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h4 id="使用教程"><a href="#使用教程" class="headerlink" title="使用教程"></a>使用教程</h4><h5 id="1）下载或克隆-Easylogging-仓库源码"><a href="#1）下载或克隆-Easylogging-仓库源码" class="headerlink" title="1）下载或克隆 Easylogging++ 仓库源码"></a>1）下载或克隆 Easylogging++ 仓库源码</h5><p>Github地址： <a target="_blank" rel="noopener" href="https://github.com/amrayn/easyloggingpp">https://github.com/amrayn/easyloggingpp</a></p>
+<h5 id="2）-原生-C-方式使用"><a href="#2）-原生-C-方式使用" class="headerlink" title="2） 原生 C++ 方式使用"></a>2） 原生 C++ 方式使用</h5><ol>
+<li><p>将 <code>src</code> 文件夹下的 <code>easylogging++.cc</code> 和 <code>easylogging++.h</code>拷贝到要应用的项目目录；</p>
+</li>
+<li><p>初始化并输出一条日志</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//  *.cpp</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 导入头文件并初始化</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;easylogging++.h&quot;</span></span></span><br><span class="line">INITIALIZE_EASYLOGGINGPP</span><br><span class="line"></span><br><span class="line"><span class="comment">// 输出日志</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span>* argv[])</span> </span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    LOG(INFO) &lt;&lt; <span class="string">&quot;This is a log generated by Easylogging++.&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+<li><p>注意事项</p>
+<ul>
+<li>所有要输出的变量类型必须为标准 C++ 格式</li>
+<li>初始化必须在 <code>*.cpp</code>文件中进行</li>
+</ul>
+</li>
+</ol>
+<h5 id="3）Qt-调用方式"><a href="#3）Qt-调用方式" class="headerlink" title="3）Qt 调用方式"></a>3）Qt 调用方式</h5><ol>
+<li><p>将 <code>src</code> 文件夹下的 <code>easylogging++.cc</code> 和 <code>easylogging++.h</code>拷贝到要应用的项目目录；</p>
+</li>
+<li><p>配置 <code>*.pro</code> 文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">// *.pro</span><br><span class="line"></span><br><span class="line">// 写入配置</span><br><span class="line">DEFINES += ELPP_QT_LOGGING    \</span><br><span class="line">          ELPP_FEATURE_ALL \</span><br><span class="line">          ELPP_STL_LOGGING   \</span><br><span class="line">          ELPP_STRICT_SIZE_CHECK ELPP_UNICODE \</span><br><span class="line">          ELPP_MULTI_LOGGER_SUPPORT \</span><br><span class="line">          ELPP_THREAD_SAFE</span><br><span class="line">          </span><br></pre></td></tr></table></figure></li>
+<li><p>初始化并输出一条日志</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// *.cpp</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 导入头文件并初始化</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;easylogging++.h&quot;</span></span></span><br><span class="line">INITIALIZE_EASYLOGGINGPP</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;logdemo.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;ui_logdemo.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">LogDemo::LogDemo(QWidget *parent) :</span><br><span class="line">    QWidget(parent),</span><br><span class="line">    ui(<span class="keyword">new</span> Ui::LogDemo)</span><br><span class="line">&#123;</span><br><span class="line">    ui-&gt;setupUi(<span class="keyword">this</span>);</span><br><span class="line">    InitLogger();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">LogDemo::~LogDemo()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">delete</span> ui;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/** 日志初始化</span></span><br><span class="line"><span class="comment"> * @brief LogDemo::InitLogger</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">LogDemo::InitLogger</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    QString s = <span class="string">&quot;This is a log generated by Easylogging++.&quot;</span>;</span><br><span class="line">    LOG(INFO) &lt;&lt; s;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>注意事项</p>
+<ul>
+<li><code>*.pro</code>必须加入相应配置</li>
+<li>所有要输出的变量类型可以为 受支持的Qt格式或标准 C++ 格式</li>
+<li>初始化必须在 <code>*.cpp</code>文件中进行</li>
+</ul>
+</li>
+</ol>
+<h4 id="更多拓展"><a href="#更多拓展" class="headerlink" title="更多拓展"></a>更多拓展</h4><ul>
+<li>独立配置文件</li>
+<li>自定义 Logger</li>
+<li>多线程</li>
+<li>导出成动态链接库</li>
+<li>…</li>
+</ul>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p>[1] 知乎专栏 - <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/45496501">记录日志有哪些好的技巧？</a></p>
+<p>[2] 静觅 - <a target="_blank" rel="noopener" href="https://cuiqingcai.com/7776.html">Python 中更优雅的日志记录方案 loguru</a></p>
+<p>[3] Github - <a target="_blank" rel="noopener" href="https://github.com/amrayn/easyloggingpp">Easyloggingpp</a></p>
+
+  
+  
+    
+    <div class='footer'>
+      
+      
+      
+        <div class='copyright'>
+          <blockquote>
+            
+              
+                <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
+              
+            
+              
+                <p>本文永久链接是：<a href=https://blog.amoswu.cn/2021/03/31/Qt%E7%A8%8B%E5%BA%8F%E4%B8%AD%E4%BC%98%E9%9B%85%E7%9A%84%E6%97%A5%E5%BF%97%E6%96%B9%E6%A1%88/>https://blog.amoswu.cn/2021/03/31/Qt%E7%A8%8B%E5%BA%8F%E4%B8%AD%E4%BC%98%E9%9B%85%E7%9A%84%E6%97%A5%E5%BF%97%E6%96%B9%E6%A1%88/</a></p>
+              
+            
+          </blockquote>
+        </div>
+      
+      
     </div>
   
   
     
-    <h2 class="article-title" >
-      <a href="/2020/08/31/Qt%20%E6%B5%81%E8%AF%BB%E5%86%99XML/">
-        Qt 流读写XML
-      </a>
-    </h2>
+
+
+  <div class='article-meta' id="bottom">
+    <div class='new-meta-box'>
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-04-02T11:42:18+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：2021年4月2日</p>
+  </a>
+</div>
+
+        
+      
+        
+          
   
-  <div class='md'>
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/%E5%8E%9F%E5%88%9B/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>原创</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Qt/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Qt</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/%E9%9A%8F%E7%AC%94/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>随笔</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/2021/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>2021</p></a></div>
+
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
     
       
-        最近在学习 Qt 读写XML文件时，思考了一个问题，除了DOM和SAX外，还有没有更快捷的读写XML的方法？经过一番面向搜索引擎编程，我还真发现了一种方法——流读写XML(Write and read by stream)。今天就借此文向大家分享一下这种方法。
-三种读写XML方式的对比
-
-
-
-DOM方式
-SAX方式
-流读写方式
-
-
-
-XML被存入内存
-速度快，逐行扫描
-速度快，一次性传入
-
-...
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://blog.amoswu.cn/2021/03/31/Qt%E7%A8%8B%E5%BA%8F%E4%B8%AD%E4%BC%98%E9%9B%85%E7%9A%84%E6%97%A5%E5%BF%97%E6%96%B9%E6%A1%88/&title=Qt程序中优雅的日志方案 - Amos'Blog&summary="
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qq.png" class="lazyload" data-srcset="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qq.png" srcset="data:image/png;base64,666">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://blog.amoswu.cn/2021/03/31/Qt%E7%A8%8B%E5%BA%8F%E4%B8%AD%E4%BC%98%E9%9B%85%E7%9A%84%E6%97%A5%E5%BF%97%E6%96%B9%E6%A1%88/&title=Qt程序中优雅的日志方案 - Amos'Blog&summary="
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qzone.png" class="lazyload" data-srcset="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qzone.png" srcset="data:image/png;base64,666">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="http://service.weibo.com/share/share.php?url=https://blog.amoswu.cn/2021/03/31/Qt%E7%A8%8B%E5%BA%8F%E4%B8%AD%E4%BC%98%E9%9B%85%E7%9A%84%E6%97%A5%E5%BF%97%E6%96%B9%E6%A1%88/&title=Qt程序中优雅的日志方案 - Amos'Blog&summary="
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/weibo.png" class="lazyload" data-srcset="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/weibo.png" srcset="data:image/png;base64,666">
+          
+        </a>
+      
+    
+      
+        
+        <div class='hoverbox'>
+          <a class='share'><img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org@1.1.3/logo/128/qrcode.png" class="lazyload" data-srcset="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org@1.1.3/logo/128/qrcode.png" srcset="data:image/png;base64,666"></a>
+          <div class='target'>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAZgAAAGYCAAAAABaUKuJAAAGF0lEQVR42u3dwY7bOBAE0Pn/n07uGxjqqm45AfbxZo8lk3y8FErw/Pwy/snxYwvAGGDAGGDAGGCMR5ifcvz3+qf7/TGBD+9P5/W4wOH3Tuef3q/eTzBgwIABAwYMGDBgwIxhxgHoaGHbBaXXpeu7OqjxfoIBAwYMGDBgwIABAyaGud7QdoLpQdgejCnU9P16P8GAAQMGDBgwYMCAAfM6zDYwbu8zvW4aJL+1D2DAgAEDBgwYMGDAgPn7ATN94K8t5Lbg6fzSdYABAwYMGDBgwIABA+b7MG2htX2gri3GWoBtYLzaHzBgwIABAwYMGDBgwPQwbYDzeheEwYDxGgwYMGDAgAEDJoe5GtOAtn2/DZhX878qAj/OAwwYMGDAgAEDBgwYMI8w7QNyVw/MpcXTVSBOg+K3YMGAAQMGDBgwYMCAAbMvytKJTyHajdwGzPYgtK/XARMMGDBgwIABAwYMGDAfi7JvLXgLcRVU03mlATM9oGDAgAEDBgwYMGDAgOlh2i+4Am0DXFvYpTBXn48DJhgwYMCAAQMGDBgwYNZF1HYCKUS6oW8dhOnBqOcDBgwYMGDAgAEDBgyYMcxbBVN6/6ug1wbR6YFoD9rj+2DAgAEDBgwYMGDAgHmEuSq2phvYFk7bg/LtDU4PIBgwYMCAAQMGDBgwYOYw2+JrugFvFVdt8J0eoPbzaaEGBgwYMGDAgAEDBgyYOUwbjLYBqz0I7cZcBdqrgxcXZWDAgAEDBgwYMGDAgFn/cFsbqNoJb++3DcrrAmxa4IEBAwYMGDBgwIABA+YRpt2At4LZ9rrpSA9eG4zj9YEBAwYMGDBgwIABA+YR5u0Na/9+FVDfBrkq7sCAAQMGDBgwYMCAAZP/AMM0MKbFU7vQdsFvF4DtwZuuCwwYMGDAgAEDBgwYMPkPyU2LrnTj0mJt+34bOK+LuRQODBgwYMCAAQMGDBgwzzBXE2k3Mg2y6XzigFceyDaAnzWYYMCAAQMGDBgwYMD8j2C2G3pVQLUBMJ3PVSHXFmKP8wMDBgwYMGDAgAEDBswjTFropBNMg1/6PW+9bguv9efBgAEDBgwYMGDAgAETw7QBc7uR7fVX87k6CNvgDgYMGDBgwIABAwYMmGeYpyC0feBuGriuH7TbFmVt0JxeHzeYYMCAAQMGDBgwYMCAWT8A1250uzFpkfZWobc9CI/XgwEDBgwYMGDAgAED5hEmHXHxcxTAtsXb20HyrHgDAwYMGDBgwIABAwZMXZSl77cb1ga+aSDcPsA3DZzTz68f+AMDBgwYMGDAgAEDBkw98XSD0wDbAqYB9rp4W78GAwYMGDBgwIABAwbMI0xaDKUbMwWYfk8Lvw5+5UFMAzIYMGDAgAEDBgwYMGDmMFeFU1ugtUXZr6PRPti3XcfHogwMGDBgwIABAwYMGDAfYa5v/FYB1/69DYTbgiydHxgwYMCAAQMGDBgwYHqYdAPTIu1b92nh0qIvnd+4KAMDBgwYMGDAgAEDBsxHmOkFbWCbBtDtAtvguA2obcD8+HkwYMCAAQMGDBgwYMA8wmyLninEdILfCq7t/duCbXwwwYABAwYMGDBgwIABE8O0Ae4aZlvUtRt6dTBTIDBgwIABAwYMGDBgwPQw0419q2hrP78Nom8F5OnBAAMGDBgwYMCAAQMGzP4f+7RQbxdebwFfrbsFBgMGDBgwYMCAAQMGzBzmCuQ6sKUFWQu5feBvu46PRRkYMGDAgAEDBgwYMGA+wmxHOoF0AdvCbHrftPhrD3Kc/MGAAQMGDBgwYMCAATMOmGeB6eXCbPq6PQBX3z9+DQYMGDBgwIABAwYMmDFM+8BcWkhdvb8NdOl9t8Xi+CCCAQMGDBgwYMCAAQMmhtkGqi3o1YanMNuN334PGDBgwIABAwYMGDBgvg+zXfg0qG6D3DZobgu9uigDAwYMGDBgwIABAwbMX3tAbruQ9O/bB/jagrA9cGDAgAEDBgwYMGDAgMlh3gpyVw8QboNkHfxeKuDGARMMGDBgwIABAwYMGDDnP8CQFlwt4PV86yB4BQEGDBgwYMCAAQMGDJgYxvi3BhgwBhgwBhgwBhjj4/gNsTYJ+RKoJGUAAAAASUVORK5CYII=">
+          </div>
+        </div>
       
     
   </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2020-08-31</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/%E6%96%B0%E7%9F%A5/">新知</a><span class="sep"></span><a class="category-link" href="/categories/%E6%96%B0%E7%9F%A5/%E7%AC%94%E8%AE%B0/">笔记</a>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2020/08/31/Qt%20%E6%B5%81%E8%AF%BB%E5%86%99XML/'>
-            阅读全文
-          </a>
-        </div>
-      
-    </div>
-  
-
 </div>
 
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-    <div class='headimg-div'>
-      <a class='headimg-a' href="/2020/08/20/Qt%20C++%20MSVC%20%E7%BC%96%E8%AF%91%E7%8E%AF%E5%A2%83%E6%9E%84%E5%BB%BA/">
-        <img class='headimg' src='https://cdn.amoswu.cn/blog/post-qt.png'/>
-      </a>
-    </div>
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2020/08/20/Qt%20C++%20MSVC%20%E7%BC%96%E8%AF%91%E7%8E%AF%E5%A2%83%E6%9E%84%E5%BB%BA/">
-        Qt C++ MSVC 编译环境构建
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        近期在Qt环境下编写C++代码时，我发现如果不安装 Visual Stadio 全家桶的话无法进行 MSVC编译。而我所面临的问题是，放在公司的这台笔记本存储空间只有128GB。对，你没有看错，是128G，而且是整个电脑。安装之前我忘记截图了，这里就po一张按照本文配置完后的磁盘截图。
 
-当时，我就产生了一个想法，难道微软这么大的厂，不安装它的全家桶不至于让我们编译不了吧。在经过一番搜索之后...
+
+        
       
-    
+    </div>
   </div>
+
+
   
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2020-08-20</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/%E6%96%B0%E7%9F%A5/">新知</a><span class="sep"></span><a class="category-link" href="/categories/%E6%96%B0%E7%9F%A5/%E7%AC%94%E8%AE%B0/">笔记</a>
-        
-      </div>
+  
+
+  
+    <div class="prev-next">
       
-        <div>
-          <a class='readmore' href='/2020/08/20/Qt%20C++%20MSVC%20%E7%BC%96%E8%AF%91%E7%8E%AF%E5%A2%83%E6%9E%84%E5%BB%BA/'>
-            阅读全文
-          </a>
-        </div>
+        <a class='prev' href='/2021/03/31/Qt%E7%A8%8B%E5%BA%8F%E4%B8%AD%E4%BC%98%E9%9B%85%E7%9A%84%E6%89%93%E5%8C%85%E6%96%B9%E6%A1%88/'>
+          <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>Qt程序中优雅的打包方案</p>
+          <p class='content'>
+
+Qt程序打包，没有想象中那么复杂。
+
+发现问题在使用 Qt C++ 发布生成 *.exe 时，需要复制大量 dll 动态链接库文件，这一点相信每一个 Qt 开发者都经历过。除了手动复制，能不...</p>
+        </a>
+      
+      
+        <a class='next' href='/2021/03/24/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%90%AD%E5%BB%BANTP%E6%9C%8D%E5%8A%A1/'>
+          <p class='title'>从零开始搭建NTP服务<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+          <p class='content'>
+0x01. NTP 简介NTP(Network Time Protocol) 的全称是 网络时间协议 ，它是用来使计算机时间同步化的一种协议，它可以使计算机对其服务器或时钟源做同步化，它可以提...</p>
+        </a>
       
     </div>
   
+</article>
 
+
+  
+
+  <article class="post white-box reveal shadow" id="comments">
+    <p ct><i class='fas fa-comments'></i> 评论</p>
+    
+    <div id="valine_container" class="valine_thread">
+  <i class="fas fa-cog fa-spin fa-fw fa-2x"></i>
 </div>
 
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-    <div class='headimg-div'>
-      <a class='headimg-a' href="/2020/08/14/Qt%20C++%20%E5%AF%B9XML%E7%9A%84%E5%A2%9E%E5%88%A0%E6%94%B9%E6%9F%A5/">
-        <img class='headimg' src='https://cdn.amoswu.cn/blog/post-qt.png'/>
-      </a>
-    </div>
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2020/08/14/Qt%20C++%20%E5%AF%B9XML%E7%9A%84%E5%A2%9E%E5%88%A0%E6%94%B9%E6%9F%A5/">
-        Qt C++ 对XML的增删改查
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        最近，学习了Qt C++对XML的一系列操作。今天，把相关代码和注释贴在这里， 以备后续使用。
-什么是 XML
-可扩展标记语言（英语：Extensible Markup Language，简称：XML）是一种标记语言。标记指计算机所能理解的信息符号，通过此种标记，计算机之间可以处理包含各种信息的文章等。
-——from Wikipedia
-
-Qt 如何操作 XML.pro 文件增加 QT +=...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2020-08-14</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/%E6%96%B0%E7%9F%A5/">新知</a><span class="sep"></span><a class="category-link" href="/categories/%E6%96%B0%E7%9F%A5/%E7%AC%94%E8%AE%B0/">笔记</a>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2020/08/14/Qt%20C++%20%E5%AF%B9XML%E7%9A%84%E5%A2%9E%E5%88%A0%E6%94%B9%E6%9F%A5/'>
-            阅读全文
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-    <div class='headimg-div'>
-      <a class='headimg-a' href="/2020/08/11/Qt%20Creator%E7%BC%96%E8%BE%91%E5%99%A8%E4%B8%8B%E7%9A%84%E4%BB%A3%E7%A0%81%E6%A0%BC%E5%BC%8F%E5%8C%96/">
-        <img class='headimg' src='https://cdn.amoswu.cn/blog/post-qt.png'/>
-      </a>
-    </div>
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2020/08/11/Qt%20Creator%E7%BC%96%E8%BE%91%E5%99%A8%E4%B8%8B%E7%9A%84%E4%BB%A3%E7%A0%81%E6%A0%BC%E5%BC%8F%E5%8C%96/">
-        Qt Creator 编辑器下的代码格式化
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        对于习惯使用VsCode、SublimeText、JetBrains 全家桶等编译器的开发人员来说，一键格式化代码是必不可少的功能。最近，我在进行Qt C++开发时发现，Qt Creator默认没有一键格式化代码相关的配置。经过几小时的面向搜索引擎解决问题后，我发现了一个可行的解决方案，今天在这里分享给大家。
-大致的思路是可以以简单描述为：配置Beautifier:arrow_right:下...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2020-08-11</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/%E6%96%B0%E7%9F%A5/">新知</a><span class="sep"></span><a class="category-link" href="/categories/%E6%96%B0%E7%9F%A5/%E7%AC%94%E8%AE%B0/">笔记</a>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2020/08/11/Qt%20Creator%E7%BC%96%E8%BE%91%E5%99%A8%E4%B8%8B%E7%9A%84%E4%BB%A3%E7%A0%81%E6%A0%BC%E5%BC%8F%E5%8C%96/'>
-            阅读全文
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-    <div class='headimg-div'>
-      <a class='headimg-a' href="/2020/08/10/Qt%20C++%20Windows10%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/">
-        <img class='headimg' src='https://cdn.amoswu.cn/blog/post-qt.png'/>
-      </a>
-    </div>
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2020/08/10/Qt%20C++%20Windows10%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/">
-        Qt C++ Windows10环境配置
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        
-笔者2020年开始，从事了C++开发的相关工作，目前国内主流的C++开发工具多建立在可视化框架Qt的基础上，这一篇我们就来讲一讲Windows10 系统下如何快速搭建Qt for C++环境。
-
-1.简介1)C++简介C++是一种被广泛使用的计算机程序设计语言。它是一种通用程序设计语言，支持多重编程模式，例如过程化程序设计、数据抽象、面向对象程序设计、泛型程序设计和设计模式等。
-2)Qt简...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2020-08-10</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/%E6%96%B0%E7%9F%A5/">新知</a><span class="sep"></span><a class="category-link" href="/categories/%E6%96%B0%E7%9F%A5/%E7%AC%94%E8%AE%B0/">笔记</a>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2020/08/10/Qt%20C++%20Windows10%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/'>
-            阅读全文
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-    <div class='headimg-div'>
-      <a class='headimg-a' href="/2019/12/31/%E8%81%9A%E7%84%A6%EF%BC%8C%E5%86%8D%E5%87%BA%E5%8F%91/">
-        <img class='headimg' src='https://cdn.amoswu.cn/blog/post-bg-2015.jpg'/>
-      </a>
-    </div>
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2019/12/31/%E8%81%9A%E7%84%A6%EF%BC%8C%E5%86%8D%E5%87%BA%E5%8F%91/">
-        聚焦，再出发
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        
-万物皆有裂痕，那是光照进来的地方。
-
-​    
-
-
-   &nbsp;  &nbsp;  &nbsp; &nbsp;21世纪10年代的最后几个小时，马上就会伴随着21世纪20年代的新年钟声在每个人的生命中度过了。按照惯例，我今年会在这里写下10年年度总结的第2年（2019）。今年开始，我将年度总结的表述形式进行了重构，我将不再按照去年的“两段式”论述，而是采用新的“板块式”论述。回首过去...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2019-12-31</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/%E5%B9%B4%E5%BA%A6%E6%80%BB%E7%BB%93/">年度总结</a>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2019/12/31/%E8%81%9A%E7%84%A6%EF%BC%8C%E5%86%8D%E5%87%BA%E5%8F%91/'>
-            阅读全文
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-    <div class='headimg-div'>
-      <a class='headimg-a' href="/2019/10/01/%E8%BE%89%E7%85%8C70%E8%BD%BD%EF%BC%8C%E4%B8%8E%E6%82%A8%E5%90%8C%E5%9C%A8/">
-        <img class='headimg' src='https://cdn.amoswu.cn/blog/bg-red.png'/>
-      </a>
-    </div>
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2019/10/01/%E8%BE%89%E7%85%8C70%E8%BD%BD%EF%BC%8C%E4%B8%8E%E6%82%A8%E5%90%8C%E5%9C%A8/">
-        辉煌70载，与您同在
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        
-爱祖国，首先要了解祖国；不了解，就说不上爱。
-——任继愈（前国家图书馆馆长）
-
-
-70年，弹指一挥间。新中国在一代又一代的奋斗者接续奋斗下不断成长。我有幸成为奋斗者中的一员，在祖国母亲70华诞到来之际，我想借此文献上对祖国母亲的祝福！
-如同上面这句名言所说，爱祖国就应该先了解祖国。我搜集了新中国成立70周年以来的一些老照片，特意把它们制作成图片，与你一起共同回顾伟大祖国的成长历程。
+  </article>
 
 
 
-...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2019-10-01</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/%E7%89%B9%E5%88%AB%E5%8D%9A%E6%96%87/">特别博文</a>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2019/10/01/%E8%BE%89%E7%85%8C70%E8%BD%BD%EF%BC%8C%E4%B8%8E%E6%82%A8%E5%90%8C%E5%9C%A8/'>
-            阅读全文
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-    <div class='headimg-div'>
-      <a class='headimg-a' href="/2019/09/01/%E4%B8%BA%E4%BB%80%E4%B9%88%E2%80%9C%E4%B8%AD%E5%8F%B0%E2%80%9D%E8%BF%99%E4%B9%88%E7%81%AB%EF%BC%9F/">
-        <img class='headimg' src='https://cdn.amoswu.cn/blog/post-bg-alibaba.jpg'/>
-      </a>
-    </div>
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2019/09/01/%E4%B8%BA%E4%BB%80%E4%B9%88%E2%80%9C%E4%B8%AD%E5%8F%B0%E2%80%9D%E8%BF%99%E4%B9%88%E7%81%AB%EF%BC%9F/">
-        为什么“中台”这么火？
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        
-00.引言从去年10月份以来，国内几大互联网公司相继进行了组织架构调整，这其中不乏有BAT（百度、阿里、腾讯）、海尔、滴滴、京东等公司，值得注意的是这一轮的组织架构调整各大公司都多出了一个名叫“中台”的架构。
-在这样一个追求管理个性化的互联网时代，为什么国内各大互联网都要搭建一个或多个“中台”呢？说来原因有很多，我们不妨先从认识“中台”说起。
-01.谁发明了“中台”？“中台”最早是由美军的...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2019-09-01</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/%E6%96%B0%E7%9F%A5/">新知</a><span class="sep"></span><a class="category-link" href="/categories/%E6%96%B0%E7%9F%A5/%E9%9A%8F%E7%AC%94/">随笔</a>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2019/09/01/%E4%B8%BA%E4%BB%80%E4%B9%88%E2%80%9C%E4%B8%AD%E5%8F%B0%E2%80%9D%E8%BF%99%E4%B9%88%E7%81%AB%EF%BC%9F/'>
-            阅读全文
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-    <div class='headimg-div'>
-      <a class='headimg-a' href="/2019/08/03/%E4%BB%80%E4%B9%88%E6%98%AF%E2%80%9C%E6%B2%99%E7%9B%92%E5%88%9B%E6%96%B0%E2%80%9D%E4%BB%A5%E5%8F%8A%E5%AE%83%E8%83%8C%E5%90%8E%E7%9A%84%E5%90%AF%E7%A4%BA/">
-        <img class='headimg' src='https://cdn.amoswu.cn/blog/post-bg-water.png'/>
-      </a>
-    </div>
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2019/08/03/%E4%BB%80%E4%B9%88%E6%98%AF%E2%80%9C%E6%B2%99%E7%9B%92%E5%88%9B%E6%96%B0%E2%80%9D%E4%BB%A5%E5%8F%8A%E5%AE%83%E8%83%8C%E5%90%8E%E7%9A%84%E5%90%AF%E7%A4%BA/">
-        什么是“沙盒创新”以及它背后的启示
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        
-最近《邵恒头条》有一期栏目谈的是“以色列怎么做到‘沙盒创新’？”，收听过后，我大为触动。今天就和你聊一聊我从以色列”沙盒创新“背后得到的启示，以及我的一些思考。
-一、什么是“沙盒创新”？首先来聊一聊什么是”沙盒创新“。如果你从未听说过这个词，单从字面意思上来理解，可以解释为”在某一不能动盒子内或者外进行的创新“。当然，如果你有计算机相关的知识，可能会知道”沙盒“是一个计算机术语，它是计算机...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2019-08-03</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/%E6%96%B0%E7%9F%A5/">新知</a><span class="sep"></span><a class="category-link" href="/categories/%E6%96%B0%E7%9F%A5/%E7%AC%94%E8%AE%B0/">笔记</a>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2019/08/03/%E4%BB%80%E4%B9%88%E6%98%AF%E2%80%9C%E6%B2%99%E7%9B%92%E5%88%9B%E6%96%B0%E2%80%9D%E4%BB%A5%E5%8F%8A%E5%AE%83%E8%83%8C%E5%90%8E%E7%9A%84%E5%90%AF%E7%A4%BA/'>
-            阅读全文
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-    <div class='headimg-div'>
-      <a class='headimg-a' href="/2019/06/19/%E6%B1%87%E7%BC%96%E4%B8%8E%E6%8E%A5%E5%8F%A3%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86/">
-        <img class='headimg' src='https://cdn.amoswu.cn/blog/post-bg-debug.png'/>
-      </a>
-    </div>
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2019/06/19/%E6%B1%87%E7%BC%96%E4%B8%8E%E6%8E%A5%E5%8F%A3%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86/">
-        汇编与接口知识梳理
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        
-马上就迎来大学生涯中最后一次期末考试了，在这里我把《微机原理与接口》课程的知识按照张春芳老师给的提纲进行了梳理。下面正文是文字的形式，文末还有思维导图的形式一并共享给大家，期待和大家一起考出好成绩。
-
-说明按照老师给的提纲顺序，我对每一个点进行了梳理，覆盖率98%，并在每一个点后面附上了课本出处页码，以方便查阅课本原文。有的点没有达到100%覆盖，是我复习过程中遇到的问题，我会在向老师求教...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2019-06-19</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/%E7%9F%A5%E8%AF%86%E6%95%B4%E7%90%86/">知识整理</a>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2019/06/19/%E6%B1%87%E7%BC%96%E4%B8%8E%E6%8E%A5%E5%8F%A3%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86/'>
-            阅读全文
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-    
-  </section>
-  
-    
-      <br>
-      <div class="prev-next">
-        
-          <a class="prev" rel="prev" href="/tags/%E5%8E%9F%E5%88%9B/">
-            <section class="post prev white-box shadow" >
-              <i class="fas fa-chevron-left" aria-hidden="true"></i>&nbsp;上一页&nbsp;
-            </section>
-          </a>
-        
-        <p class="current">
-          2 / 4
-        </p>
-        
-          <a class="next" rel="next" href="/tags/%E5%8E%9F%E5%88%9B/page/3/">
-            <section class="post next white-box shadow">
-              &nbsp;下一页&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i>
-            </section>
-          </a>
-        
-      </div>
-    
-  
 
 
-    
-  
+
 </div>
 <aside class='l_side'>
   
@@ -975,334 +713,36 @@ Qt 如何操作 XML.pro 文件增加 QT +=...
     
     
 
-<section class="widget blogger shadow desktop mobile">
-  <div class='content'>
-    
-      
-        <a class='avatar flat-box circle' href='/about/'>
-          <img no-lazy src='https://cdn.amoswu.cn/blog/avatar.jpg'/>
-        </a>
-      
-    
-    
-      <div class='text'>
-        
-          <h2>AmosWu</h2>
-        
-        
-          <p>恒者行远，思者常新。</p>
 
-        
-        
-      </div>
-    
-    
-      <div class="social-wrapper">
-        
-          
-            <a href="/atom.xml"
-              class="social fas fa-rss flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-              
-            </a>
-          
-        
-          
-            <a href="mailto:a@amoswu.cn"
-              class="social fas fa-envelope flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-              
-            </a>
-          
-        
-          
-            <a href="https://github.com/amoswuuuu/"
-              class="social fab fa-github flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-              
-            </a>
-          
-        
-          
-            <a href="http://weibo.com/570557703"
-              class="social fab fa-weibo flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-              
-            </a>
-          
-        
-      </div>
-    
-  </div>
-</section>
 
-  
-
-  
-    
-    
-  
-
-  <section class="widget category shadow desktop">
+  <section class="widget toc-wrapper shadow desktop mobile" id="toc-div" >
     
   <header>
     
-      <a href='/blog/categories/'><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i><span class='name'>文章分类</span></a>
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
     
   </header>
 
 
     <div class='content'>
-      <ul class="entry navigation">
-        
-          <li><a class="flat-box"
-            title="/categories/%E5%B9%B4%E5%BA%A6%E6%80%BB%E7%BB%93/" href="/categories/%E5%B9%B4%E5%BA%A6%E6%80%BB%E7%BB%93/"
-            id="categoriesE5B9B4E5BAA6E680BBE7BB93"
-            ><div class='name'>年度总结</div><div class='badge'>(3)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E6%8E%A8%E8%8D%90/" href="/categories/%E6%8E%A8%E8%8D%90/"
-            id="categoriesE68EA8E88D90"
-            ><div class='name'>推荐</div><div class='badge'>(4)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E6%95%99%E7%A8%8B/" href="/categories/%E6%95%99%E7%A8%8B/"
-            id="categoriesE69599E7A88B"
-            ><div class='name'>教程</div><div class='badge'>(2)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/%E6%95%99%E7%A8%8B/%E7%AC%94%E8%AE%B0/" href="/categories/%E6%95%99%E7%A8%8B/%E7%AC%94%E8%AE%B0/"
-            id="categoriesE69599E7A88BE7AC94E8AEB0"
-            ><div class='name'>笔记</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E6%96%B0%E7%9F%A5/" href="/categories/%E6%96%B0%E7%9F%A5/"
-            id="categoriesE696B0E79FA5"
-            ><div class='name'>新知</div><div class='badge'>(14)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/%E6%96%B0%E7%9F%A5/%E7%AC%94%E8%AE%B0/" href="/categories/%E6%96%B0%E7%9F%A5/%E7%AC%94%E8%AE%B0/"
-            id="categoriesE696B0E79FA5E7AC94E8AEB0"
-            ><div class='name'>笔记</div><div class='badge'>(12)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/%E6%96%B0%E7%9F%A5/%E9%9A%8F%E7%AC%94/" href="/categories/%E6%96%B0%E7%9F%A5/%E9%9A%8F%E7%AC%94/"
-            id="categoriesE696B0E79FA5E99A8FE7AC94"
-            ><div class='name'>随笔</div><div class='badge'>(2)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E7%89%B9%E5%88%AB%E5%8D%9A%E6%96%87/" href="/categories/%E7%89%B9%E5%88%AB%E5%8D%9A%E6%96%87/"
-            id="categoriesE789B9E588ABE58D9AE69687"
-            ><div class='name'>特别博文</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E7%9F%A5%E8%AF%86%E6%95%B4%E7%90%86/" href="/categories/%E7%9F%A5%E8%AF%86%E6%95%B4%E7%90%86/"
-            id="categoriesE79FA5E8AF86E695B4E79086"
-            ><div class='name'>知识整理</div><div class='badge'>(3)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/%E7%9F%A5%E8%AF%86%E6%95%B4%E7%90%86/%E7%AC%94%E8%AE%B0/" href="/categories/%E7%9F%A5%E8%AF%86%E6%95%B4%E7%90%86/%E7%AC%94%E8%AE%B0/"
-            id="categoriesE79FA5E8AF86E695B4E79086E7AC94E8AEB0"
-            ><div class='name'>笔记</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E7%A7%91%E6%99%AE/" href="/categories/%E7%A7%91%E6%99%AE/"
-            id="categoriesE7A791E699AE"
-            ><div class='name'>科普</div><div class='badge'>(3)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E7%A8%BF%E4%BB%B6/" href="/categories/%E7%A8%BF%E4%BB%B6/"
-            id="categoriesE7A8BFE4BBB6"
-            ><div class='name'>稿件</div><div class='badge'>(3)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/%E7%A8%BF%E4%BB%B6/PPT/" href="/categories/%E7%A8%BF%E4%BB%B6/PPT/"
-            id="categoriesE7A8BFE4BBB6PPT"
-            ><div class='name'>PPT</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E7%AC%94%E8%AE%B0/" href="/categories/%E7%AC%94%E8%AE%B0/"
-            id="categoriesE7AC94E8AEB0"
-            ><div class='name'>笔记</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E9%9A%8F%E7%AC%94/" href="/categories/%E9%9A%8F%E7%AC%94/"
-            id="categoriesE99A8FE7AC94"
-            ><div class='name'>随笔</div><div class='badge'>(3)</div></a></li>
-        
-      </ul>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%91%E7%8E%B0%E9%97%AE%E9%A2%98"><span class="toc-text">发现问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%AE%E9%A2%98%E8%B0%83%E7%A0%94"><span class="toc-text">问题调研</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E8%AE%B0%E5%BD%95%E6%97%A5%E5%BF%97%EF%BC%9F"><span class="toc-text">为什么要记录日志？</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E5%BC%80%E5%8F%91%E8%B0%83%E8%AF%95"><span class="toc-text">1.开发调试</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E8%AE%B0%E5%BD%95%E7%94%A8%E6%88%B7%E8%A1%8C%E4%B8%BA"><span class="toc-text">2.记录用户行为</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E8%AE%B0%E5%BD%95%E7%A8%8B%E5%BA%8F%E8%BF%90%E8%A1%8C%E6%83%85%E5%86%B5"><span class="toc-text">3.记录程序运行情况</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-%E8%AE%B0%E5%BD%95%E7%B3%BB%E7%BB%9F%E3%80%81%E6%9C%BA%E5%99%A8%E7%8A%B6%E5%86%B5"><span class="toc-text">4.记录系统、机器状况</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%A5%E5%BF%97%E8%AE%B0%E5%BD%95%E7%9A%84%E8%A6%81%E7%B4%A0%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9F"><span class="toc-text">日志记录的要素有哪些？</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E6%97%B6%E9%97%B4"><span class="toc-text">1.时间</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E4%BD%8D%E7%BD%AE"><span class="toc-text">2.位置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E7%BA%A7%E5%88%AB"><span class="toc-text">3.级别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E5%86%85%E5%AE%B9"><span class="toc-text">4.内容</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E5%94%AF%E4%B8%80%E6%A0%87%E8%AF%86"><span class="toc-text">5.唯一标识</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-%E6%A0%BC%E5%BC%8F%E5%8C%96"><span class="toc-text">6.格式化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-%E5%85%B6%E4%BB%96"><span class="toc-text">7.其他</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E9%97%AE%E9%A2%98"><span class="toc-text">解决问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Easylogging"><span class="toc-text">Easylogging++</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%A5%E9%97%A8%E7%9F%A5%E8%AF%86"><span class="toc-text">入门知识</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%97%A5%E5%BF%97%E7%AD%89%E7%BA%A7"><span class="toc-text">日志等级</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E6%96%B9%E5%BC%8F"><span class="toc-text">使用方式</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%94%AF%E6%8C%81%E7%9A%84-Qt-%E5%8F%98%E9%87%8F%E7%B1%BB%E5%9E%8B"><span class="toc-text">支持的 Qt 变量类型</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B"><span class="toc-text">使用教程</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1%EF%BC%89%E4%B8%8B%E8%BD%BD%E6%88%96%E5%85%8B%E9%9A%86-Easylogging-%E4%BB%93%E5%BA%93%E6%BA%90%E7%A0%81"><span class="toc-text">1）下载或克隆 Easylogging++ 仓库源码</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2%EF%BC%89-%E5%8E%9F%E7%94%9F-C-%E6%96%B9%E5%BC%8F%E4%BD%BF%E7%94%A8"><span class="toc-text">2） 原生 C++ 方式使用</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3%EF%BC%89Qt-%E8%B0%83%E7%94%A8%E6%96%B9%E5%BC%8F"><span class="toc-text">3）Qt 调用方式</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9B%B4%E5%A4%9A%E6%8B%93%E5%B1%95"><span class="toc-text">更多拓展</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E9%93%BE%E6%8E%A5"><span class="toc-text">参考链接</span></a></li></ol>
     </div>
   </section>
 
-
-  
-
-  
-    
-    
-  
-
-  <section class="widget tagcloud shadow desktop mobile">
-    
-  <header>
-    
-      <a href='/blog/tags/'><i class="fas fa-tags fa-fw" aria-hidden="true"></i><span class='name'>热门标签</span></a>
-    
-  </header>
-
-
-    <div class='content'>
-      <a href="/tags/2018/" style="font-size: 16px; color: #8b8b8b">2018</a> <a href="/tags/2019/" style="font-size: 23px; color: #5c5c5c">2019</a> <a href="/tags/2020/" style="font-size: 22px; color: #636363">2020</a> <a href="/tags/2021/" style="font-size: 19px; color: #777">2021</a> <a href="/tags/C/" style="font-size: 19px; color: #777">C++</a> <a href="/tags/Golang/" style="font-size: 14px; color: #999">Golang</a> <a href="/tags/HBTU/" style="font-size: 20px; color: #707070">HBTU</a> <a href="/tags/Linux/" style="font-size: 18px; color: #7e7e7e">Linux</a> <a href="/tags/Markdown/" style="font-size: 14px; color: #999">Markdown</a> <a href="/tags/Qt/" style="font-size: 21px; color: #696969">Qt</a> <a href="/tags/Study/" style="font-size: 19px; color: #777">Study</a> <a href="/tags/Windows/" style="font-size: 17px; color: #858585">Windows</a> <a href="/tags/Windows10/" style="font-size: 14px; color: #999">Windows10</a> <a href="/tags/office/" style="font-size: 14px; color: #999">office</a> <a href="/tags/%E5%8E%9F%E5%88%9B/" style="font-size: 24px; color: #555">原创</a> <a href="/tags/%E5%8F%91%E8%A8%80%E7%A8%BF/" style="font-size: 14px; color: #999">发言稿</a> <a href="/tags/%E5%9B%A2%E6%80%BB%E6%94%AF/" style="font-size: 14px; color: #999">团总支</a> <a href="/tags/%E5%B7%A5%E5%AD%A6/" style="font-size: 14px; color: #999">工学</a> <a href="/tags/%E5%B9%B4%E5%BA%A6%E6%80%BB%E7%BB%93/" style="font-size: 16px; color: #8b8b8b">年度总结</a> <a href="/tags/%E5%BE%AE%E6%9C%BA%E5%8E%9F%E7%90%86/" style="font-size: 15px; color: #929292">微机原理</a> <a href="/tags/%E5%BE%AE%E8%AF%BE%E5%A0%82/" style="font-size: 14px; color: #999">微课堂</a> <a href="/tags/%E6%95%99%E7%A8%8B/" style="font-size: 15px; color: #929292">教程</a> <a href="/tags/%E6%96%B0%E7%9F%A5%E8%AF%86/" style="font-size: 17px; color: #858585">新知识</a> <a href="/tags/%E6%A1%8C%E9%9D%A2%E7%BE%8E%E5%8C%96/" style="font-size: 14px; color: #999">桌面美化</a> <a href="/tags/%E6%AF%95%E4%B8%9A%E5%AD%A3/" style="font-size: 14px; color: #999">毕业季</a> <a href="/tags/%E6%B1%87%E7%BC%96/" style="font-size: 15px; color: #929292">汇编</a> <a href="/tags/%E7%89%B9%E5%88%AB%E5%8D%9A%E6%96%87/" style="font-size: 14px; color: #999">特别博文</a> <a href="/tags/%E7%94%B5%E8%84%91%E4%BC%98%E5%8C%96/" style="font-size: 14px; color: #999">电脑优化</a> <a href="/tags/%E7%94%B5%E8%84%91%E6%8A%80%E5%B7%A7/" style="font-size: 14px; color: #999">电脑技巧</a> <a href="/tags/%E7%A7%91%E6%99%AE/" style="font-size: 14px; color: #999">科普</a> <a href="/tags/%E7%AC%94%E8%AE%B0/" style="font-size: 20px; color: #707070">笔记</a> <a href="/tags/%E8%A3%85%E6%9C%BA/" style="font-size: 17px; color: #858585">装机</a> <a href="/tags/%E8%BD%AC%E8%BD%BD/" style="font-size: 15px; color: #929292">转载</a> <a href="/tags/%E8%BD%AF%E4%BB%B6/" style="font-size: 16px; color: #8b8b8b">软件</a> <a href="/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 19px; color: #777">随笔</a>
-    </div>
-  </section>
-
-
-  
-
-  
-
-  
-    
-    
-
-<section class="widget shadow desktop">
-  
-  <header>
-    
-      <i class="fas fa-award fa-fw" aria-hidden="true"></i><span class='name'>站点信息</span>
-    
-  </header>
-
-
-  <div class='content'>
-    <div class="webinfo">
-      
-        <div class="webinfo-item">
-          <div>文章数目：</div>
-          <div>37 篇</div>
-        </div>
-      
-
-      
-        <div class="webinfo-item">
-          <div>已运行时间：</div>
-          <div id="webinfo-runtime-count" publish_date="03/24/2020 21:34:09"></div>
-        </div>
-        <script>
-          var BirthDay = new Date(new Date('2018/08/08'));
-          var today = new Date();
-          var timeold = (today.getTime() - BirthDay.getTime());
-          var daysold = Math.floor(timeold / (24 * 60 * 60 * 1000));
-          document.getElementById('webinfo-runtime-count').innerHTML = daysold + ' 天';
-        </script>
-      
-
-
-      
-        <div class="webinfo-item">
-          <div>本站总字数：</div>
-          <div>67.6k 字</div>
-        </div>
-      
-
-      
-        <div class="webinfo-item">
-          <div>本站访客数：</div>
-          
-          <div><span id="lc-uv"><span id='number'><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span></span> 人</div>
-          
-        </div>
-      
-
-      
-        <div class="webinfo-item">
-          <div>本站总访问量：</div>
-          
-          <div><span id="lc-sv"><span id='number'><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span></span> 次</div>
-          
-        </div>
-      
-
-      
-        <div class="webinfo-item">
-          <div>最后活动时间：</div>
-          
-            <div id="last-update" style="display: none;">Fri Apr 02 2021 22:09:29 GMT+0800 (中国标准时间)</div>
-            <div id="last-update-show">2021-04-02 日</div>
-          
-        </div>
-        
-        <script>
-          function timeago(dateTimeStamp) {
-              var minute = 1000 * 60; //把分，时，天，周，半个月，一个月用毫秒表示
-              var hour = minute * 60;
-              var day = hour * 24;
-              var week = day * 7;
-              var month = day * 30;
-              var now = new Date().getTime(); //获取当前时间毫秒
-              var diffValue = now - dateTimeStamp; //时间差
-              if (diffValue < 0) {
-                  return;
-              }
-              var minC = diffValue / minute; //计算时间差的分，时，天，周，月
-              var hourC = diffValue / hour;
-              var dayC = diffValue / day;
-              var weekC = diffValue / week;
-              var monthC = diffValue / month;
-              if (monthC >= 1 && monthC <= 3) {
-                  result = " " + parseInt(monthC) + " 月前"
-              } else if (weekC >= 1 && weekC <= 3) {
-                  result = " " + parseInt(weekC) + " 周前"
-              } else if (dayC >= 1 && dayC <= 6) {
-                  result = " " + parseInt(dayC) + " 天前"
-              } else if (hourC >= 1 && hourC <= 23) {
-                  result = " " + parseInt(hourC) + " 小时前"
-              } else if (minC >= 1 && minC <= 59) {
-                  result = " " + parseInt(minC) + " 分钟前"
-              } else if (diffValue >= 0 && diffValue <= minute) {
-                  result = "刚刚"
-              } else {
-                  var datetime = new Date();
-                  datetime.setTime(dateTimeStamp);
-                  var Nyear = datetime.getFullYear();
-                  var Nmonth = datetime.getMonth() + 1 < 10 ? "0" + (datetime.getMonth() + 1) : datetime.getMonth() + 1;
-                  var Ndate = datetime.getDate() < 10 ? "0" + datetime.getDate() : datetime.getDate();
-                  var Nhour = datetime.getHours() < 10 ? "0" + datetime.getHours() : datetime.getHours();
-                  var Nminute = datetime.getMinutes() < 10 ? "0" + datetime.getMinutes() : datetime.getMinutes();
-                  var Nsecond = datetime.getSeconds() < 10 ? "0" + datetime.getSeconds() : datetime.getSeconds();
-                  result = Nyear + "-" + Nmonth + "-" + Ndate
-              }
-              return result;
-          }
-          var lastUpDate = document.getElementById('last-update').innerHTML;
-          try {
-            document.getElementById('last-update-show').innerHTML = timeago(new Date(lastUpDate));
-          } catch (error) {
-            document.getElementById('last-update-show').innerHTML = '2021-04-02 日';
-          }
-        </script>
-        
-      
-    </div>
-  </div>
-</section>
 
   
 
 
 </aside>
 
+
    <!--此文件用来存放一些不方便取值的变量-->
 <!--思路大概是将值藏到重加载的区域内-->
 
 <script>
   window.pdata={}
-  pdata.ispage=false;
-  pdata.postTitle="";
+  pdata.ispage=true;
+  pdata.postTitle="Qt程序中优雅的日志方案";
   pdata.commentPath="";
   pdata.commentPlaceholder="";
 
